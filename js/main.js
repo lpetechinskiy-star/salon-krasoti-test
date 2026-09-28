@@ -885,10 +885,13 @@
       if (e.target.closest('[data-book]')) { e.preventDefault(); open(); return; }
       if (e.target.closest('[data-book-close]')) { close(); }
     });
-    /* Клик по затемнению: сам <dialog> занимает весь экран, поэтому
-       за «фон» считаем всё, что вне содержимого окна. */
+    /* Клик по затемнению. Сравниваем цель именно с самим <dialog>:
+       .modal — флекс-контейнер, и всё вокруг карточки принадлежит ему.
+       Проверка box.contains(e.target) здесь не годится — календарь
+       при выборе дня пересобирает сетку, нажатая кнопка к моменту
+       всплытия события уже вне DOM, и окно закрывалось само. */
     dlg.addEventListener('click', function (e) {
-      if (box && !box.contains(e.target)) close();
+      if (e.target === dlg) close();
     });
     dlg.addEventListener('close', function () { document.body.classList.remove('is-locked'); });
   }
