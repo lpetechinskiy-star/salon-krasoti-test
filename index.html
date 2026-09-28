@@ -26,6 +26,10 @@
 <a class="skip-link" href="#main">Перейти к содержанию</a>
 <div class="progress" aria-hidden="true"><span class="progress__bar"></span></div>
 <div class="grain" aria-hidden="true"></div>
+<button class="fab" type="button" data-book>
+  <span class="fab__t">Записаться</span>
+  <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M1 8h13M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
+</button>
 <div class="cursor" aria-hidden="true"><span class="cursor__dot"></span></div>
 
 <!-- ============ ШАПКА ============ -->
@@ -35,7 +39,7 @@
   </a>
   <p class="hdr__meta"><span>Малая Бронная, 24с1</span><span class="hdr__dot" aria-hidden="true"></span><span>10:00 — 22:00</span></p>
   <div class="hdr__act">
-    <a class="btn btn--ghost hdr__book" href="#booking" data-scroll>Записаться</a>
+    <button class="btn btn--ghost hdr__book" type="button" data-book>Записаться</button>
     <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="menu">
       <span class="burger__lines" aria-hidden="true"><i></i><i></i></span>
       <span class="burger__txt">Меню</span>
@@ -45,35 +49,238 @@
 
 <!-- ============ ПОЛНОЭКРАННОЕ МЕНЮ ============ -->
 <div class="menu" id="menu" hidden>
-  <nav class="menu__nav" aria-label="Основная навигация">
-    <ul class="menu__list">
-      <li><a href="#signature" data-scroll><em>01</em>ГЛАДЬ</a></li>
-      <li><a href="#services" data-scroll><em>02</em>Услуги</a></li>
-      <li><a href="#prices" data-scroll><em>03</em>Прайс</a></li>
-      <li><a href="#masters" data-scroll><em>04</em>Мастера</a></li>
-      <li><a href="#gallery" data-scroll><em>05</em>До / После</a></li>
-      <li><a href="#works" data-scroll><em>06</em>Работы</a></li>
-      <li><a href="#story" data-scroll><em>07</em>О салоне</a></li>
-      <li><a href="#booking" data-scroll><em>08</em>Запись</a></li>
-    </ul>
-  </nav>
-  <div class="menu__side">
-    <div class="menu__block">
-      <h2 class="lbl">Адрес</h2>
-      <p>Москва, Малая Бронная, 24с1<br>2 этаж, вход со двора</p>
-    </div>
-    <div class="menu__block">
-      <h2 class="lbl">Связь</h2>
-      <p><a href="tel:+74951208416">+7 495 120-84-16</a><br>
-         <a href="mailto:concierge@elane.ru">concierge@elane.ru</a></p>
-    </div>
-    <div class="menu__block">
-      <h2 class="lbl">Соцсети</h2>
-      <p><a href="https://instagram.com/elane.patriki" rel="noopener">Instagram — @elane.patriki</a><br>
-         <a href="https://t.me/elane_patriki" rel="noopener">Telegram — @elane_patriki</a></p>
-    </div>
+  <div class="menu__inner">
+    <nav class="menu__nav" aria-label="Основная навигация">
+      <ul class="menu__list">
+        <li class="menu__i">
+          <a href="#signature" data-scroll>
+            <em>01</em>
+            <span class="menu__name">ГЛАДЬ</span>
+            <span class="menu__sub">Авторский протокол · 120 минут</span>
+          </a>
+        </li>
+        <li class="menu__i">
+          <a href="#services" data-scroll>
+            <em>02</em>
+            <span class="menu__name">Услуги</span>
+            <span class="menu__sub">Девять направлений</span>
+          </a>
+        </li>
+        <li class="menu__i">
+          <a href="#prices" data-scroll>
+            <em>03</em>
+            <span class="menu__name">Прайс</span>
+            <span class="menu__sub">От 1 200 до 82 000 ₽</span>
+          </a>
+        </li>
+        <li class="menu__i">
+          <a href="#masters" data-scroll>
+            <em>04</em>
+            <span class="menu__name">Мастера</span>
+            <span class="menu__sub">Семь человек в команде</span>
+          </a>
+        </li>
+        <li class="menu__i">
+          <a href="#gallery" data-scroll>
+            <em>05</em>
+            <span class="menu__name">До / После</span>
+            <span class="menu__sub">Без ретуши</span>
+          </a>
+        </li>
+        <li class="menu__i">
+          <a href="#works" data-scroll>
+            <em>06</em>
+            <span class="menu__name">Работы</span>
+            <span class="menu__sub">Семь кадров</span>
+          </a>
+        </li>
+        <li class="menu__i">
+          <a href="#story" data-scroll>
+            <em>07</em>
+            <span class="menu__name">О салоне</span>
+            <span class="menu__sub">На Бронной с 2017</span>
+          </a>
+        </li>
+        <li class="menu__i">
+          <a href="#testimonials" data-scroll>
+            <em>08</em>
+            <span class="menu__name">Отзывы</span>
+            <span class="menu__sub">4,9 из 5 · 312 отзывов</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <aside class="menu__aside">
+      <div class="menu__cta">
+        <p class="lbl lbl--light">Запись</p>
+        <p class="menu__ctaTxt">Администратор перезванивает в течение 20 минут и подтверждает слот.</p>
+        <button class="btn btn--light" type="button" data-book>
+          <span>Записаться</span>
+          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M1 8h13M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
+        </button>
+      </div>
+
+      <dl class="menu__facts">
+        <div><dt>Адрес</dt><dd>Малая Бронная, 24с1<br>2 этаж, вход со двора</dd></div>
+        <div><dt>Часы</dt><dd>10:00 — 22:00<br>ежедневно</dd></div>
+        <div><dt>Связь</dt><dd><a href="tel:+74951208416">+7 495 120-84-16</a><br><a href="mailto:concierge@elane.ru">concierge@elane.ru</a></dd></div>
+        <div><dt>Соцсети</dt><dd><a href="https://instagram.com/elane.patriki" rel="noopener">@elane.patriki</a><br><a href="https://t.me/elane_patriki" rel="noopener">Telegram</a></dd></div>
+      </dl>
+
+      <p class="menu__mark" aria-hidden="true">ÉLANE</p>
+    </aside>
   </div>
 </div>
+
+<!-- ============ ОКНО ЗАПИСИ ============ -->
+<dialog class="modal" id="book-modal" aria-labelledby="book-h">
+  <div class="modal__box">
+    <header class="modal__top">
+      <div>
+        <p class="lbl lbl--light">Запись</p>
+        <h2 class="modal__h" id="book-h">Четыре шага<span class="dot">.</span></h2>
+      </div>
+      <button class="modal__x" type="button" data-book-close aria-label="Закрыть окно записи">
+        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 3l10 10M13 3L3 13" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
+      </button>
+    </header>
+    <p class="modal__note">Администратор перезванивает в течение 20 минут в рабочие часы. Отмена без потерь — за 12 часов. Или коротко: <a href="tel:+74951208416">+7 495 120-84-16</a></p>
+  <form class="book__form" id="book-form" novalidate>
+    <ol class="steps" aria-hidden="true">
+      <li class="steps__i is-on"><em>01</em>Услуга</li>
+      <li class="steps__i"><em>02</em>Мастер</li>
+      <li class="steps__i"><em>03</em>Время</li>
+      <li class="steps__i"><em>04</em>Контакты</li>
+    </ol>
+    <p class="vh" aria-live="polite" id="step-live">Шаг 1 из 4: услуга</p>
+
+    <div class="err-sum" id="err-sum" tabindex="-1" role="alert" hidden>
+      <p class="err-sum__h">Проверьте, пожалуйста, поля:</p>
+      <ul id="err-sum-list"></ul>
+    </div>
+
+    <!-- Шаг 1 -->
+    <fieldset class="step is-on" data-step="1">
+      <legend class="step__lg">Что вас интересует</legend>
+      <div class="opts opts--2">
+        <label class="opt"><input type="radio" name="service" value="Стрижка и форма" required><span class="opt__b"><b>Стрижка и форма</b><i>от 9 500 ₽ · 90 мин</i></span></label>
+        <label class="opt"><input type="radio" name="service" value="Окрашивание"><span class="opt__b"><b>Окрашивание</b><i>от 12 000 ₽ · 150 мин</i></span></label>
+        <label class="opt"><input type="radio" name="service" value="Сложный цвет"><span class="opt__b"><b>Сложный цвет</b><i>от 28 000 ₽ · 240 мин</i></span></label>
+        <label class="opt opt--hl"><input type="radio" name="service" value="ГЛАДЬ · протокол №1"><span class="opt__b"><b>ГЛАДЬ · протокол №1</b><i>24 000 ₽ · 120 мин</i></span></label>
+        <label class="opt"><input type="radio" name="service" value="Маникюр и педикюр"><span class="opt__b"><b>Маникюр и педикюр</b><i>от 4 200 ₽ · 90 мин</i></span></label>
+        <label class="opt"><input type="radio" name="service" value="Brow &amp; Lash"><span class="opt__b"><b>Brow &amp; Lash</b><i>от 3 200 ₽ · 60 мин</i></span></label>
+        <label class="opt"><input type="radio" name="service" value="Макияж"><span class="opt__b"><b>Макияж</b><i>от 9 000 ₽ · 75 мин</i></span></label>
+        <label class="opt"><input type="radio" name="service" value="Уход за лицом"><span class="opt__b"><b>Уход за лицом</b><i>от 11 000 ₽ · 90 мин</i></span></label>
+      </div>
+      <p class="fld__err" id="err-service" hidden>Выберите услугу, чтобы продолжить.</p>
+    </fieldset>
+
+    <!-- Шаг 2 -->
+    <fieldset class="step" data-step="2" hidden>
+      <legend class="step__lg">К кому записываемся</legend>
+      <div class="opts opts--2">
+        <label class="opt"><input type="radio" name="master" value="Не важно" required><span class="opt__b"><b>Не важно</b><i>подберём по расписанию</i></span></label>
+        <label class="opt"><input type="radio" name="master" value="Вера Ильинская"><span class="opt__b"><b>Вера Ильинская</b><i>арт-директор · ×1,9</i></span></label>
+        <label class="opt"><input type="radio" name="master" value="Аглая Тимрот"><span class="opt__b"><b>Аглая Тимрот</b><i>топ-стилист · ×1,4</i></span></label>
+        <label class="opt"><input type="radio" name="master" value="Ника Заборская"><span class="opt__b"><b>Ника Заборская</b><i>колорист · ×1,4</i></span></label>
+        <label class="opt"><input type="radio" name="master" value="Лев Гурьев"><span class="opt__b"><b>Лев Гурьев</b><i>стилист-постановщик</i></span></label>
+        <label class="opt"><input type="radio" name="master" value="Таисия Мор"><span class="opt__b"><b>Таисия Мор</b><i>маникюр · педикюр</i></span></label>
+        <label class="opt"><input type="radio" name="master" value="Юлия Бенуа"><span class="opt__b"><b>Юлия Бенуа</b><i>косметолог-эстетист</i></span></label>
+        <label class="opt"><input type="radio" name="master" value="Дина Асланова"><span class="opt__b"><b>Дина Асланова</b><i>brow &amp; lash</i></span></label>
+      </div>
+      <p class="fld__err" id="err-master" hidden>Выберите мастера или вариант «Не важно».</p>
+    </fieldset>
+
+    <!-- Шаг 3 -->
+    <fieldset class="step" data-step="3" hidden>
+      <legend class="step__lg">Когда удобно</legend>
+      <div class="fld">
+        <span class="fld__l" id="date-l">Дата</span>
+        <input id="date" name="date" type="hidden">
+        <div class="cal" id="cal">
+          <div class="cal__top">
+            <button class="cal__nav" type="button" data-cal="prev" aria-label="Предыдущий месяц">
+              <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M10 2L4 8l6 6" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
+            </button>
+            <p class="cal__mon" id="cal-mon"></p>
+            <button class="cal__nav" type="button" data-cal="next" aria-label="Следующий месяц">
+              <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M6 2l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
+            </button>
+          </div>
+          <div class="cal__wd" aria-hidden="true">
+            <span>пн</span><span>вт</span><span>ср</span><span>чт</span><span>пт</span><span>сб</span><span>вс</span>
+          </div>
+          <div class="cal__grid" id="cal-grid" role="grid" aria-labelledby="date-l cal-mon"></div>
+          <div class="cal__quick">
+            <button class="cal__chip" type="button" data-cal="quick" data-d="0">Сегодня</button>
+            <button class="cal__chip" type="button" data-cal="quick" data-d="1">Завтра</button>
+            <button class="cal__chip" type="button" data-cal="quick" data-d="3">Через три дня</button>
+          </div>
+          <p class="cal__pick" id="cal-pick" aria-live="polite"></p>
+        </div>
+        <p class="fld__hint" id="hint-date">Запись открывается за три дня. Более раннюю дату администратор подтвердит отдельно — такие дни помечены точкой.</p>
+        <p class="fld__err" id="err-date" hidden>Выберите дату визита.</p>
+      </div>
+      <div class="fld">
+        <span class="fld__l" id="time-l">Время</span>
+        <div class="opts opts--time" role="group" aria-labelledby="time-l">
+          <label class="opt opt--s"><input type="radio" name="time" value="10:00" required><span class="opt__b">10:00</span></label>
+          <label class="opt opt--s"><input type="radio" name="time" value="11:30"><span class="opt__b">11:30</span></label>
+          <label class="opt opt--s"><input type="radio" name="time" value="13:00"><span class="opt__b">13:00</span></label>
+          <label class="opt opt--s"><input type="radio" name="time" value="14:30"><span class="opt__b">14:30</span></label>
+          <label class="opt opt--s"><input type="radio" name="time" value="16:00"><span class="opt__b">16:00</span></label>
+          <label class="opt opt--s"><input type="radio" name="time" value="17:30"><span class="opt__b">17:30</span></label>
+          <label class="opt opt--s"><input type="radio" name="time" value="19:00"><span class="opt__b">19:00</span></label>
+          <label class="opt opt--s"><input type="radio" name="time" value="20:30"><span class="opt__b">20:30</span></label>
+        </div>
+        <p class="fld__err" id="err-time" hidden>Выберите удобное время.</p>
+      </div>
+    </fieldset>
+
+    <!-- Шаг 4 -->
+    <fieldset class="step" data-step="4" hidden>
+      <legend class="step__lg">Как с вами связаться</legend>
+      <div class="fld">
+        <label class="fld__l" for="name">Имя <span class="req" aria-hidden="true">*</span></label>
+        <input class="fld__i" id="name" name="name" type="text" required autocomplete="given-name" aria-describedby="err-name">
+        <p class="fld__err" id="err-name" hidden>Напишите, как к вам обращаться.</p>
+      </div>
+      <div class="fld">
+        <label class="fld__l" for="phone">Телефон <span class="req" aria-hidden="true">*</span></label>
+        <input class="fld__i" id="phone" name="phone" type="tel" required autocomplete="tel" inputmode="tel" placeholder="+7 900 000-00-00" aria-describedby="hint-phone err-phone">
+        <p class="fld__hint" id="hint-phone">Только для подтверждения записи. Рассылок нет.</p>
+        <p class="fld__err" id="err-phone" hidden>Укажите номер телефона — минимум 10 цифр.</p>
+      </div>
+      <div class="fld">
+        <label class="fld__l" for="note">Комментарий</label>
+        <textarea class="fld__i fld__i--ta" id="note" name="note" rows="3" aria-describedby="hint-note"></textarea>
+        <p class="fld__hint" id="hint-note">История окрашиваний, аллергии, ограничения по времени — всё, что стоит знать заранее.</p>
+      </div>
+      <div class="summary" id="summary" aria-live="polite"></div>
+    </fieldset>
+
+    <div class="book__nav">
+      <button class="btn btn--ghost btn--light" type="button" id="prev-step" hidden>Назад</button>
+      <button class="btn btn--light" type="button" id="next-step">
+        <span>Далее</span>
+        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M1 8h13M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
+      </button>
+      <button class="btn btn--light" type="submit" id="submit-step" hidden>
+        <span>Отправить заявку</span>
+        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M1 8h13M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
+      </button>
+    </div>
+
+    <div class="done" id="done" tabindex="-1" hidden>
+      <p class="lbl lbl--light">Заявка принята</p>
+      <h3 class="done__h">До встречи<br>на Бронной<span class="dot">.</span></h3>
+      <p class="done__p" id="done-p"></p>
+      <button class="btn btn--ghost btn--light" type="button" id="reset-form">Отправить ещё одну</button>
+    </div>
+  </form>
+  </div>
+</dialog>
 
 <main id="main">
 
@@ -96,10 +303,10 @@
     </h1>
     <div class="hero__foot">
       <p class="hero__lede" data-reveal>Мы не делаем «как на картинке». Мы находим форму, которая держится сама — без укладки, без объяснений, без ежедневного подвига.</p>
-      <a class="btn btn--solid" href="#booking" data-scroll data-magnet>
+      <button class="btn btn--solid" type="button" data-book data-magnet>
         <span>Записаться</span>
         <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M1 8h13M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
-      </a>
+      </button>
     </div>
   </div>
 
@@ -151,7 +358,7 @@
         <div><dt>Стоимость</dt><dd>24 000 ₽</dd></div>
         <div><dt>Эффект</dt><dd>6–8 недель</dd></div>
       </dl>
-      <a class="btn btn--light" href="#booking" data-scroll data-magnet>Записаться на ГЛАДЬ</a>
+      <button class="btn btn--light" type="button" data-book data-magnet>Записаться на ГЛАДЬ</button>
     </div>
 
     <ol class="sig__steps" data-sig-el>
@@ -403,7 +610,15 @@
   <div class="wk__pin">
     <header class="wk__head">
       <h2 class="wk__h" id="wk-h" data-reveal>Работы</h2>
-      <p class="wk__note lbl" data-reveal><span>Семь кадров</span><span class="wk__hint">Листайте вбок</span></p>
+      <div class="wk__ctrl">
+        <p class="wk__note lbl" data-reveal><span>Семь кадров</span></p>
+        <button class="wk__nav" type="button" data-wk="prev" aria-label="Предыдущие работы">
+          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M10 2L4 8l6 6" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
+        </button>
+        <button class="wk__nav" type="button" data-wk="next" aria-label="Следующие работы">
+          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M6 2l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
+        </button>
+      </div>
     </header>
     <div class="wk__view">
       <ul class="wk__row" data-works>
@@ -667,150 +882,6 @@
   </ul>
 </section>
 
-<!-- ============ 12 · ЗАПИСЬ ============ -->
-<section class="book" id="booking" aria-labelledby="book-h">
-  <div class="book__aside">
-    <p class="lbl lbl--light" data-reveal>Запись</p>
-    <h2 class="book__h" id="book-h" data-reveal>Четыре<br>шага<span class="dot">.</span></h2>
-    <p class="book__note" data-reveal>Администратор перезванивает в течение 20 минут в рабочие часы и подтверждает слот. Отмена без потерь — за 12 часов.</p>
-    <p class="book__alt" data-reveal>Или коротко: <a href="tel:+74951208416">+7 495 120-84-16</a></p>
-  </div>
-
-  <form class="book__form" id="book-form" novalidate>
-    <ol class="steps" aria-hidden="true">
-      <li class="steps__i is-on"><em>01</em>Услуга</li>
-      <li class="steps__i"><em>02</em>Мастер</li>
-      <li class="steps__i"><em>03</em>Время</li>
-      <li class="steps__i"><em>04</em>Контакты</li>
-    </ol>
-    <p class="vh" aria-live="polite" id="step-live">Шаг 1 из 4: услуга</p>
-
-    <div class="err-sum" id="err-sum" tabindex="-1" role="alert" hidden>
-      <p class="err-sum__h">Проверьте, пожалуйста, поля:</p>
-      <ul id="err-sum-list"></ul>
-    </div>
-
-    <!-- Шаг 1 -->
-    <fieldset class="step is-on" data-step="1">
-      <legend class="step__lg">Что вас интересует</legend>
-      <div class="opts opts--2">
-        <label class="opt"><input type="radio" name="service" value="Стрижка и форма" required><span class="opt__b"><b>Стрижка и форма</b><i>от 9 500 ₽ · 90 мин</i></span></label>
-        <label class="opt"><input type="radio" name="service" value="Окрашивание"><span class="opt__b"><b>Окрашивание</b><i>от 12 000 ₽ · 150 мин</i></span></label>
-        <label class="opt"><input type="radio" name="service" value="Сложный цвет"><span class="opt__b"><b>Сложный цвет</b><i>от 28 000 ₽ · 240 мин</i></span></label>
-        <label class="opt opt--hl"><input type="radio" name="service" value="ГЛАДЬ · протокол №1"><span class="opt__b"><b>ГЛАДЬ · протокол №1</b><i>24 000 ₽ · 120 мин</i></span></label>
-        <label class="opt"><input type="radio" name="service" value="Маникюр и педикюр"><span class="opt__b"><b>Маникюр и педикюр</b><i>от 4 200 ₽ · 90 мин</i></span></label>
-        <label class="opt"><input type="radio" name="service" value="Brow &amp; Lash"><span class="opt__b"><b>Brow &amp; Lash</b><i>от 3 200 ₽ · 60 мин</i></span></label>
-        <label class="opt"><input type="radio" name="service" value="Макияж"><span class="opt__b"><b>Макияж</b><i>от 9 000 ₽ · 75 мин</i></span></label>
-        <label class="opt"><input type="radio" name="service" value="Уход за лицом"><span class="opt__b"><b>Уход за лицом</b><i>от 11 000 ₽ · 90 мин</i></span></label>
-      </div>
-      <p class="fld__err" id="err-service" hidden>Выберите услугу, чтобы продолжить.</p>
-    </fieldset>
-
-    <!-- Шаг 2 -->
-    <fieldset class="step" data-step="2" hidden>
-      <legend class="step__lg">К кому записываемся</legend>
-      <div class="opts opts--2">
-        <label class="opt"><input type="radio" name="master" value="Не важно" required><span class="opt__b"><b>Не важно</b><i>подберём по расписанию</i></span></label>
-        <label class="opt"><input type="radio" name="master" value="Вера Ильинская"><span class="opt__b"><b>Вера Ильинская</b><i>арт-директор · ×1,9</i></span></label>
-        <label class="opt"><input type="radio" name="master" value="Аглая Тимрот"><span class="opt__b"><b>Аглая Тимрот</b><i>топ-стилист · ×1,4</i></span></label>
-        <label class="opt"><input type="radio" name="master" value="Ника Заборская"><span class="opt__b"><b>Ника Заборская</b><i>колорист · ×1,4</i></span></label>
-        <label class="opt"><input type="radio" name="master" value="Лев Гурьев"><span class="opt__b"><b>Лев Гурьев</b><i>стилист-постановщик</i></span></label>
-        <label class="opt"><input type="radio" name="master" value="Таисия Мор"><span class="opt__b"><b>Таисия Мор</b><i>маникюр · педикюр</i></span></label>
-        <label class="opt"><input type="radio" name="master" value="Юлия Бенуа"><span class="opt__b"><b>Юлия Бенуа</b><i>косметолог-эстетист</i></span></label>
-        <label class="opt"><input type="radio" name="master" value="Дина Асланова"><span class="opt__b"><b>Дина Асланова</b><i>brow &amp; lash</i></span></label>
-      </div>
-      <p class="fld__err" id="err-master" hidden>Выберите мастера или вариант «Не важно».</p>
-    </fieldset>
-
-    <!-- Шаг 3 -->
-    <fieldset class="step" data-step="3" hidden>
-      <legend class="step__lg">Когда удобно</legend>
-      <div class="fld">
-        <span class="fld__l" id="date-l">Дата</span>
-        <input id="date" name="date" type="hidden">
-        <div class="cal" id="cal">
-          <div class="cal__top">
-            <button class="cal__nav" type="button" data-cal="prev" aria-label="Предыдущий месяц">
-              <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M10 2L4 8l6 6" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
-            </button>
-            <p class="cal__mon" id="cal-mon"></p>
-            <button class="cal__nav" type="button" data-cal="next" aria-label="Следующий месяц">
-              <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M6 2l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
-            </button>
-          </div>
-          <div class="cal__wd" aria-hidden="true">
-            <span>пн</span><span>вт</span><span>ср</span><span>чт</span><span>пт</span><span>сб</span><span>вс</span>
-          </div>
-          <div class="cal__grid" id="cal-grid" role="grid" aria-labelledby="date-l cal-mon"></div>
-          <div class="cal__quick">
-            <button class="cal__chip" type="button" data-cal="quick" data-d="0">Сегодня</button>
-            <button class="cal__chip" type="button" data-cal="quick" data-d="1">Завтра</button>
-            <button class="cal__chip" type="button" data-cal="quick" data-d="3">Через три дня</button>
-          </div>
-          <p class="cal__pick" id="cal-pick" aria-live="polite"></p>
-        </div>
-        <p class="fld__hint" id="hint-date">Запись открывается за три дня. Более раннюю дату администратор подтвердит отдельно — такие дни помечены точкой.</p>
-        <p class="fld__err" id="err-date" hidden>Выберите дату визита.</p>
-      </div>
-      <div class="fld">
-        <span class="fld__l" id="time-l">Время</span>
-        <div class="opts opts--time" role="group" aria-labelledby="time-l">
-          <label class="opt opt--s"><input type="radio" name="time" value="10:00" required><span class="opt__b">10:00</span></label>
-          <label class="opt opt--s"><input type="radio" name="time" value="11:30"><span class="opt__b">11:30</span></label>
-          <label class="opt opt--s"><input type="radio" name="time" value="13:00"><span class="opt__b">13:00</span></label>
-          <label class="opt opt--s"><input type="radio" name="time" value="14:30"><span class="opt__b">14:30</span></label>
-          <label class="opt opt--s"><input type="radio" name="time" value="16:00"><span class="opt__b">16:00</span></label>
-          <label class="opt opt--s"><input type="radio" name="time" value="17:30"><span class="opt__b">17:30</span></label>
-          <label class="opt opt--s"><input type="radio" name="time" value="19:00"><span class="opt__b">19:00</span></label>
-          <label class="opt opt--s"><input type="radio" name="time" value="20:30"><span class="opt__b">20:30</span></label>
-        </div>
-        <p class="fld__err" id="err-time" hidden>Выберите удобное время.</p>
-      </div>
-    </fieldset>
-
-    <!-- Шаг 4 -->
-    <fieldset class="step" data-step="4" hidden>
-      <legend class="step__lg">Как с вами связаться</legend>
-      <div class="fld">
-        <label class="fld__l" for="name">Имя <span class="req" aria-hidden="true">*</span></label>
-        <input class="fld__i" id="name" name="name" type="text" required autocomplete="given-name" aria-describedby="err-name">
-        <p class="fld__err" id="err-name" hidden>Напишите, как к вам обращаться.</p>
-      </div>
-      <div class="fld">
-        <label class="fld__l" for="phone">Телефон <span class="req" aria-hidden="true">*</span></label>
-        <input class="fld__i" id="phone" name="phone" type="tel" required autocomplete="tel" inputmode="tel" placeholder="+7 900 000-00-00" aria-describedby="hint-phone err-phone">
-        <p class="fld__hint" id="hint-phone">Только для подтверждения записи. Рассылок нет.</p>
-        <p class="fld__err" id="err-phone" hidden>Укажите номер телефона — минимум 10 цифр.</p>
-      </div>
-      <div class="fld">
-        <label class="fld__l" for="note">Комментарий</label>
-        <textarea class="fld__i fld__i--ta" id="note" name="note" rows="3" aria-describedby="hint-note"></textarea>
-        <p class="fld__hint" id="hint-note">История окрашиваний, аллергии, ограничения по времени — всё, что стоит знать заранее.</p>
-      </div>
-      <div class="summary" id="summary" aria-live="polite"></div>
-    </fieldset>
-
-    <div class="book__nav">
-      <button class="btn btn--ghost btn--light" type="button" id="prev-step" hidden>Назад</button>
-      <button class="btn btn--light" type="button" id="next-step">
-        <span>Далее</span>
-        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M1 8h13M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
-      </button>
-      <button class="btn btn--light" type="submit" id="submit-step" hidden>
-        <span>Отправить заявку</span>
-        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M1 8h13M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
-      </button>
-    </div>
-
-    <div class="done" id="done" tabindex="-1" hidden>
-      <p class="lbl lbl--light">Заявка принята</p>
-      <h3 class="done__h">До встречи<br>на Бронной<span class="dot">.</span></h3>
-      <p class="done__p" id="done-p"></p>
-      <button class="btn btn--ghost btn--light" type="button" id="reset-form">Отправить ещё одну</button>
-    </div>
-  </form>
-</section>
-
 <!-- ============ 13 · КОНТАКТЫ / ПОДВАЛ ============ -->
 <footer class="ftr" id="contacts">
   <div class="ftr__top">
@@ -830,6 +901,10 @@
       <p><a href="mailto:concierge@elane.ru">concierge@elane.ru</a><br>
          <a href="https://instagram.com/elane.patriki" rel="noopener">Instagram — @elane.patriki</a><br>
          <a href="https://t.me/elane_patriki" rel="noopener">Telegram — @elane_patriki</a></p>
+      <button class="btn btn--light ftr__cta" type="button" data-book>
+        <span>Записаться</span>
+        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M1 8h13M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
+      </button>
     </div>
     <div class="ftr__col ftr__col--map">
       <div class="map" role="img" aria-label="Схема расположения: Малая Бронная, 24с1, рядом с Патриаршими прудами">

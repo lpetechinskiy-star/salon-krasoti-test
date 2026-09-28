@@ -104,6 +104,7 @@
     var hdr = document.getElementById('hdr');
     if (!hdr) return;
     var hero = $('.hero');
+    var fab = $('.fab');
     var last = window.scrollY, ticking = false;
     function apply() {
       var y = window.scrollY;
@@ -111,7 +112,9 @@
         hdr.classList.toggle('is-hidden', y > last && y > 240);
       }
       /* За пределами тёмного героя шапке нужна собственная подложка */
-      hdr.classList.toggle('is-solid', y > (hero ? hero.offsetHeight - 90 : 240));
+      var past = y > (hero ? hero.offsetHeight - 90 : 240);
+      hdr.classList.toggle('is-solid', past);
+      if (fab) fab.classList.toggle('is-on', past);
       last = y;
       ticking = false;
     }
@@ -285,7 +288,7 @@
       var canPin = panel.offsetHeight <= window.innerHeight;
       var tl = gsap.timeline({
         scrollTrigger: canPin
-          ? { trigger: sig, start: 'top top', end: '+=115%', scrub: 0.9, pin: panel, anticipatePin: 1 }
+          ? { trigger: sig, start: 'top top', end: '+=65%', scrub: 0.9, pin: panel, anticipatePin: 1 }
           : { trigger: sig, start: 'top 80%', end: 'bottom 60%', scrub: 0.9 }
       });
       tl.from(letters, { yPercent: 118, opacity: 0, stagger: 0.07, ease: 'expo.out' })
@@ -412,25 +415,51 @@
     range.addEventListener('blur', function () { stage && stage.classList.remove('is-focus'); });
 
     if (!stage) return;
-    var dragging = false;
+    var dragging = false, armed = false, sx = 0, sy = 0, pid = null;
+
     function fromPointer(e) {
       var r = stage.getBoundingClientRect();
       var v = Math.round(Math.min(100, Math.max(0, ((e.clientX - r.left) / r.width) * 100)));
       range.value = v;
       apply(v);
     }
+
+    /* Мышь тянет сразу; палец — только после явно горизонтального движения,
+       иначе страница переставала прокручиваться вертикально на телефоне. */
     stage.addEventListener('pointerdown', function (e) {
-      dragging = true;
-      stage.setPointerCapture(e.pointerId);
-      fromPointer(e);
+      pid = e.pointerId; sx = e.clientX; sy = e.clientY;
+      if (e.pointerType === 'mouse') {
+        dragging = true; armed = true;
+        stage.setPointerCapture(pid);
+        fromPointer(e);
+      } else {
+        dragging = false; armed = false;
+      }
     });
-    stage.addEventListener('pointermove', function (e) { if (dragging) fromPointer(e); });
+
+    stage.addEventListener('pointermove', function (e) {
+      if (e.pointerId !== pid) return;
+      if (!armed) {
+        var dx = Math.abs(e.clientX - sx), dy = Math.abs(e.clientY - sy);
+        if (dx < 10 && dy < 10) return;          /* порог: ещё не решили */
+        if (dy >= dx) { pid = null; return; }    /* вертикаль — отдаём странице */
+        armed = true; dragging = true;
+        stage.setPointerCapture(pid);
+      }
+      if (dragging) fromPointer(e);
+    });
+
     function stopDrag(e) {
-      dragging = false;
-      if (e && stage.hasPointerCapture(e.pointerId)) stage.releasePointerCapture(e.pointerId);
+      if (e && pid !== null && stage.hasPointerCapture(pid)) stage.releasePointerCapture(pid);
+      dragging = false; armed = false; pid = null;
     }
     stage.addEventListener('pointerup', stopDrag);
     stage.addEventListener('pointercancel', stopDrag);
+    /* Короткий тап без перетаскивания — просто ставим границу в точку касания */
+    stage.addEventListener('click', function (e) {
+      if (e.pointerType === 'mouse') return;
+      fromPointer(e);
+    });
   }
 
   /* -----------------------------------------------------------------
@@ -539,25 +568,47 @@
       setBar(max > 0 ? view.scrollLeft / max : 0);
     }, { passive: true });
 
+    /* Стрелки — альтернатива перетаскиванию и колесу */
+    var nav = $$('[data-wk]');
+    nav.forEach(function (b) {
+      b.addEventListener('click', function () {
+        var card = $('.wk__i');
+        var step = card ? card.offsetWidth + 24 : 320;
+        view.scrollBy({ left: b.dataset.wk === 'next' ? step : -step, behavior: reduced.matches ? 'auto' : 'smooth' });
+      });
+    });
+    function syncNav() {
+      var max = view.scrollWidth - view.clientWidth;
+      nav.forEach(function (b) {
+        b.disabled = b.dataset.wk === 'next' ? view.scrollLeft >= max - 2 : view.scrollLeft <= 2;
+      });
+    }
+    view.addEventListener('scroll', syncNav, { passive: true });
+    syncNav();
+
     if (!hasST || reduced.matches) return;
 
+    /* Никакого pin: лента едет, пока секция проходит через экран.
+       Закрепление держало страницу на месте полторы тысячи пикселей —
+       это читалось как «прокрутка застряла». */
     gsap.matchMedia().add('(min-width:1024px) and (prefers-reduced-motion: no-preference)', function () {
       var dist = row.scrollWidth - view.clientWidth;
       if (dist <= 0) return;
-      view.classList.add('is-pinned');
-      var tl = gsap.to(row, {
+      view.classList.add('is-driven');
+      var tw = gsap.fromTo(row, { x: 0 }, {
         x: -dist, ease: 'none',
         scrollTrigger: {
-          trigger: '.wk', start: 'top top', end: '+=' + dist, scrub: 0.8,
-          pin: '.wk__pin', anticipatePin: 1, invalidateOnRefresh: true,
+          trigger: '.wk', start: 'top bottom', end: 'bottom top', scrub: 0.9,
+          invalidateOnRefresh: true,
           onUpdate: function (self) { setBar(self.progress); }
         }
       });
       return function () {
-        view.classList.remove('is-pinned');
+        view.classList.remove('is-driven');
         gsap.set(row, { x: 0 });
-        tl.scrollTrigger && tl.scrollTrigger.kill();
-        tl.kill();
+        tw.scrollTrigger && tw.scrollTrigger.kill();
+        tw.kill();
+        syncNav();
       };
     });
   }
@@ -798,6 +849,51 @@
   }
 
   /* -----------------------------------------------------------------
+     11b. Окно записи
+     <dialog> даёт родные ловушку фокуса, Esc и возврат фокуса,
+     поэтому здесь остаются только блокировка прокрутки и клик по фону.
+     ----------------------------------------------------------------- */
+  function initBookModal() {
+    var dlg = document.getElementById('book-modal');
+    if (!dlg) return;
+    var box = $('.modal__box', dlg);
+    var supported = typeof dlg.showModal === 'function';
+
+    function open() {
+      if (!supported) { location.hash = '#contacts'; return; }
+      if (dlg.open) return;
+      /* Из меню записываются чаще всего — закрываем его, чтобы окно
+         не легло поверх второго полноэкранного слоя. */
+      var mn = document.getElementById('menu');
+      var bg = document.getElementById('burger');
+      if (mn && !mn.hidden && bg) bg.click();
+      dlg.showModal();
+      document.body.classList.add('is-locked');
+      var first = $('.step:not([hidden]) .opt input, .step:not([hidden]) .fld__i', dlg) || $('.modal__x', dlg);
+      if (first) first.focus({ preventScroll: true });
+      if (hasGSAP && !reduced.matches) {
+        gsap.fromTo(box, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.42, ease: 'expo.out' });
+      }
+    }
+    function close() {
+      if (!dlg.open) return;
+      dlg.close();
+      document.body.classList.remove('is-locked');
+    }
+
+    document.addEventListener('click', function (e) {
+      if (e.target.closest('[data-book]')) { e.preventDefault(); open(); return; }
+      if (e.target.closest('[data-book-close]')) { close(); }
+    });
+    /* Клик по затемнению: сам <dialog> занимает весь экран, поэтому
+       за «фон» считаем всё, что вне содержимого окна. */
+    dlg.addEventListener('click', function (e) {
+      if (box && !box.contains(e.target)) close();
+    });
+    dlg.addEventListener('close', function () { document.body.classList.remove('is-locked'); });
+  }
+
+  /* -----------------------------------------------------------------
      11. Запись — пошаговая форма
      ----------------------------------------------------------------- */
   function initBooking() {
@@ -1003,6 +1099,7 @@
     initCounters();
     initProgress();
     initBooking();
+    initBookModal();
     initMotion();
     initCursor();
     initServicePreview();
