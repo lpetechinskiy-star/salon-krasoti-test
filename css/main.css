@@ -357,10 +357,24 @@ button{ background:none; border:0; cursor:pointer; }
   display:flex; align-items:center; justify-content:space-between; gap:var(--s-2);
   padding:clamp(.9rem,2vw,1.6rem) var(--gut);
   padding-top:max(clamp(.9rem,2vw,1.6rem),env(safe-area-inset-top));
-  mix-blend-mode:difference; color:var(--milk);
-  transition:transform var(--d-mid) var(--e-out);
+  color:var(--on-dark);
+  transition:transform var(--d-mid) var(--e-out),
+             background-color var(--d-mid) var(--e-out),
+             color var(--d-mid) var(--e-out),
+             border-color var(--d-mid) var(--e-out);
+  border-bottom:1px solid transparent;
 }
 .hdr.is-hidden{ transform:translateY(-102%); }
+/* Поверх героя шапка прозрачная и светлая; ниже — молочная подложка.
+   Раньше здесь был mix-blend-mode:difference: он давал непредсказуемые
+   тёмные прямоугольники на стыках секций. */
+.hdr.is-solid{
+  background:rgba(243,239,233,.94); color:var(--ink);
+  border-bottom-color:var(--line);
+}
+@supports (backdrop-filter: blur(8px)){
+  .hdr.is-solid{ background:rgba(243,239,233,.82); backdrop-filter:blur(10px) saturate(1.2); }
+}
 .hdr__mark{ display:inline-block; padding:.65rem 0; }
 .mark{
   display:block; font-family:var(--f-display); font-weight:400;
@@ -376,7 +390,9 @@ button{ background:none; border:0; cursor:pointer; }
 .hdr__act{ display:flex; align-items:center; gap:var(--s-2); }
 .hdr__book{ display:none; --bd:currentColor; --fg:currentColor; min-height:40px; padding:.55rem 1.1rem; }
 .hdr__book::before{ background:currentColor; }
-.hdr__book:hover,.hdr__book:focus-visible{ color:var(--graphite); }
+.hdr__book:hover,.hdr__book:focus-visible{ color:var(--milk); }
+.hdr.is-solid .hdr__book:hover,.hdr.is-solid .hdr__book:focus-visible{ color:var(--milk); }
+.hdr.is-solid .hdr__book::before{ background:var(--bordeaux); }
 .burger{
   display:flex; align-items:center; gap:.7rem; min-height:44px; padding:.4rem .2rem;
   font-family:var(--f-mono); font-size:var(--t-label); text-transform:uppercase; letter-spacing:.16em;
@@ -418,12 +434,16 @@ button{ background:none; border:0; cursor:pointer; }
    --------------------------------------------------------------- */
 .hero{
   position:relative; min-height:100svh; display:grid;
-  grid-template-rows:1fr auto; padding:0 0 calc(var(--s-4) + env(safe-area-inset-bottom));
+  grid-template-rows:1fr auto;
+  padding:calc(var(--s-6) + env(safe-area-inset-top)) 0 calc(var(--s-4) + env(safe-area-inset-bottom));
   overflow:clip;
 }
 .hero__media{ position:absolute; inset:0; z-index:0; }
 .frame--hero{ position:absolute; top:-9%; left:0; width:100%; height:118%; aspect-ratio:auto; }
 .frame--hero img{ filter:grayscale(.55) contrast(1.12) brightness(.62) sepia(.2); transform:scale(1.06); }
+/* В герое кадр работает фоном: монограмма-заглушка накладывалась бы
+   на подводку и заголовок, поэтому здесь остаётся только текстура. */
+.frame--hero.is-fallback::after{ content:none; }
 .hero__media::after{
   content:""; position:absolute; inset:0; z-index:1;
   background:linear-gradient(180deg,rgba(22,18,16,.55) 0%,rgba(22,18,16,.15) 38%,rgba(20,15,13,.86) 100%);
@@ -817,7 +837,10 @@ button{ background:none; border:0; cursor:pointer; }
 /* ---------------------------------------------------------------
    13. ПРАЙС — редакционное меню
    --------------------------------------------------------------- */
-.price{ padding:var(--s-7) var(--gut) var(--s-6); }
+.price{
+  padding:var(--s-7) var(--gut) var(--s-6);
+  background:var(--paper); border-top:1px solid var(--line);
+}
 .price .sec-head{ padding:0; margin-bottom:var(--s-5); }
 .price__group{ margin-bottom:var(--s-5); }
 .price__cat{
@@ -838,11 +861,14 @@ button{ background:none; border:0; cursor:pointer; }
 /* Signature-блок уходит в край экрана: вылет равен самому гаттеру,
    поэтому переполнения не возникает ни на одной ширине. */
 .price__group--hl{
-  background:var(--paper); border-block:1px solid var(--line);
-  padding:var(--s-3) var(--gut); margin-inline:calc(var(--gut) * -1);
+  background:var(--choco); color:var(--on-dark);
+  padding:var(--s-4) var(--gut); margin-inline:calc(var(--gut) * -1);
 }
-.price__group--hl .price__cat{ color:var(--bordeaux); border-color:var(--line); }
-.price__group--hl .price__cat em{ color:var(--bordeaux); }
+.price__group--hl .price__cat{ color:var(--on-dark); border-color:var(--line-dark); }
+.price__group--hl .price__cat em{ color:var(--rose); }
+.price__group--hl .price__list div{ border-bottom-color:var(--line-dark); }
+.price__group--hl .price__note{ color:var(--on-dark-mu); }
+.price__group--hl .price__list dd{ color:var(--rose); }
 
 /* ---------------------------------------------------------------
    14. INSTAGRAM
@@ -905,6 +931,75 @@ button{ background:none; border:0; cursor:pointer; }
   font-size:.875rem; letter-spacing:.06em; font-variant-numeric:tabular-nums; }
 .opt--hl .opt__b{ border-color:var(--rose); }
 .opt--hl .opt__b b{ font-family:var(--f-display); font-size:1.15rem; letter-spacing:.06em; }
+
+/* --- Календарь записи --- */
+.cal{
+  border:1px solid var(--line-dark); background:rgba(255,255,255,.02);
+  padding:var(--s-2); display:grid; gap:.7rem;
+}
+.cal__top{ display:grid; grid-template-columns:44px 1fr 44px; align-items:center; }
+.cal__nav{
+  width:44px; height:44px; display:grid; place-items:center; color:var(--on-dark);
+  border:1px solid transparent;
+  transition:border-color var(--d-fast) var(--e-out),color var(--d-fast) var(--e-out);
+}
+.cal__nav svg{ width:15px; height:15px; }
+.cal__nav:hover,.cal__nav:focus-visible{ border-color:var(--rose); color:var(--rose); }
+.cal__nav[disabled]{ opacity:.28; pointer-events:none; }
+.cal__mon{
+  text-align:center; font-family:var(--f-display); font-weight:400;
+  font-size:1.3rem; line-height:1; letter-spacing:.01em; text-transform:lowercase;
+}
+.cal__wd{
+  display:grid; grid-template-columns:repeat(7,1fr); gap:2px;
+  border-bottom:1px solid var(--line-dark); padding-bottom:.5rem;
+}
+.cal__wd span{
+  text-align:center; font-family:var(--f-mono); font-size:.625rem;
+  text-transform:uppercase; letter-spacing:.1em; color:var(--on-dark-mu);
+}
+.cal__grid{ display:grid; gap:2px; }
+.cal__row{ display:grid; grid-template-columns:repeat(7,1fr); gap:2px; }
+.cal__d{
+  position:relative; aspect-ratio:1; min-height:44px; width:100%;
+  display:grid; place-items:center; color:var(--on-dark);
+  font-family:var(--f-mono); font-size:.875rem; font-variant-numeric:tabular-nums;
+  border:1px solid transparent;
+  transition:background var(--d-fast) var(--e-out),border-color var(--d-fast) var(--e-out),color var(--d-fast) var(--e-out);
+}
+.cal__d:hover:not([aria-disabled="true"]){ border-color:var(--rose); }
+.cal__d[aria-disabled="true"]{ color:var(--on-dark-mu); opacity:.3; cursor:default; }
+.cal__d--out{ visibility:hidden; }
+.cal__d--today::before{
+  content:""; position:absolute; inset:auto auto 6px 50%; transform:translateX(-50%);
+  width:12px; height:1px; background:var(--on-dark-mu);
+}
+/* Дни, которые администратор подтверждает отдельно */
+.cal__d--soon::after{
+  content:""; position:absolute; top:6px; right:6px;
+  width:4px; height:4px; border-radius:50%; background:var(--rose);
+}
+.cal__d[aria-selected="true"]{
+  background:var(--rose); color:var(--choco); border-color:var(--rose); font-weight:500;
+}
+.cal__d[aria-selected="true"]::before,.cal__d[aria-selected="true"]::after{ background:var(--choco); }
+.cal__quick{ display:flex; flex-wrap:wrap; gap:.4rem; border-top:1px solid var(--line-dark); padding-top:.7rem; }
+.cal__chip{
+  min-height:38px; padding:.45rem .8rem; border:1px solid var(--line-dark); color:var(--on-dark-mu);
+  font-family:var(--f-mono); font-size:.625rem; text-transform:uppercase; letter-spacing:.12em;
+  transition:border-color var(--d-fast) var(--e-out),color var(--d-fast) var(--e-out);
+}
+.cal__chip:hover,.cal__chip:focus-visible{ border-color:var(--rose); color:var(--rose); }
+.cal__pick{
+  font-family:var(--f-display); font-size:1.15rem; color:var(--on-dark); min-height:1.6em;
+}
+.cal__pick:empty::before{
+  content:"Дата не выбрана"; font-family:var(--f-body); font-size:.8125rem; color:var(--on-dark-mu);
+}
+.cal__pick b{ color:var(--rose); font-weight:400; }
+@media (min-width:600px){
+  .cal{ padding:var(--s-3); max-width:27rem; }
+}
 
 .fld{ display:grid; gap:.45rem; }
 .fld__l{ font-family:var(--f-mono); font-size:.6875rem; text-transform:uppercase;
@@ -1009,7 +1104,7 @@ button{ background:none; border:0; cursor:pointer; }
   .frame--sig{ grid-column:1; }
   .sig__steps{ grid-column:2; align-self:center; }
   .sig__steps{ grid-template-columns:repeat(2,1fr); gap:var(--s-3) var(--s-4); }
-  .price__group--hl{ padding:var(--s-4) var(--gut); }
+
 }
 
 @media (min-width:1024px){
@@ -1063,7 +1158,7 @@ button{ background:none; border:0; cursor:pointer; }
   .ftr__col--map{ grid-column:1/-1; }
   .price{ display:grid; grid-template-columns:repeat(2,1fr); gap:0 var(--s-6); }
   .price .sec-head{ grid-column:1/-1; }
-  .price__group--hl{ margin-inline:0; padding:var(--s-4); border:1px solid var(--line); }
+  .price__group--hl{ margin-inline:0; padding:var(--s-4); }
   .svc__row a{ grid-template-columns:auto minmax(0,1fr) auto; }
   .svc__meta{ grid-column:3; }
 }

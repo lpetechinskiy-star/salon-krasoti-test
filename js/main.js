@@ -103,19 +103,24 @@
   function initHeader() {
     var hdr = document.getElementById('hdr');
     if (!hdr) return;
+    var hero = $('.hero');
     var last = window.scrollY, ticking = false;
+    function apply() {
+      var y = window.scrollY;
+      if (!document.body.classList.contains('is-locked')) {
+        hdr.classList.toggle('is-hidden', y > last && y > 240);
+      }
+      /* За пределами тёмного героя шапке нужна собственная подложка */
+      hdr.classList.toggle('is-solid', y > (hero ? hero.offsetHeight - 90 : 240));
+      last = y;
+      ticking = false;
+    }
     window.addEventListener('scroll', function () {
       if (ticking) return;
       ticking = true;
-      requestAnimationFrame(function () {
-        var y = window.scrollY;
-        if (!document.body.classList.contains('is-locked')) {
-          hdr.classList.toggle('is-hidden', y > last && y > 240);
-        }
-        last = y;
-        ticking = false;
-      });
+      requestAnimationFrame(apply);
     }, { passive: true });
+    apply();
   }
 
   /* -----------------------------------------------------------------
@@ -624,6 +629,175 @@
   }
 
   /* -----------------------------------------------------------------
+     11a. Календарь записи
+     Сетка по образцу WAI: роль grid, роуминг-tabindex, стрелки,
+     Home/End по неделе, PageUp/PageDown по месяцу, Enter/Space — выбор.
+     ----------------------------------------------------------------- */
+  function initCalendar(onPick) {
+    var root = document.getElementById('cal');
+    var input = document.getElementById('date');
+    var grid = document.getElementById('cal-grid');
+    var monEl = document.getElementById('cal-mon');
+    var pickEl = document.getElementById('cal-pick');
+    if (!root || !input || !grid) return null;
+
+    var MON = ['январь','февраль','март','апрель','май','июнь',
+               'июль','август','сентябрь','октябрь','ноябрь','декабрь'];
+    var MON_IN = ['января','февраля','марта','апреля','мая','июня',
+                  'июля','августа','сентября','октября','ноября','декабря'];
+    var WD = ['воскресенье','понедельник','вторник','среда','четверг','пятница','суббота'];
+
+    var today = new Date(); today.setHours(0, 0, 0, 0);
+    var LIMIT = new Date(today); LIMIT.setMonth(LIMIT.getMonth() + 6);   /* горизонт записи */
+    var view = new Date(today.getFullYear(), today.getMonth(), 1);
+    var focused = new Date(today);
+    var selected = null;
+
+    var iso = function (d) {
+      return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') +
+             '-' + String(d.getDate()).padStart(2, '0');
+    };
+    var same = function (a, b) { return a && b && iso(a) === iso(b); };
+    var days = function (d) { return Math.round((d - today) / 86400000); };
+
+    function render() {
+      monEl.textContent = MON[view.getMonth()] + ' ' + view.getFullYear();
+      grid.textContent = '';
+
+      var first = new Date(view.getFullYear(), view.getMonth(), 1);
+      var shift = (first.getDay() + 6) % 7;                 /* неделя с понедельника */
+      var start = new Date(first); start.setDate(1 - shift);
+
+      for (var w = 0; w < 6; w++) {
+        var row = document.createElement('div');
+        row.className = 'cal__row';
+        row.setAttribute('role', 'row');
+        for (var i = 0; i < 7; i++) {
+          var d = new Date(start);
+          d.setDate(start.getDate() + w * 7 + i);
+          var cell = document.createElement('button');
+          cell.type = 'button';
+          cell.className = 'cal__d';
+          cell.setAttribute('role', 'gridcell');
+          cell.dataset.iso = iso(d);
+
+          if (d.getMonth() !== view.getMonth()) {
+            cell.classList.add('cal__d--out');
+            cell.tabIndex = -1;
+            cell.setAttribute('aria-hidden', 'true');
+            cell.disabled = true;
+          } else {
+            var off = days(d);
+            var blocked = off < 0 || d > LIMIT;
+            cell.textContent = d.getDate();
+            cell.setAttribute('aria-disabled', blocked ? 'true' : 'false');
+            cell.setAttribute('aria-selected', same(d, selected) ? 'true' : 'false');
+            cell.tabIndex = same(d, focused) ? 0 : -1;
+            if (off === 0) cell.classList.add('cal__d--today');
+            if (off >= 0 && off < 3) cell.classList.add('cal__d--soon');
+            var label = d.getDate() + ' ' + MON_IN[d.getMonth()] + ', ' + WD[d.getDay()];
+            if (off === 0) label += ', сегодня';
+            if (off >= 0 && off < 3) label += ', администратор подтвердит отдельно';
+            if (blocked) label += ', недоступно';
+            cell.setAttribute('aria-label', label);
+          }
+          row.appendChild(cell);
+        }
+        grid.appendChild(row);
+      }
+
+      var prev = $('[data-cal="prev"]', root);
+      var next = $('[data-cal="next"]', root);
+      if (prev) prev.disabled = view <= new Date(today.getFullYear(), today.getMonth(), 1);
+      if (next) next.disabled = view >= new Date(LIMIT.getFullYear(), LIMIT.getMonth(), 1);
+    }
+
+    function focusCell(keep) {
+      var el = grid.querySelector('[data-iso="' + iso(focused) + '"]:not(.cal__d--out)');
+      if (!el) return;
+      $$('.cal__d', grid).forEach(function (c) { c.tabIndex = -1; });
+      el.tabIndex = 0;
+      if (!keep) el.focus({ preventScroll: true });
+    }
+
+    function moveTo(d, keepFocus) {
+      if (d < new Date(today.getFullYear(), today.getMonth(), 1) || d > LIMIT) return;
+      focused = d;
+      if (d.getMonth() !== view.getMonth() || d.getFullYear() !== view.getFullYear()) {
+        view = new Date(d.getFullYear(), d.getMonth(), 1);
+        render();
+      }
+      focusCell(keepFocus);
+    }
+
+    function select(d) {
+      if (days(d) < 0 || d > LIMIT) return;
+      /* render() пересобирает сетку и уносит фокус на body, поэтому
+         возвращаем его на выбранный день — но только если он и был в сетке,
+         иначе выбор чипом отобрал бы фокус у самого чипа. */
+      var inGrid = grid.contains(document.activeElement);
+      selected = new Date(d);
+      focused = new Date(d);
+      input.value = iso(selected);
+      var off = days(selected);
+      pickEl.innerHTML = '<b>' + WD[selected.getDay()] + '</b>, ' + selected.getDate() +
+        ' ' + MON_IN[selected.getMonth()] +
+        (off >= 0 && off < 3 ? ' — администратор подтвердит' : '');
+      render();
+      focusCell(!inGrid);
+      if (onPick) onPick();
+    }
+
+    root.addEventListener('click', function (e) {
+      var nav = e.target.closest('[data-cal]');
+      if (nav) {
+        var act = nav.dataset.cal;
+        if (act === 'prev' || act === 'next') {
+          view = new Date(view.getFullYear(), view.getMonth() + (act === 'next' ? 1 : -1), 1);
+          var f = new Date(view); f.setDate(Math.min(focused.getDate(), 28));
+          focused = f;
+          render(); focusCell(true);
+          return;
+        }
+        if (act === 'quick') {
+          var q = new Date(today); q.setDate(q.getDate() + (+nav.dataset.d || 0));
+          moveTo(q, true); select(q);
+          return;
+        }
+      }
+      var cell = e.target.closest('.cal__d');
+      if (cell && cell.getAttribute('aria-disabled') !== 'true' && cell.dataset.iso) {
+        var parts = cell.dataset.iso.split('-');
+        select(new Date(+parts[0], +parts[1] - 1, +parts[2]));
+      }
+    });
+
+    grid.addEventListener('keydown', function (e) {
+      var step = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -7, ArrowDown: 7 }[e.key];
+      var d = new Date(focused);
+      if (step) { d.setDate(d.getDate() + step); e.preventDefault(); moveTo(d); return; }
+      if (e.key === 'Home') { d.setDate(d.getDate() - ((d.getDay() + 6) % 7)); e.preventDefault(); moveTo(d); return; }
+      if (e.key === 'End') { d.setDate(d.getDate() + (6 - (d.getDay() + 6) % 7)); e.preventDefault(); moveTo(d); return; }
+      if (e.key === 'PageUp' || e.key === 'PageDown') {
+        d.setMonth(d.getMonth() + (e.key === 'PageDown' ? 1 : -1));
+        e.preventDefault(); moveTo(d); return;
+      }
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(focused); }
+    });
+
+    render();
+    return {
+      reset: function () {
+        selected = null; input.value = '';
+        focused = new Date(today);
+        view = new Date(today.getFullYear(), today.getMonth(), 1);
+        pickEl.innerHTML = '';
+        render();
+      }
+    };
+  }
+
+  /* -----------------------------------------------------------------
      11. Запись — пошаговая форма
      ----------------------------------------------------------------- */
   function initBooking() {
@@ -652,8 +826,11 @@
     var resetBtn = document.getElementById('reset-form');
     var cur = 0;
 
-    var dateEl = document.getElementById('date');
-    if (dateEl) dateEl.min = new Date().toISOString().slice(0, 10);
+    /* Календарь пишет ISO-дату в скрытое поле, логика шагов не меняется */
+    var cal = initCalendar(function () {
+      (RULES[cur + 1] || []).forEach(function (r) { if (r.name === 'date') setErr(r, !r.test()); });
+      clearResolved();
+    });
 
     var RULES = {
       1: [{ name: 'service', err: 'err-service', label: 'Услуга', test: function () { return !!val('service'); } }],
@@ -802,6 +979,7 @@
 
     resetBtn.addEventListener('click', function () {
       form.reset();
+      if (cal) cal.reset();
       done.hidden = true;
       if (stepsBar) stepsBar.hidden = false;
       if (navBar) navBar.hidden = false;
