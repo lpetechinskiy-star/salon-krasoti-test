@@ -12,6 +12,7 @@
   var hasGSAP = typeof window.gsap !== 'undefined';
   var hasST = hasGSAP && typeof window.ScrollTrigger !== 'undefined';
   var uid = 0;
+  var bookingReset = null;   /* заполняет initBooking, вызывает окно при закрытии */
 
   if (hasST) gsap.registerPlugin(ScrollTrigger);
 
@@ -879,6 +880,7 @@
       if (!dlg.open) return;
       dlg.close();
       document.body.classList.remove('is-locked');
+      if (bookingReset) bookingReset();
     }
 
     document.addEventListener('click', function (e) {
@@ -893,7 +895,10 @@
     dlg.addEventListener('click', function (e) {
       if (e.target === dlg) close();
     });
-    dlg.addEventListener('close', function () { document.body.classList.remove('is-locked'); });
+    dlg.addEventListener('close', function () {
+      document.body.classList.remove('is-locked');
+      if (bookingReset) bookingReset();
+    });
   }
 
   /* -----------------------------------------------------------------
@@ -922,7 +927,6 @@
     var summary = document.getElementById('summary');
     var done = document.getElementById('done');
     var doneP = document.getElementById('done-p');
-    var resetBtn = document.getElementById('reset-form');
     var cur = 0;
 
     /* Календарь пишет ISO-дату в скрытое поле, логика шагов не меняется */
@@ -1076,15 +1080,19 @@
       }
     });
 
-    resetBtn.addEventListener('click', function () {
+    /* Кнопки «отправить ещё одну» нет: экран подтверждения — это конец
+       разговора. Сбрасываем форму при закрытии окна, но только если
+       заявка уже отправлена, чтобы не терять недозаполненный шаг. */
+    bookingReset = function () {
+      if (done.hidden) return;
       form.reset();
       if (cal) cal.reset();
       done.hidden = true;
       if (stepsBar) stepsBar.hidden = false;
       if (navBar) navBar.hidden = false;
       Object.keys(RULES).forEach(function (k) { RULES[k].forEach(function (r) { setErr(r, false); }); });
-      show(0, true);
-    });
+      show(0, false);
+    };
 
     show(0, false);
   }
