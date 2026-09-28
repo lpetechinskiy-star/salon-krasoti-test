@@ -12,7 +12,9 @@
   var hasGSAP = typeof window.gsap !== 'undefined';
   var hasST = hasGSAP && typeof window.ScrollTrigger !== 'undefined';
   var uid = 0;
-  var bookingReset = null;   /* заполняет initBooking, вызывает окно при закрытии */
+  var bookingReset = null;     /* заполняет initBooking, вызывает окно при закрытии */
+  var bookingPrefill = null;   /* подставляет мастера и услугу из карточки */
+  var bookingStepOne = null;   /* вернуться к выбору услуги */
 
   if (hasST) gsap.registerPlugin(ScrollTrigger);
 
@@ -880,11 +882,42 @@
       if (!dlg.open) return;
       dlg.close();
       document.body.classList.remove('is-locked');
-      if (bookingReset) bookingReset();
+      if (bookingReset && bookingReset()) lastPre = null;   /* сбросилась только отправленная заявка */
+      showPre(null);
+    }
+
+    var pre = document.getElementById('book-pre');
+    var preT = pre && $('.modal__preT', pre);
+    var lastPre = null;   /* что подставила карточка мастера */
+
+    var headEl = $('[data-book-h]', dlg);
+
+    function showPre(info) {
+      /* Заголовок считает оставшиеся шаги: после подстановки их два */
+      if (headEl) headEl.textContent = info ? 'Осталось два шага' : 'Четыре шага';
+      if (!pre) return;
+      if (!info) { pre.hidden = true; return; }
+      preT.innerHTML = 'Мастер <b>' + info.master + '</b> · услуга <b>' +
+        info.service.replace('&', '&amp;') + '</b>';
+      pre.hidden = false;
     }
 
     document.addEventListener('click', function (e) {
-      if (e.target.closest('[data-book]')) { e.preventDefault(); open(); return; }
+      var trigger = e.target.closest('[data-book]');
+      if (trigger) {
+        e.preventDefault();
+        var m = trigger.dataset.master, sv = trigger.dataset.service;
+        if (m && sv && bookingPrefill) lastPre = bookingPrefill(m, sv);
+        open();
+        showPre(lastPre);     /* обычная кнопка не теряет подстановку из карточки */
+        return;
+      }
+      if (e.target.closest('[data-book-edit]')) {
+        lastPre = null;
+        if (bookingStepOne) bookingStepOne();
+        showPre(null);
+        return;
+      }
       if (e.target.closest('[data-book-close]')) { close(); }
     });
     /* Клик по затемнению. Сравниваем цель именно с самим <dialog>:
@@ -897,7 +930,8 @@
     });
     dlg.addEventListener('close', function () {
       document.body.classList.remove('is-locked');
-      if (bookingReset) bookingReset();
+      if (bookingReset && bookingReset()) lastPre = null;   /* сбросилась только отправленная заявка */
+      showPre(null);
     });
   }
 
@@ -944,7 +978,9 @@
       ],
       4: [
         { name: 'name', err: 'err-name', label: 'Имя', test: function () { return val('name').trim().length > 1; } },
-        { name: 'phone', err: 'err-phone', label: 'Телефон', test: function () { return (val('phone').match(/\d/g) || []).length >= 10; } }
+        { name: 'phone', err: 'err-phone', label: 'Телефон', test: function () { return (val('phone').match(/\d/g) || []).length >= 10; } },
+        { name: 'agree', err: 'err-agree', label: 'Согласие на обработку данных',
+          test: function () { var f = F['agree']; return !!(f && f.checked); } }
       ]
     };
 
@@ -952,8 +988,9 @@
       var p = document.getElementById(rule.err);
       if (p) p.hidden = !on;
       var f = field(rule.name);
-      if (f && f.tagName === 'INPUT' && f.type !== 'radio') f.setAttribute('aria-invalid', on ? 'true' : 'false');
-      else if (f && f.tagName === 'TEXTAREA') f.setAttribute('aria-invalid', on ? 'true' : 'false');
+      if (f && (f.tagName === 'TEXTAREA' || (f.tagName === 'INPUT' && f.type !== 'radio'))) {
+        f.setAttribute('aria-invalid', on ? 'true' : 'false');
+      }
     }
 
     function validate(stepNo, moveFocus) {
@@ -1083,8 +1120,8 @@
     /* Кнопки «отправить ещё одну» нет: экран подтверждения — это конец
        разговора. Сбрасываем форму при закрытии окна, но только если
        заявка уже отправлена, чтобы не терять недозаполненный шаг. */
-    bookingReset = function () {
-      if (done.hidden) return;
+    bookingReset = function (force) {
+      if (done.hidden && !force) return false;
       form.reset();
       if (cal) cal.reset();
       done.hidden = true;
@@ -1093,6 +1130,30 @@
       Object.keys(RULES).forEach(function (k) { RULES[k].forEach(function (r) { setErr(r, false); }); });
       show(0, false);
     };
+
+    /* Клик по стрелке на карточке мастера: подставляем услугу его
+       направления и самого мастера, дальше сразу шаг с датой. */
+    bookingPrefill = function (master, service) {
+      bookingReset(true);
+      var ok1 = false, ok2 = false;
+      if (service) {
+        var rs = F['service'];
+        for (var i = 0; rs && i < rs.length; i++) {
+          if (rs[i].value === service) { rs[i].checked = true; ok1 = true; break; }
+        }
+      }
+      if (master) {
+        var rm = F['master'];
+        for (var j = 0; rm && j < rm.length; j++) {
+          if (rm[j].value === master) { rm[j].checked = true; ok2 = true; break; }
+        }
+      }
+      (RULES[1] || []).concat(RULES[2] || []).forEach(function (r) { setErr(r, false); });
+      show(ok1 && ok2 ? 2 : 0, false);
+      return ok1 && ok2 ? { master: master, service: service } : null;
+    };
+
+    bookingStepOne = function () { show(0, true); };
 
     show(0, false);
   }

@@ -666,10 +666,27 @@ body.is-locked .hdr.is-solid{
 .mst__card{ display:grid; gap:.8rem; align-content:start; }
 .mst__card .frame{ aspect-ratio:4/5; margin-bottom:.5rem; }
 .mst__card:hover .frame img{ transform:scale(1.04); filter:grayscale(0) contrast(1.05) sepia(.05); }
+.mst__head{
+  display:flex; align-items:flex-start; justify-content:space-between; gap:var(--s-2);
+}
 .mst__name{
   font-family:var(--f-display); font-weight:300; font-size:clamp(1.8rem,4.2vw,3.1rem);
   line-height:.94; letter-spacing:-.02em;
 }
+/* Круглая кнопка-стрелка: запись к этому мастеру с подставленной услугой */
+.mst__go{
+  flex:none; width:56px; height:56px; display:grid; place-items:center;
+  border:1px solid var(--line); border-radius:50%; color:var(--muted);
+  transition:background var(--d-mid) var(--e-out),border-color var(--d-mid) var(--e-out),
+             color var(--d-mid) var(--e-out),transform var(--d-mid) var(--e-out);
+}
+.mst__go svg{ width:17px; height:17px; transition:transform var(--d-mid) var(--e-out); }
+.mst__go:hover,.mst__go:focus-visible{
+  background:var(--graphite); border-color:var(--graphite); color:var(--milk); transform:scale(1.06);
+}
+.mst__go:hover svg,.mst__go:focus-visible svg{ transform:rotate(-45deg); }
+.mst__card:hover .mst__go{ border-color:var(--bordeaux); color:var(--bordeaux); }
+.mst__card:hover .mst__go:hover{ border-color:var(--graphite); color:var(--milk); }
 .mst__bio{ color:var(--muted); font-size:.9375rem; max-width:34ch; }
 
 /* ---------------------------------------------------------------
@@ -1012,6 +1029,20 @@ body.is-locked .hdr.is-solid{
 .modal__x svg{ width:16px; height:16px; }
 .modal__x:hover,.modal__x:focus-visible{ border-color:var(--rose); color:var(--rose); }
 .modal__note{ position:relative; color:var(--on-dark-mu); font-size:.9375rem; max-width:52ch; }
+.modal__pre{
+  position:relative; display:flex; align-items:baseline; flex-wrap:wrap; gap:.3rem .8rem;
+  border-left:1px solid var(--rose); padding:.5rem 0 .5rem .9rem;
+}
+.modal__pre[hidden]{ display:none; }
+.modal__preT{ font-size:.9375rem; color:var(--on-dark); }
+.modal__preT b{ font-weight:400; color:var(--rose); }
+.modal__preX{
+  font-family:var(--f-mono); font-size:.625rem; text-transform:uppercase;
+  letter-spacing:.14em; color:var(--on-dark-mu);
+  border-bottom:1px solid currentColor; padding:.2rem 0;
+  transition:color var(--d-fast) var(--e-out);
+}
+.modal__preX:hover,.modal__preX:focus-visible{ color:var(--rose); }
 .modal__note a{ color:var(--rose); border-bottom:1px solid currentColor; white-space:nowrap; }
 .book__form{ position:relative; }
 
@@ -1121,6 +1152,29 @@ body.is-locked .hdr.is-solid{
   .cal{ padding:var(--s-3); max-width:27rem; }
 }
 
+/* --- Согласие на обработку данных --- */
+.fld--agree{ border-top:1px solid var(--line-dark); padding-top:var(--s-3); }
+.agree{
+  display:grid; grid-template-columns:auto 1fr; gap:.85rem;
+  align-items:start; cursor:pointer; padding:.35rem 0;
+}
+.agree__i{
+  position:absolute; width:1px; height:1px; margin:-1px; padding:0;
+  overflow:hidden; clip:rect(0 0 0 0); clip-path:inset(50%); border:0;
+}
+.agree__box{
+  flex:none; width:24px; height:24px; margin-top:.15rem;
+  display:grid; place-items:center;
+  border:1px solid var(--line-dark); color:transparent;
+  transition:border-color var(--d-fast) var(--e-out),background var(--d-fast) var(--e-out),color var(--d-fast) var(--e-out);
+}
+.agree__box svg{ width:13px; height:11px; }
+.agree:hover .agree__box{ border-color:var(--on-dark-mu); }
+.agree__i:checked + .agree__box{ background:var(--rose); border-color:var(--rose); color:var(--choco); }
+.agree__i:focus-visible + .agree__box{ outline:2px solid var(--rose); outline-offset:3px; }
+.agree__i[aria-invalid="true"] + .agree__box{ border-color:#E38A97; }
+.agree__t{ font-size:.875rem; line-height:1.6; color:var(--on-dark-mu); }
+
 .fld{ display:grid; gap:.45rem; }
 .fld__l{ font-family:var(--f-mono); font-size:.6875rem; text-transform:uppercase;
   letter-spacing:.16em; color:var(--on-dark-mu); }
@@ -1208,6 +1262,10 @@ body.is-locked .hdr.is-solid{
 /* ---------------------------------------------------------------
    17. АДАПТИВ
    --------------------------------------------------------------- */
+@media (max-width:599px){
+  .mst__go{ width:48px; height:48px; }
+}
+
 @media (min-width:600px){
   .opts--2{ grid-template-columns:repeat(2,1fr); }
   .manifest__facts{ grid-template-columns:repeat(3,1fr); gap:var(--s-3); }
