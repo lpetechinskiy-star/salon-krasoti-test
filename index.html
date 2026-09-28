@@ -1,0 +1,666 @@
+<!doctype html>
+<!--
+  ÉLANE — демонстрационный сайт премиального салона красоты.
+  Бренд, тексты, цены, мастера, отзывы и контакты вымышлены и созданы
+  как дизайн-концепция. Перед публикацией замените на реальные данные.
+-->
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ÉLANE — салон красоты на Патриарших прудах</title>
+<meta name="description" content="ÉLANE — салон красоты на Малой Бронной. Цвет, форма, уход. Авторский протокол ГЛАДЬ. Запись за три дня.">
+<meta name="theme-color" content="#1E1F22">
+<meta property="og:title" content="ÉLANE — почерк, а не образ">
+<meta property="og:description" content="Салон красоты на Патриарших прудах. Цвет, форма, уход.">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:type" content="website">
+
+<link rel="preload" as="font" type="font/woff2" href="css/fonts/cormorant-cyrillic.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="css/fonts/cormorant-cyrillic-italic.woff2" crossorigin>
+<link rel="stylesheet" href="css/main.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+
+<body>
+<a class="skip-link" href="#main">Перейти к содержанию</a>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" aria-hidden="true"><span class="cursor__dot"></span></div>
+
+<!-- ============ ШАПКА ============ -->
+<header class="hdr" id="hdr">
+  <a class="hdr__mark" href="#hero" aria-label="ÉLANE — на главную">
+    <span class="mark" aria-hidden="true">ÉLANE</span>
+  </a>
+  <p class="hdr__meta"><span>Малая Бронная, 24с1</span><span class="hdr__dot" aria-hidden="true"></span><span>10:00 — 22:00</span></p>
+  <div class="hdr__act">
+    <a class="btn btn--ghost hdr__book" href="#booking" data-scroll>Записаться</a>
+    <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="menu">
+      <span class="burger__lines" aria-hidden="true"><i></i><i></i></span>
+      <span class="burger__txt">Меню</span>
+    </button>
+  </div>
+</header>
+
+<!-- ============ ПОЛНОЭКРАННОЕ МЕНЮ ============ -->
+<div class="menu" id="menu" hidden>
+  <nav class="menu__nav" aria-label="Основная навигация">
+    <ul class="menu__list">
+      <li><a href="#signature" data-scroll><em>01</em>ГЛАДЬ</a></li>
+      <li><a href="#services" data-scroll><em>02</em>Услуги</a></li>
+      <li><a href="#masters" data-scroll><em>03</em>Мастера</a></li>
+      <li><a href="#gallery" data-scroll><em>04</em>Работы</a></li>
+      <li><a href="#story" data-scroll><em>05</em>О салоне</a></li>
+      <li><a href="#prices" data-scroll><em>06</em>Прайс</a></li>
+      <li><a href="#booking" data-scroll><em>07</em>Запись</a></li>
+    </ul>
+  </nav>
+  <div class="menu__side">
+    <div class="menu__block">
+      <h2 class="lbl">Адрес</h2>
+      <p>Москва, Малая Бронная, 24с1<br>2 этаж, вход со двора</p>
+    </div>
+    <div class="menu__block">
+      <h2 class="lbl">Связь</h2>
+      <p><a href="tel:+74951208416">+7 495 120-84-16</a><br>
+         <a href="mailto:concierge@elane.ru">concierge@elane.ru</a></p>
+    </div>
+    <div class="menu__block">
+      <h2 class="lbl">Соцсети</h2>
+      <p><a href="https://instagram.com/elane.patriki" rel="noopener">Instagram — @elane.patriki</a><br>
+         <a href="https://t.me/elane_patriki" rel="noopener">Telegram — @elane_patriki</a></p>
+    </div>
+  </div>
+</div>
+
+<main id="main">
+
+<!-- ============ 01 · ГЕРОЙ ============ -->
+<section class="hero" id="hero">
+  <div class="hero__media">
+    <figure class="frame frame--hero" data-parallax="-8">
+      <img data-src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=1600&q=80&auto=format&fit=crop"
+           alt="Портрет клиентки ÉLANE в интерьере салона" width="1600" height="2000" fetchpriority="high" decoding="async">
+      <figcaption class="frame__cap">Пл. I · Зал цвета</figcaption>
+    </figure>
+  </div>
+
+  <div class="hero__type">
+    <p class="hero__eyebrow lbl" data-reveal><span>Салон красоты</span><span>Патриаршие пруды</span><span>с 2017</span></p>
+    <h1 class="hero__h1">
+      <span class="ln" data-split>Почерк,</span>
+      <span class="ln ln--in" data-split>а не</span>
+      <span class="ln ln--em" data-split>образ</span>
+    </h1>
+    <div class="hero__foot">
+      <p class="hero__lede" data-reveal>Мы не делаем «как на картинке». Мы находим форму, которая держится сама — без укладки, без объяснений, без ежедневного подвига.</p>
+      <a class="btn btn--solid" href="#booking" data-scroll>
+        <span>Записаться</span>
+        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M1 8h13M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="hero__rail" aria-hidden="true">
+    <span class="hero__scroll"><i></i></span>
+    <span class="hero__coord lbl">55.7632° N, 37.5938° E</span>
+  </div>
+</section>
+
+<!-- ============ 02 · ТИКЕР + МАНИФЕСТ ============ -->
+<section class="manifest" id="manifest" aria-labelledby="manifest-h">
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker__row">
+      <span>Цвет</span><i>·</i><span>Форма</span><i>·</i><span>Уход</span><i>·</i><span>ГЛАДЬ</span><i>·</i>
+      <span>Цвет</span><i>·</i><span>Форма</span><i>·</i><span>Уход</span><i>·</i><span>ГЛАДЬ</span><i>·</i>
+      <span>Цвет</span><i>·</i><span>Форма</span><i>·</i><span>Уход</span><i>·</i><span>ГЛАДЬ</span><i>·</i>
+    </div>
+  </div>
+
+  <div class="manifest__grid">
+    <h2 class="manifest__h" id="manifest-h" data-reveal>Мы&nbsp;работаем<br>медленно<span class="dot">.</span></h2>
+    <div class="manifest__body">
+      <p class="dropcap" data-reveal>Один мастер — один гость в слоте. Никаких параллельных кресел, никакой спешки между записями. Сложный цвет занимает четыре часа, и мы закладываем четыре часа, а не «постараемся успеть».</p>
+      <p data-reveal>Это дороже. Это единственный способ получить результат, который не разваливается через две недели.</p>
+      <ul class="manifest__facts">
+        <li data-reveal><b>7</b><span>мастеров в команде</span></li>
+        <li data-reveal><b>1</b><span>гость в слоте</span></li>
+        <li data-reveal><b>9</b><span>лет на Патриарших</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 · SIGNATURE — ГЛАДЬ ============ -->
+<section class="sig" id="signature" aria-labelledby="sig-h">
+  <div class="sig__pin">
+    <div class="sig__bg" aria-hidden="true"></div>
+    <figure class="frame frame--sig" data-sig-img>
+      <img data-src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=1200&q=80&auto=format&fit=crop"
+           alt="Волосы после протокола ГЛАДЬ" width="1200" height="1500" loading="lazy" decoding="async">
+    </figure>
+
+    <div class="sig__type">
+      <p class="lbl lbl--light" data-sig-el>Авторский протокол №1</p>
+      <h2 class="sig__h" id="sig-h" data-sig-word>ГЛАДЬ</h2>
+      <p class="sig__sub" data-sig-el>120 минут. Четыре фазы. Один результат — волос, который отражает свет, а не рассеивает его.</p>
+      <dl class="sig__spec" data-sig-el>
+        <div><dt>Длительность</dt><dd>120 мин</dd></div>
+        <div><dt>Стоимость</dt><dd>24 000 ₽</dd></div>
+        <div><dt>Эффект</dt><dd>6–8 недель</dd></div>
+      </dl>
+      <a class="btn btn--light" href="#booking" data-scroll>Записаться на ГЛАДЬ</a>
+    </div>
+
+    <ol class="sig__steps" data-sig-el>
+      <li><em>01</em><h3>Диагностика</h3><p>Микроскопия кутикулы и пористости. Протокол собирается под ваш волос, а не под прайс.</p></li>
+      <li><em>02</em><h3>Реконструкция</h3><p>Молекулярное заполнение в три захода с промежуточной сушкой.</p></li>
+      <li><em>03</em><h3>Запечатывание</h3><p>Холодная фиксация. Без утюжка и температурного стресса.</p></li>
+      <li><em>04</em><h3>Форма</h3><p>Сухая стрижка по готовому полотну и финальная укладка.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ 04 · УСЛУГИ ============ -->
+<section class="svc" id="services" aria-labelledby="svc-h">
+  <header class="sec-head">
+    <h2 class="sec-head__h" id="svc-h" data-reveal>Услуги</h2>
+    <p class="sec-head__note lbl" data-reveal>Девять направлений · Полный прайс ниже</p>
+  </header>
+
+  <div class="svc__preview" aria-hidden="true"><img alt="" width="420" height="540"></div>
+
+  <ul class="svc__list">
+    <li class="svc__row" data-img="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&q=75&auto=format&fit=crop">
+      <a href="#prices" data-scroll><em>01</em><span class="svc__name">Стрижка&nbsp;и&nbsp;форма</span><span class="svc__meta">от 9 500 ₽</span></a>
+    </li>
+    <li class="svc__row" data-img="https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=600&q=75&auto=format&fit=crop">
+      <a href="#prices" data-scroll><em>02</em><span class="svc__name">Укладка</span><span class="svc__meta">от 7 500 ₽</span></a>
+    </li>
+    <li class="svc__row" data-img="https://images.unsplash.com/photo-1523263685509-57c1d050d19b?w=600&q=75&auto=format&fit=crop">
+      <a href="#prices" data-scroll><em>03</em><span class="svc__name">Окрашивание</span><span class="svc__meta">от 12 000 ₽</span></a>
+    </li>
+    <li class="svc__row" data-img="https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=600&q=75&auto=format&fit=crop">
+      <a href="#prices" data-scroll><em>04</em><span class="svc__name">Сложный&nbsp;цвет</span><span class="svc__meta">от 28 000 ₽</span></a>
+    </li>
+    <li class="svc__row" data-img="https://images.unsplash.com/photo-1607779097040-26e80aa78e66?w=600&q=75&auto=format&fit=crop">
+      <a href="#prices" data-scroll><em>05</em><span class="svc__name">Уход&nbsp;и&nbsp;трихология</span><span class="svc__meta">от 5 500 ₽</span></a>
+    </li>
+    <li class="svc__row" data-img="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=600&q=75&auto=format&fit=crop">
+      <a href="#prices" data-scroll><em>06</em><span class="svc__name">Маникюр&nbsp;и&nbsp;педикюр</span><span class="svc__meta">от 4 200 ₽</span></a>
+    </li>
+    <li class="svc__row" data-img="https://images.unsplash.com/photo-1583001809873-a128495da465?w=600&q=75&auto=format&fit=crop">
+      <a href="#prices" data-scroll><em>07</em><span class="svc__name">Brow &amp; Lash</span><span class="svc__meta">от 3 200 ₽</span></a>
+    </li>
+    <li class="svc__row" data-img="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=600&q=75&auto=format&fit=crop">
+      <a href="#prices" data-scroll><em>08</em><span class="svc__name">Макияж</span><span class="svc__meta">от 9 000 ₽</span></a>
+    </li>
+    <li class="svc__row" data-img="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&q=75&auto=format&fit=crop">
+      <a href="#prices" data-scroll><em>09</em><span class="svc__name">Уход&nbsp;за&nbsp;лицом</span><span class="svc__meta">от 11 000 ₽</span></a>
+    </li>
+  </ul>
+</section>
+
+<!-- ============ 05 · МАСТЕРА ============ -->
+<section class="mst" id="masters" aria-labelledby="mst-h">
+  <header class="sec-head sec-head--split">
+    <h2 class="sec-head__h" id="mst-h" data-reveal>Кто<br>работает</h2>
+    <p class="sec-head__lede" data-reveal>Семь человек. Каждый ведёт своё направление и берёт не больше пяти гостей в день. Записаться можно к конкретному мастеру — это не наценка, а расписание.</p>
+  </header>
+
+  <ul class="mst__grid">
+    <li class="mst__card mst__card--a" data-parallax="-5">
+      <figure class="frame">
+        <img data-src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?w=800&q=80&auto=format&fit=crop" alt="Вера Ильинская, арт-директор ÉLANE" width="800" height="1000" loading="lazy" decoding="async">
+      </figure>
+      <h3 class="mst__name">Вера<br>Ильинская</h3>
+      <p class="lbl">Арт-директор · колорист · 19 лет</p>
+      <p class="mst__bio">Переписывает чужой цвет. Берёт случаи, от которых отказались в других салонах: полосы, зелень, пережжённая длина.</p>
+    </li>
+    <li class="mst__card mst__card--b" data-parallax="-11">
+      <figure class="frame">
+        <img data-src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&q=80&auto=format&fit=crop" alt="Аглая Тимрот, топ-стилист ÉLANE" width="800" height="1000" loading="lazy" decoding="async">
+      </figure>
+      <h3 class="mst__name">Аглая<br>Тимрот</h3>
+      <p class="lbl">Топ-стилист · стрижка · 12 лет</p>
+      <p class="mst__bio">Короткая форма и чёлки. Работает с сединой как с материалом, а не как с дефектом.</p>
+    </li>
+    <li class="mst__card mst__card--c" data-parallax="-3">
+      <figure class="frame">
+        <img data-src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=800&q=80&auto=format&fit=crop" alt="Ника Заборская, колорист ÉLANE" width="800" height="1000" loading="lazy" decoding="async">
+      </figure>
+      <h3 class="mst__name">Ника<br>Заборская</h3>
+      <p class="lbl">Колорист · 11 лет</p>
+      <p class="mst__bio">Автор протокола ГЛАДЬ · ЦВЕТ. Специализация — холодный блонд без желтизны на тёмной базе.</p>
+    </li>
+    <li class="mst__card mst__card--d" data-parallax="-9">
+      <figure class="frame">
+        <img data-src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&q=80&auto=format&fit=crop" alt="Лев Гурьев, стилист-постановщик ÉLANE" width="800" height="1000" loading="lazy" decoding="async">
+      </figure>
+      <h3 class="mst__name">Лев<br>Гурьев</h3>
+      <p class="lbl">Стилист-постановщик · 14 лет</p>
+      <p class="mst__bio">Съёмки, вечерние укладки, причёски. Десять лет работал на показах, знает, что держится под софитами.</p>
+    </li>
+    <li class="mst__card mst__card--e" data-parallax="-6">
+      <figure class="frame">
+        <img data-src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&q=80&auto=format&fit=crop" alt="Таисия Мор, мастер маникюра ÉLANE" width="800" height="1000" loading="lazy" decoding="async">
+      </figure>
+      <h3 class="mst__name">Таисия<br>Мор</h3>
+      <p class="lbl">Маникюр · педикюр · 9 лет</p>
+      <p class="mst__bio">Сухой маникюр. Подбирает форму под кисть, а не под сезонный тренд.</p>
+    </li>
+    <li class="mst__card mst__card--f" data-parallax="-12">
+      <figure class="frame">
+        <img data-src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800&q=80&auto=format&fit=crop" alt="Юлия Бенуа, косметолог-эстетист ÉLANE" width="800" height="1000" loading="lazy" decoding="async">
+      </figure>
+      <h3 class="mst__name">Юлия<br>Бенуа</h3>
+      <p class="lbl">Косметолог-эстетист · 15 лет</p>
+      <p class="mst__bio">Буккальный массаж и протоколы для кожи 35+. Работает курсами, разовые визиты не продаёт.</p>
+    </li>
+    <li class="mst__card mst__card--g" data-parallax="-4">
+      <figure class="frame">
+        <img data-src="https://images.unsplash.com/photo-1541823709867-1b206113eafd?w=800&q=80&auto=format&fit=crop" alt="Дина Асланова, архитектор бровей ÉLANE" width="800" height="1000" loading="lazy" decoding="async">
+      </figure>
+      <h3 class="mst__name">Дина<br>Асланова</h3>
+      <p class="lbl">Brow &amp; Lash · 8 лет</p>
+      <p class="mst__bio">Архитектура бровей по костной структуре лица. Ламинирование ресниц без эффекта «шторки».</p>
+    </li>
+  </ul>
+</section>
+
+<!-- ============ 06 · ДО / ПОСЛЕ ============ -->
+<section class="ba-sec" id="gallery" aria-labelledby="ba-h">
+  <header class="sec-head sec-head--center">
+    <h2 class="sec-head__h" id="ba-h" data-reveal>До<span class="slash">/</span>После</h2>
+    <p class="sec-head__note lbl" data-reveal>Без ретуши · Свет и ракурс одинаковые</p>
+  </header>
+
+  <figure class="ba" id="ba">
+    <div class="ba__stage">
+      <img class="ba__img ba__img--after" data-src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=1400&q=82&auto=format&fit=crop" alt="После: холодный блонд, ровное полотно, зеркальный блеск" width="1400" height="933" loading="lazy" decoding="async">
+      <div class="ba__clip" id="ba-clip">
+        <img class="ba__img ba__img--before" data-src="https://images.unsplash.com/photo-1522336572468-97b06e8ef143?w=1400&q=82&auto=format&fit=crop" alt="До: неравномерный отросший цвет и сухая длина" width="1400" height="933" loading="lazy" decoding="async">
+      </div>
+      <div class="ba__handle" id="ba-handle" aria-hidden="true"><i></i><i></i></div>
+      <span class="ba__tag ba__tag--l" aria-hidden="true">До</span>
+      <span class="ba__tag ba__tag--r" aria-hidden="true">После</span>
+      <label class="vh" for="ba-range">Граница сравнения «до и после», в процентах ширины кадра</label>
+      <input class="ba__range" id="ba-range" type="range" min="0" max="100" value="50" step="1">
+    </div>
+    <figcaption class="ba__cap">
+      <span class="lbl">Кейс 041 · Ника Заборская</span>
+      <p>Выход из чёрного в холодный блонд за один визит. 6 часов, ГЛАДЬ · ЦВЕТ.</p>
+      <p class="ba__hint">Перетащите разделитель, или используйте стрелки клавиатуры.</p>
+    </figcaption>
+  </figure>
+
+  <div class="ba-sec__strip">
+    <figure class="frame" data-parallax="-6"><img data-src="https://images.unsplash.com/photo-1562322140-8baeececf3df?w=700&q=78&auto=format&fit=crop" alt="Работа мастера: короткая форма" width="700" height="875" loading="lazy" decoding="async"></figure>
+    <figure class="frame" data-parallax="-2"><img data-src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=700&q=78&auto=format&fit=crop" alt="Работа мастера: вечерняя укладка" width="700" height="875" loading="lazy" decoding="async"></figure>
+    <figure class="frame" data-parallax="-9"><img data-src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=700&q=78&auto=format&fit=crop" alt="Работа мастера: маникюр" width="700" height="875" loading="lazy" decoding="async"></figure>
+  </div>
+</section>
+
+<!-- ============ 07 · ЛЕГЕНДА ============ -->
+<section class="story" id="story" aria-labelledby="story-h">
+  <div class="story__media">
+    <figure class="frame frame--tall" data-parallax="-10">
+      <img data-src="https://images.unsplash.com/photo-1600948836101-f9ffda59d250?w=1000&q=80&auto=format&fit=crop" alt="Интерьер салона ÉLANE на Малой Бронной" width="1000" height="1400" loading="lazy" decoding="async">
+      <figcaption class="frame__cap">Малая Бронная, 24с1 · 2 этаж</figcaption>
+    </figure>
+  </div>
+  <div class="story__text">
+    <p class="lbl" data-reveal>Легенда</p>
+    <h2 class="story__h" id="story-h" data-reveal>Начиналось<br>с одного кресла<span class="dot">.</span></h2>
+    <p data-reveal>В 2017 Вера Ильинская сняла комнату в мансарде на Малой Бронной и поставила туда одно кресло. Запись шла в тетради, гости приходили по рекомендации, и первые полтора года в салоне работал один человек.</p>
+    <p data-reveal>Сейчас в ÉLANE семь мастеров и четыре зала, но принцип не поменялся: расписание строится вокруг работы, а не работа вокруг расписания. Поэтому запись открывается за три дня и закрывается за два часа.</p>
+    <blockquote class="pull" data-reveal>
+      <p>«Хороший цвет незаметен. Заметно только то, что человек выглядит отдохнувшим».</p>
+      <cite>Вера Ильинская, арт-директор</cite>
+    </blockquote>
+    <dl class="story__stats">
+      <div data-reveal><dt>2017</dt><dd>год основания</dd></div>
+      <div data-reveal><dt>4</dt><dd>зала</dd></div>
+      <div data-reveal><dt>1 400+</dt><dd>постоянных гостей</dd></div>
+      <div data-reveal><dt>72%</dt><dd>приходят по рекомендации</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- ============ 08 · ОТЗЫВЫ ============ -->
+<section class="tst" id="testimonials" aria-labelledby="tst-h" aria-roledescription="карусель" data-carousel>
+  <h2 class="vh" id="tst-h">Отзывы гостей</h2>
+  <p class="lbl tst__lbl" data-reveal>Отзывы</p>
+
+  <div class="tst__stage">
+    <blockquote class="tst__item is-active" aria-roledescription="слайд" aria-label="1 из 5">
+      <p>Пришла с историей из трёх неудачных осветлений и готовностью стричься под каре. Вера сказала: длину сохраним, но это четыре визита за три месяца. Так и вышло.</p>
+      <cite><b>Марина К.</b><span>архитектор · февраль 2026</span></cite>
+    </blockquote>
+    <blockquote class="tst__item" aria-roledescription="слайд" aria-label="2 из 5" hidden>
+      <p>Единственное место, где меня не уговаривают на дополнительную услугу. Спросила про ботокс — объяснили, почему в моём случае это выброшенные деньги.</p>
+      <cite><b>Евгения Л.</b><span>юрист · январь 2026</span></cite>
+    </blockquote>
+    <blockquote class="tst__item" aria-roledescription="слайд" aria-label="3 из 5" hidden>
+      <p>ГЛАДЬ держится восемь недель, и это при том, что я сушу голову феном каждый день. За такие деньги ожидала эффекта на две недели.</p>
+      <cite><b>Алина Р.</b><span>продюсер · декабрь 2025</span></cite>
+    </blockquote>
+    <blockquote class="tst__item" aria-roledescription="слайд" aria-label="4 из 5" hidden>
+      <p>Хожу к Аглае четыре года. За это время сменила три города и ни разу не нашла, кем её заменить. Прилетаю в Москву и записываюсь в первую очередь сюда.</p>
+      <cite><b>Ксения Д.</b><span>арт-директор · ноябрь 2025</span></cite>
+    </blockquote>
+    <blockquote class="tst__item" aria-roledescription="слайд" aria-label="5 из 5" hidden>
+      <p>Тишина. Никакого радио, никаких разговоров через весь зал. Для меня это оказалось важнее, чем результат, хотя результат тоже отличный.</p>
+      <cite><b>Ольга В.</b><span>врач · октябрь 2025</span></cite>
+    </blockquote>
+  </div>
+
+  <div class="tst__ctrl">
+    <button type="button" class="tst__btn" data-tst="prev" aria-label="Предыдущий отзыв">
+      <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M15 8H2M7 3L2 8l5 5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
+    </button>
+    <button type="button" class="tst__btn tst__btn--play" data-tst="toggle" aria-label="Остановить автопролистывание">
+      <span class="tst__ico" aria-hidden="true"></span>
+    </button>
+    <button type="button" class="tst__btn" data-tst="next" aria-label="Следующий отзыв">
+      <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M1 8h13M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
+    </button>
+    <p class="tst__count lbl" data-tst="count">01 / 05</p>
+  </div>
+</section>
+
+<!-- ============ 09 · ПРАЙС ============ -->
+<section class="price" id="prices" aria-labelledby="price-h">
+  <header class="sec-head sec-head--split">
+    <h2 class="sec-head__h" id="price-h" data-reveal>Прайс</h2>
+    <p class="sec-head__lede" data-reveal>Цены указаны за работу мастера категории «стилист». У топ-стилиста и арт-директора действует коэффициент 1,4 и 1,9 — он виден при записи, а не в чеке.</p>
+  </header>
+
+  <div class="price__group" data-reveal>
+    <h3 class="price__cat"><em>01</em>Стрижка и форма</h3>
+    <dl class="price__list">
+      <div><dt>Женская стрижка</dt><dd>9 500 ₽</dd></div>
+      <div><dt>Стрижка на длинные волосы</dt><dd>12 000 ₽</dd></div>
+      <div><dt>Сухая стрижка по форме</dt><dd>13 500 ₽</dd></div>
+      <div><dt>Коррекция чёлки</dt><dd>3 500 ₽</dd></div>
+      <div><dt>Стрижка кончиков горячими ножницами</dt><dd>8 000 ₽</dd></div>
+    </dl>
+  </div>
+
+  <div class="price__group" data-reveal>
+    <h3 class="price__cat"><em>02</em>Укладка</h3>
+    <dl class="price__list">
+      <div><dt>Укладка после услуги</dt><dd>7 500 ₽</dd></div>
+      <div><dt>Укладка вечерняя</dt><dd>12 000 ₽</dd></div>
+      <div><dt>Причёска</dt><dd>18 000 ₽</dd></div>
+      <div><dt>Свадебный образ с репетицией</dt><dd>48 000 ₽</dd></div>
+    </dl>
+  </div>
+
+  <div class="price__group" data-reveal>
+    <h3 class="price__cat"><em>03</em>Цвет</h3>
+    <dl class="price__list">
+      <div><dt>Окрашивание в один тон</dt><dd>12 000 ₽</dd></div>
+      <div><dt>Тонирование</dt><dd>9 000 ₽</dd></div>
+      <div><dt>Окрашивание корней</dt><dd>10 500 ₽</dd></div>
+      <div><dt>Мелирование</dt><dd>22 000 ₽</dd></div>
+      <div><dt>AirTouch / балаяж</dt><dd>28 000 — 65 000 ₽</dd></div>
+      <div><dt>Коррекция неудачного цвета</dt><dd>от 34 000 ₽</dd></div>
+    </dl>
+  </div>
+
+  <div class="price__group price__group--hl" data-reveal>
+    <h3 class="price__cat"><em>04</em>Signature</h3>
+    <dl class="price__list">
+      <div><dt>ГЛАДЬ · протокол №1 <span class="price__note">120 мин</span></dt><dd>24 000 ₽</dd></div>
+      <div><dt>ГЛАДЬ · ЦВЕТ <span class="price__note">180 мин</span></dt><dd>42 000 ₽</dd></div>
+      <div><dt>ГЛАДЬ · абонемент на 4 визита</dt><dd>82 000 ₽</dd></div>
+    </dl>
+  </div>
+
+  <div class="price__group" data-reveal>
+    <h3 class="price__cat"><em>05</em>Уход и трихология</h3>
+    <dl class="price__list">
+      <div><dt>Трихологическая диагностика</dt><dd>6 500 ₽</dd></div>
+      <div><dt>Пилинг кожи головы</dt><dd>5 500 ₽</dd></div>
+      <div><dt>Реконструкция (ботокс)</dt><dd>19 000 ₽</dd></div>
+      <div><dt>Кератиновое выпрямление</dt><dd>от 24 000 ₽</dd></div>
+    </dl>
+  </div>
+
+  <div class="price__group" data-reveal>
+    <h3 class="price__cat"><em>06</em>Маникюр и педикюр</h3>
+    <dl class="price__list">
+      <div><dt>Маникюр без покрытия</dt><dd>4 200 ₽</dd></div>
+      <div><dt>Маникюр с покрытием</dt><dd>5 900 ₽</dd></div>
+      <div><dt>Педикюр с покрытием</dt><dd>7 900 ₽</dd></div>
+      <div><dt>Снятие покрытия</dt><dd>1 200 ₽</dd></div>
+      <div><dt>Дизайн <span class="price__note">за ноготь</span></dt><dd>от 900 ₽</dd></div>
+    </dl>
+  </div>
+
+  <div class="price__group" data-reveal>
+    <h3 class="price__cat"><em>07</em>Brow &amp; Lash</h3>
+    <dl class="price__list">
+      <div><dt>Окрашивание бровей</dt><dd>3 200 ₽</dd></div>
+      <div><dt>Архитектура бровей</dt><dd>4 800 ₽</dd></div>
+      <div><dt>Ламинирование ресниц</dt><dd>6 500 ₽</dd></div>
+      <div><dt>Наращивание ресниц</dt><dd>от 9 000 ₽</dd></div>
+    </dl>
+  </div>
+
+  <div class="price__group" data-reveal>
+    <h3 class="price__cat"><em>08</em>Макияж</h3>
+    <dl class="price__list">
+      <div><dt>Макияж дневной</dt><dd>9 000 ₽</dd></div>
+      <div><dt>Макияж вечерний</dt><dd>14 000 ₽</dd></div>
+      <div><dt>Макияж для съёмки</dt><dd>18 000 ₽</dd></div>
+    </dl>
+  </div>
+
+  <div class="price__group" data-reveal>
+    <h3 class="price__cat"><em>09</em>Уход за лицом</h3>
+    <dl class="price__list">
+      <div><dt>Буккальный массаж</dt><dd>11 000 ₽</dd></div>
+      <div><dt>Чистка</dt><dd>12 000 ₽</dd></div>
+      <div><dt>Уход по протоколу</dt><dd>от 14 000 ₽</dd></div>
+      <div><dt>Гидропилинг</dt><dd>16 500 ₽</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- ============ 10 · INSTAGRAM ============ -->
+<section class="insta" id="instagram" aria-labelledby="insta-h">
+  <header class="insta__head">
+    <h2 class="insta__h" id="insta-h" data-reveal>@elane.patriki</h2>
+    <a class="btn btn--ghost" href="https://instagram.com/elane.patriki" rel="noopener">
+      <span>Смотреть в Instagram</span>
+      <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 12L12 4M6 4h6v6" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
+    </a>
+  </header>
+  <ul class="insta__grid">
+    <li class="insta__i insta__i--1"><figure class="frame"><img data-src="https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?w=800&q=76&auto=format&fit=crop" alt="Публикация: холодный блонд" width="800" height="1000" loading="lazy" decoding="async"></figure></li>
+    <li class="insta__i insta__i--2"><figure class="frame"><img data-src="https://images.unsplash.com/photo-1526045478516-99145907023c?w=600&q=76&auto=format&fit=crop" alt="Публикация: деталь интерьера" width="600" height="600" loading="lazy" decoding="async"></figure></li>
+    <li class="insta__i insta__i--3"><figure class="frame"><img data-src="https://images.unsplash.com/photo-1470259078422-826894b933aa?w=600&q=76&auto=format&fit=crop" alt="Публикация: текстура волос" width="600" height="750" loading="lazy" decoding="async"></figure></li>
+    <li class="insta__i insta__i--4"><figure class="frame"><img data-src="https://images.unsplash.com/photo-1503236823255-94609f598e71?w=800&q=76&auto=format&fit=crop" alt="Публикация: портрет гостьи" width="800" height="1000" loading="lazy" decoding="async"></figure></li>
+    <li class="insta__i insta__i--5"><figure class="frame"><img data-src="https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=600&q=76&auto=format&fit=crop" alt="Публикация: инструменты мастера" width="600" height="600" loading="lazy" decoding="async"></figure></li>
+    <li class="insta__i insta__i--6"><figure class="frame"><img data-src="https://images.unsplash.com/photo-1571875257727-256c39da42af?w=600&q=76&auto=format&fit=crop" alt="Публикация: маникюр" width="600" height="750" loading="lazy" decoding="async"></figure></li>
+  </ul>
+</section>
+
+<!-- ============ 11 · ЗАПИСЬ ============ -->
+<section class="book" id="booking" aria-labelledby="book-h">
+  <div class="book__aside">
+    <p class="lbl lbl--light" data-reveal>Запись</p>
+    <h2 class="book__h" id="book-h" data-reveal>Четыре<br>шага<span class="dot">.</span></h2>
+    <p class="book__note" data-reveal>Администратор перезванивает в течение 20 минут в рабочие часы и подтверждает слот. Отмена без потерь — за 12 часов.</p>
+    <p class="book__alt" data-reveal>Или коротко: <a href="tel:+74951208416">+7 495 120-84-16</a></p>
+  </div>
+
+  <form class="book__form" id="book-form" novalidate>
+    <ol class="steps" aria-hidden="true">
+      <li class="steps__i is-on"><em>01</em>Услуга</li>
+      <li class="steps__i"><em>02</em>Мастер</li>
+      <li class="steps__i"><em>03</em>Время</li>
+      <li class="steps__i"><em>04</em>Контакты</li>
+    </ol>
+    <p class="vh" aria-live="polite" id="step-live">Шаг 1 из 4: услуга</p>
+
+    <div class="err-sum" id="err-sum" tabindex="-1" role="alert" hidden>
+      <p class="err-sum__h">Проверьте, пожалуйста, поля:</p>
+      <ul id="err-sum-list"></ul>
+    </div>
+
+    <!-- Шаг 1 -->
+    <fieldset class="step is-on" data-step="1">
+      <legend class="step__lg">Что вас интересует</legend>
+      <div class="opts opts--2">
+        <label class="opt"><input type="radio" name="service" value="Стрижка и форма" required><span class="opt__b"><b>Стрижка и форма</b><i>от 9 500 ₽ · 90 мин</i></span></label>
+        <label class="opt"><input type="radio" name="service" value="Окрашивание"><span class="opt__b"><b>Окрашивание</b><i>от 12 000 ₽ · 150 мин</i></span></label>
+        <label class="opt"><input type="radio" name="service" value="Сложный цвет"><span class="opt__b"><b>Сложный цвет</b><i>от 28 000 ₽ · 240 мин</i></span></label>
+        <label class="opt opt--hl"><input type="radio" name="service" value="ГЛАДЬ · протокол №1"><span class="opt__b"><b>ГЛАДЬ · протокол №1</b><i>24 000 ₽ · 120 мин</i></span></label>
+        <label class="opt"><input type="radio" name="service" value="Маникюр и педикюр"><span class="opt__b"><b>Маникюр и педикюр</b><i>от 4 200 ₽ · 90 мин</i></span></label>
+        <label class="opt"><input type="radio" name="service" value="Brow &amp; Lash"><span class="opt__b"><b>Brow &amp; Lash</b><i>от 3 200 ₽ · 60 мин</i></span></label>
+        <label class="opt"><input type="radio" name="service" value="Макияж"><span class="opt__b"><b>Макияж</b><i>от 9 000 ₽ · 75 мин</i></span></label>
+        <label class="opt"><input type="radio" name="service" value="Уход за лицом"><span class="opt__b"><b>Уход за лицом</b><i>от 11 000 ₽ · 90 мин</i></span></label>
+      </div>
+      <p class="fld__err" id="err-service" hidden>Выберите услугу, чтобы продолжить.</p>
+    </fieldset>
+
+    <!-- Шаг 2 -->
+    <fieldset class="step" data-step="2" hidden>
+      <legend class="step__lg">К кому записываемся</legend>
+      <div class="opts opts--2">
+        <label class="opt"><input type="radio" name="master" value="Не важно" required><span class="opt__b"><b>Не важно</b><i>подберём по расписанию</i></span></label>
+        <label class="opt"><input type="radio" name="master" value="Вера Ильинская"><span class="opt__b"><b>Вера Ильинская</b><i>арт-директор · ×1,9</i></span></label>
+        <label class="opt"><input type="radio" name="master" value="Аглая Тимрот"><span class="opt__b"><b>Аглая Тимрот</b><i>топ-стилист · ×1,4</i></span></label>
+        <label class="opt"><input type="radio" name="master" value="Ника Заборская"><span class="opt__b"><b>Ника Заборская</b><i>колорист · ×1,4</i></span></label>
+        <label class="opt"><input type="radio" name="master" value="Лев Гурьев"><span class="opt__b"><b>Лев Гурьев</b><i>стилист-постановщик</i></span></label>
+        <label class="opt"><input type="radio" name="master" value="Таисия Мор"><span class="opt__b"><b>Таисия Мор</b><i>маникюр · педикюр</i></span></label>
+        <label class="opt"><input type="radio" name="master" value="Юлия Бенуа"><span class="opt__b"><b>Юлия Бенуа</b><i>косметолог-эстетист</i></span></label>
+        <label class="opt"><input type="radio" name="master" value="Дина Асланова"><span class="opt__b"><b>Дина Асланова</b><i>brow &amp; lash</i></span></label>
+      </div>
+      <p class="fld__err" id="err-master" hidden>Выберите мастера или вариант «Не важно».</p>
+    </fieldset>
+
+    <!-- Шаг 3 -->
+    <fieldset class="step" data-step="3" hidden>
+      <legend class="step__lg">Когда удобно</legend>
+      <div class="fld">
+        <label class="fld__l" for="date">Дата</label>
+        <input class="fld__i" id="date" name="date" type="date" required aria-describedby="hint-date err-date">
+        <p class="fld__hint" id="hint-date">Запись открывается за три дня. Более ранние даты подтверждает администратор.</p>
+        <p class="fld__err" id="err-date" hidden>Укажите дату визита.</p>
+      </div>
+      <div class="fld">
+        <span class="fld__l" id="time-l">Время</span>
+        <div class="opts opts--time" role="group" aria-labelledby="time-l">
+          <label class="opt opt--s"><input type="radio" name="time" value="10:00" required><span class="opt__b">10:00</span></label>
+          <label class="opt opt--s"><input type="radio" name="time" value="11:30"><span class="opt__b">11:30</span></label>
+          <label class="opt opt--s"><input type="radio" name="time" value="13:00"><span class="opt__b">13:00</span></label>
+          <label class="opt opt--s"><input type="radio" name="time" value="14:30"><span class="opt__b">14:30</span></label>
+          <label class="opt opt--s"><input type="radio" name="time" value="16:00"><span class="opt__b">16:00</span></label>
+          <label class="opt opt--s"><input type="radio" name="time" value="17:30"><span class="opt__b">17:30</span></label>
+          <label class="opt opt--s"><input type="radio" name="time" value="19:00"><span class="opt__b">19:00</span></label>
+          <label class="opt opt--s"><input type="radio" name="time" value="20:30"><span class="opt__b">20:30</span></label>
+        </div>
+        <p class="fld__err" id="err-time" hidden>Выберите удобное время.</p>
+      </div>
+    </fieldset>
+
+    <!-- Шаг 4 -->
+    <fieldset class="step" data-step="4" hidden>
+      <legend class="step__lg">Как с вами связаться</legend>
+      <div class="fld">
+        <label class="fld__l" for="name">Имя <span class="req" aria-hidden="true">*</span></label>
+        <input class="fld__i" id="name" name="name" type="text" required autocomplete="given-name" aria-describedby="err-name">
+        <p class="fld__err" id="err-name" hidden>Напишите, как к вам обращаться.</p>
+      </div>
+      <div class="fld">
+        <label class="fld__l" for="phone">Телефон <span class="req" aria-hidden="true">*</span></label>
+        <input class="fld__i" id="phone" name="phone" type="tel" required autocomplete="tel" inputmode="tel" placeholder="+7 900 000-00-00" aria-describedby="hint-phone err-phone">
+        <p class="fld__hint" id="hint-phone">Только для подтверждения записи. Рассылок нет.</p>
+        <p class="fld__err" id="err-phone" hidden>Укажите номер телефона — минимум 10 цифр.</p>
+      </div>
+      <div class="fld">
+        <label class="fld__l" for="note">Комментарий</label>
+        <textarea class="fld__i fld__i--ta" id="note" name="note" rows="3" aria-describedby="hint-note"></textarea>
+        <p class="fld__hint" id="hint-note">История окрашиваний, аллергии, ограничения по времени — всё, что стоит знать заранее.</p>
+      </div>
+      <div class="summary" id="summary" aria-live="polite"></div>
+    </fieldset>
+
+    <div class="book__nav">
+      <button class="btn btn--ghost btn--light" type="button" id="prev-step" hidden>Назад</button>
+      <button class="btn btn--light" type="button" id="next-step">
+        <span>Далее</span>
+        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M1 8h13M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
+      </button>
+      <button class="btn btn--light" type="submit" id="submit-step" hidden>
+        <span>Отправить заявку</span>
+        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M1 8h13M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
+      </button>
+    </div>
+
+    <div class="done" id="done" tabindex="-1" hidden>
+      <p class="lbl lbl--light">Заявка принята</p>
+      <h3 class="done__h">До встречи<br>на Бронной<span class="dot">.</span></h3>
+      <p class="done__p" id="done-p"></p>
+      <button class="btn btn--ghost btn--light" type="button" id="reset-form">Отправить ещё одну</button>
+    </div>
+  </form>
+</section>
+
+<!-- ============ 12 · КОНТАКТЫ / ПОДВАЛ ============ -->
+<footer class="ftr" id="contacts">
+  <div class="ftr__top">
+    <div class="ftr__col">
+      <h2 class="lbl">Адрес</h2>
+      <p class="ftr__big">Москва<br>Малая Бронная, 24с1</p>
+      <p>2 этаж, вход со двора<br>м. Маяковская — 7 минут пешком<br>Патриаршие пруды — 3 минуты</p>
+    </div>
+    <div class="ftr__col">
+      <h2 class="lbl">Часы</h2>
+      <p class="ftr__big">10:00 — 22:00</p>
+      <p>Ежедневно, включая выходные<br>Запись открывается за три дня<br>Последний слот — 20:30</p>
+    </div>
+    <div class="ftr__col">
+      <h2 class="lbl">Связь</h2>
+      <p class="ftr__big"><a href="tel:+74951208416">+7 495 120-84-16</a></p>
+      <p><a href="mailto:concierge@elane.ru">concierge@elane.ru</a><br>
+         <a href="https://instagram.com/elane.patriki" rel="noopener">Instagram — @elane.patriki</a><br>
+         <a href="https://t.me/elane_patriki" rel="noopener">Telegram — @elane_patriki</a></p>
+    </div>
+    <div class="ftr__col ftr__col--map">
+      <div class="map" role="img" aria-label="Схема расположения: Малая Бронная, 24с1, рядом с Патриаршими прудами">
+        <svg viewBox="0 0 320 220" aria-hidden="true" focusable="false">
+          <rect width="320" height="220" class="map__bg"/>
+          <path d="M0 150 C60 140 90 120 130 96 C170 72 220 66 320 60" class="map__road"/>
+          <path d="M40 0 C56 60 70 110 96 220" class="map__road"/>
+          <path d="M210 0 C214 70 230 140 248 220" class="map__road"/>
+          <ellipse cx="96" cy="60" rx="44" ry="26" class="map__pond"/>
+          <text x="96" y="64" class="map__t">Патриаршие</text>
+          <circle cx="188" cy="112" r="5" class="map__pin"/>
+          <circle cx="188" cy="112" r="14" class="map__ring"/>
+          <text x="188" y="142" class="map__t map__t--pin">ÉLANE</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="ftr__mark" aria-hidden="true"><span>ÉLANE</span></div>
+
+  <div class="ftr__legal">
+    <p>© 2026 ÉLANE. Демонстрационный проект: бренд, цены и контакты вымышлены.</p>
+    <p><a href="#hero" data-scroll>Наверх ↑</a></p>
+  </div>
+</footer>
+
+</main>
+
+<!-- GSAP 3.13.0 — локально, без сторонних CDN (лицензия: js/vendor/GSAP-README.md) -->
+<script src="js/vendor/gsap.min.js" defer></script>
+<script src="js/vendor/ScrollTrigger.min.js" defer></script>
+<script src="js/main.js" defer></script>
+</body>
+</html>
