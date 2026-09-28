@@ -150,7 +150,7 @@
   --f-mono:    "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
   /* Шкала (density 3/10 — просторная) */
-  --t-hero:    clamp(3.4rem, 13.5vw, 13rem);
+  --t-hero:    min(13.5vw, 13rem, 18.5svh);
   --t-display: clamp(2.8rem, 9vw, 9rem);
   --t-h2:      clamp(2.2rem, 6vw, 5.2rem);
   --t-h3:      clamp(1.35rem, 2.4vw, 2rem);
@@ -509,7 +509,7 @@ body.is-locked .hdr.is-solid{
 .hero{
   position:relative; min-height:100svh; display:grid;
   grid-template-rows:1fr auto;
-  padding:calc(var(--s-6) + env(safe-area-inset-top)) 0 calc(var(--s-4) + env(safe-area-inset-bottom));
+  padding:calc(7.5rem + env(safe-area-inset-top)) 0 calc(var(--s-4) + env(safe-area-inset-bottom));
   overflow:clip;
 }
 .hero__media{ position:absolute; inset:0; z-index:0; }
@@ -520,8 +520,28 @@ body.is-locked .hdr.is-solid{
 .frame--hero.is-fallback::after{ content:none; }
 .hero__media::after{
   content:""; position:absolute; inset:0; z-index:1;
-  background:linear-gradient(180deg,rgba(22,18,16,.55) 0%,rgba(22,18,16,.15) 38%,rgba(20,15,13,.86) 100%);
+  background:linear-gradient(180deg,rgba(22,18,16,.55) 0%,rgba(22,18,16,.12) 34%,rgba(20,15,13,.58) 68%,rgba(20,15,13,.92) 100%);
 }
+/* Портрет: вырезан из белого фона, стоит справа и упирается в низ героя.
+   Маска снизу растворяет кадр в поле секции, чтобы не было среза по краю. */
+.hero__model{
+  position:absolute; z-index:1; right:0; bottom:0;
+  height:min(62%, 560px); pointer-events:none;
+  display:flex; align-items:flex-end; justify-content:flex-end;
+  padding-right:var(--gut);
+}
+.hero__model::before{
+  content:""; position:absolute; inset:-14% -26% -8% -20%; z-index:-1;
+  background:radial-gradient(54% 48% at 50% 40%, rgba(197,141,155,.17) 0%, transparent 70%);
+}
+.hero__model img{
+  height:100%; width:auto; max-width:none;
+  object-fit:contain; object-position:bottom;
+  filter:contrast(1.05) saturate(.9) brightness(.96);
+  -webkit-mask-image:linear-gradient(to bottom, #000 68%, transparent 98%);
+  mask-image:linear-gradient(to bottom, #000 68%, transparent 98%);
+}
+
 .hero__type{
   position:relative; z-index:2; align-self:end;
   display:grid; gap:var(--s-3); padding:0 var(--gut); color:var(--on-dark);
@@ -531,7 +551,7 @@ body.is-locked .hdr.is-solid{
 }
 .hero__eyebrow span + span::before{ content:"·"; margin-right:1.1rem; opacity:.6; }
 .hero__h1{
-  font-family:var(--f-display); font-weight:300; font-size:var(--t-hero);
+  font-family:var(--f-display); font-weight:300; font-size:max(3.4rem, var(--t-hero));
   line-height:.84; letter-spacing:-.035em; margin:0;
 }
 .hero__h1 .ln{ display:block; }
@@ -541,7 +561,8 @@ body.is-locked .hdr.is-solid{
 .hero__lede{ max-width:40ch; color:var(--on-dark); opacity:.86; font-size:var(--t-lede); }
 .hero__foot .btn--solid{ --bg:transparent; --fg:var(--on-dark); --bd:var(--on-dark); justify-self:start; }
 .hero__rail{
-  position:relative; z-index:2; display:flex; align-items:center; justify-content:space-between;
+  position:relative; z-index:2; display:flex; align-items:center;
+  justify-content:flex-start; gap:var(--s-3);
   padding:var(--s-4) var(--gut) 0; color:var(--on-dark-mu);
 }
 .hero__scroll{ display:block; width:1px; height:56px; background:rgba(239,233,224,.24); position:relative; overflow:hidden; }
@@ -1314,7 +1335,7 @@ body.is-locked .hdr.is-solid{
   .sig__steps p{ font-size:.875rem; }
   .hero{ grid-template-rows:1fr auto; }
   .hero__type{ grid-template-columns:1fr; }
-  .hero__foot{ grid-template-columns:1fr auto; gap:var(--s-4); }
+  .hero__foot{ grid-template-columns:minmax(0,44ch) auto; justify-content:start; align-items:end; gap:var(--s-4); }
   .manifest__grid{ grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:var(--s-6); align-items:start; }
   .manifest__h{ position:sticky; top:var(--s-6); }
   .sec-head--split{ grid-template-columns:1fr 1fr; gap:var(--s-5); align-items:end; }
@@ -1375,6 +1396,49 @@ body.is-locked .hdr.is-solid{
   .hero__type,.sec-head,.manifest__grid,.story,.price,.insta,.tst,.ftr__top,.ba,.mst__grid{
     max-width:var(--maxw); margin-inline:auto;
   }
+}
+
+/* Невысокие ноутбуки: герой обязан помещаться в экран целиком */
+@media (min-width:768px) and (max-height:800px){
+  .hero{ padding-top:calc(7.25rem + env(safe-area-inset-top)); }
+  .hero__type{ gap:var(--s-2); }
+  .hero__rail{ padding-top:var(--s-2); }
+  .hero__scroll{ height:40px; }
+  .hero__model{ height:min(56%, 440px); }
+}
+@media (min-width:768px) and (max-height:760px){
+  .hero__h1{ font-size:max(2.6rem, min(11vw, 16svh)); }
+}
+
+/* Узкий экран: портрет и текст не накладываются, а стоят друг над другом.
+   Поверх светлых прядей подводка, заголовок и курсив теряли контраст —
+   замер по пикселям давал 1.0–1.9 вместо требуемых 4.5. */
+@media (max-width:1023px){
+  .hero{
+    grid-template-rows:auto 1fr auto;
+    padding-top:calc(5.5rem + env(safe-area-inset-top));
+  }
+  .hero__model{
+    position:relative; inset:auto; z-index:1;
+    height:auto; padding:0 var(--gut);
+    justify-content:center; align-items:flex-start;
+  }
+  .hero__model img{
+    height:min(31svh, 320px);
+    -webkit-mask-image:linear-gradient(to bottom, #000 74%, transparent 100%);
+    mask-image:linear-gradient(to bottom, #000 74%, transparent 100%);
+  }
+  .hero__model::before{ inset:-20% -12%; }
+  .hero__media::after{
+    background:linear-gradient(180deg,
+      rgba(22,18,16,.40) 0%, rgba(22,18,16,.26) 28%,
+      rgba(20,15,13,.74) 58%, rgba(20,15,13,.94) 100%);
+  }
+}
+
+@media (max-width:767px){
+  .hero__model img{ height:min(27svh, 260px); }
+  .hero__rail{ display:none; }   /* места нет: герой должен уложиться в экран */
 }
 
 /* Горизонтальная ориентация телефона */

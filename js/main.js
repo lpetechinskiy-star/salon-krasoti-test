@@ -246,6 +246,11 @@
       else gsap.from(chars, { yPercent: 108, opacity: 0, duration: 1.05, ease: 'expo.out', stagger: 0.016, delay: 0.15 });
     }
 
+    var model = $('.hero__model');
+    if (model && !reduced.matches) {
+      gsap.from(model, { opacity: 0, yPercent: 8, scale: 1.04, duration: 1.3, ease: 'expo.out', delay: 0.25 });
+    }
+
     if (reduced.matches) {
       gsap.set('[data-reveal]', { opacity: 1 });
     } else {
@@ -279,6 +284,11 @@
     gsap.to('.hero__type', {
       yPercent: -14, opacity: 0.25, ease: 'none',
       scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.8 }
+    });
+    /* Портрет уходит медленнее текста — лёгкая глубина без параллакса на буквах */
+    gsap.to('.hero__model', {
+      yPercent: 7, opacity: 0.35, ease: 'none',
+      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.9 }
     });
 
     /* ГЛАДЬ — закрепление и раскадровка, только десктоп */
