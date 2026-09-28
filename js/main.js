@@ -429,38 +429,64 @@
   }
 
   /* -----------------------------------------------------------------
-     10. Отзывы — автопролистывание с явным управлением
+     10. Отзывы — автопролистывание с кольцом прогресса
      ----------------------------------------------------------------- */
   function initTestimonials() {
     var sec = $('[data-carousel]');
     if (!sec) return;
     var items = $$('.tst__item', sec);
+    var dots = $$('.tst__dot', sec);
     var count = $('[data-tst="count"]', sec);
     var toggle = $('[data-tst="toggle"]', sec);
+    var ringEl = $('.tst__ring-p', sec);
     if (!items.length) return;
 
-    var i = 0, timer = null;
-    var wantPlay = !reduced.matches;   /* намерение пользователя */
+    var STEP = 7;                       /* секунд на отзыв */
+    var i = 0, timer = null, ring = null;
+    var wantPlay = !reduced.matches;    /* намерение пользователя */
     var hovered = false, focused = false;
     var pad = function (n) { return String(n).padStart(2, '0'); };
+
+    /* repeat:-1 сам возвращает кольцо в начало на каждом круге,
+       поэтому смена отзыва и сброс индикатора всегда совпадают. */
+    if (hasGSAP && ringEl) {
+      ring = gsap.to(ringEl, {
+        strokeDashoffset: 0, duration: STEP, ease: 'none', paused: true,
+        repeat: -1, onRepeat: function () { go(1); }
+      });
+    }
+    function resetRing() { if (ring) ring.pause(0); }
 
     function render(dir) {
       items.forEach(function (el, n) {
         el.hidden = n !== i;
         el.classList.toggle('is-active', n === i);
       });
+      dots.forEach(function (d, n) {
+        d.classList.toggle('is-on', n === i);
+        d.setAttribute('aria-current', n === i ? 'true' : 'false');
+      });
       if (count) count.textContent = pad(i + 1) + ' / ' + pad(items.length);
       if (hasGSAP && !reduced.matches) {
-        gsap.fromTo(items[i], { opacity: 0, y: dir === -1 ? -18 : 18 },
-          { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', overwrite: true });
+        gsap.fromTo(items[i], { opacity: 0, y: dir === -1 ? -20 : 20 },
+          { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out', overwrite: true });
+        gsap.fromTo($$('.stars__row--on .star', items[i]),
+          { scale: 0.2, opacity: 0, transformOrigin: '50% 50%' },
+          { scale: 1, opacity: 1, duration: 0.45, stagger: 0.05, ease: 'back.out(2)', delay: 0.12 });
       }
     }
     function go(step) { i = (i + step + items.length) % items.length; render(step); }
+    function goTo(n) { var d = n > i ? 1 : -1; i = n; render(d); }
 
+    /* Без GSAP кольцо не крутится, но ротация и управление работают */
     function sync() {
       var should = wantPlay && !hovered && !focused && !reduced.matches;
-      if (should && !timer) timer = setInterval(function () { go(1); }, 7000);
-      if (!should && timer) { clearInterval(timer); timer = null; }
+      if (ring) {
+        should ? ring.play() : ring.pause();
+      } else {
+        if (should && !timer) timer = setInterval(function () { go(1); }, STEP * 1000);
+        if (!should && timer) { clearInterval(timer); timer = null; }
+      }
       if (toggle) {
         toggle.classList.toggle('is-paused', !wantPlay);
         toggle.setAttribute('aria-label', wantPlay ? 'Остановить автопролистывание' : 'Запустить автопролистывание');
@@ -468,12 +494,14 @@
     }
 
     sec.addEventListener('click', function (e) {
-      var b = e.target.closest('[data-tst]');
-      if (!b) return;
-      if (b.dataset.tst === 'next') { wantPlay = false; go(1); }
-      else if (b.dataset.tst === 'prev') { wantPlay = false; go(-1); }
-      else if (b.dataset.tst === 'toggle') { wantPlay = !wantPlay; focused = false; }
-      sync();
+      var btn = e.target.closest('[data-tst]');
+      if (!btn) return;
+      var act = btn.dataset.tst;
+      if (act === 'next') { wantPlay = false; go(1); }
+      else if (act === 'prev') { wantPlay = false; go(-1); }
+      else if (act === 'go') { wantPlay = false; goTo(+btn.dataset.i); }
+      else if (act === 'toggle') { wantPlay = !wantPlay; focused = false; }
+      resetRing(); sync();
     });
 
     sec.addEventListener('mouseenter', function () { hovered = true; sync(); });
@@ -482,10 +510,117 @@
     sec.addEventListener('focusout', function (e) {
       if (!sec.contains(e.relatedTarget)) { focused = false; sync(); }
     });
-    reduced.addEventListener('change', function () { wantPlay = false; sync(); });
+    reduced.addEventListener('change', function () { wantPlay = false; resetRing(); sync(); });
 
     render(1);
     sync();
+  }
+
+  /* -----------------------------------------------------------------
+     10b. Работы — горизонтальная лента
+     ----------------------------------------------------------------- */
+  function initWorks() {
+    var row = $('[data-works]');
+    var view = $('.wk__view');
+    var bar = $('.wk__bar-p');
+    if (!row || !view) return;
+
+    function setBar(f) {
+      if (bar) bar.style.transform = 'translateX(' + (f * (100 / 0.14 - 100)) + '%)';
+    }
+    /* Без закрепления лента листается пальцем — прогресс считаем по скроллу */
+    view.addEventListener('scroll', function () {
+      var max = view.scrollWidth - view.clientWidth;
+      setBar(max > 0 ? view.scrollLeft / max : 0);
+    }, { passive: true });
+
+    if (!hasST || reduced.matches) return;
+
+    gsap.matchMedia().add('(min-width:1024px) and (prefers-reduced-motion: no-preference)', function () {
+      var dist = row.scrollWidth - view.clientWidth;
+      if (dist <= 0) return;
+      view.classList.add('is-pinned');
+      var tl = gsap.to(row, {
+        x: -dist, ease: 'none',
+        scrollTrigger: {
+          trigger: '.wk', start: 'top top', end: '+=' + dist, scrub: 0.8,
+          pin: '.wk__pin', anticipatePin: 1, invalidateOnRefresh: true,
+          onUpdate: function (self) { setBar(self.progress); }
+        }
+      });
+      return function () {
+        view.classList.remove('is-pinned');
+        gsap.set(row, { x: 0 });
+        tl.scrollTrigger && tl.scrollTrigger.kill();
+        tl.kill();
+      };
+    });
+  }
+
+  /* -----------------------------------------------------------------
+     10c. Счётчики
+     ----------------------------------------------------------------- */
+  function initCounters() {
+    var els = $$('[data-count]');
+    if (!els.length) return;
+    els.forEach(function (el) {
+      var target = parseFloat(el.dataset.count);
+      var dec = parseInt(el.dataset.dec || '0', 10);
+      var from = parseFloat(el.dataset.from || '0');
+      var suffix = el.dataset.suffix || '';
+      /* Год — не количество: разряды в нём не разделяются */
+      var group = el.dataset.group !== '0';
+      var fmt = function (v) {
+        return v.toLocaleString('ru-RU', {
+          minimumFractionDigits: dec, maximumFractionDigits: dec, useGrouping: group
+        }) + suffix;
+      };
+      el.textContent = fmt(target);                 /* итог виден и без анимации */
+      if (!hasST || reduced.matches) return;
+      var o = { v: from };
+      gsap.to(o, {
+        v: target, duration: 1.6, ease: 'power2.out',
+        onUpdate: function () { el.textContent = fmt(o.v); },
+        onComplete: function () { el.textContent = fmt(target); },
+        scrollTrigger: { trigger: el, start: 'top 92%', once: true }
+      });
+    });
+  }
+
+  /* -----------------------------------------------------------------
+     10d. Магнитные кнопки
+     ----------------------------------------------------------------- */
+  function initMagnet() {
+    if (!hasGSAP || !fine.matches || reduced.matches) return;
+    $$('[data-magnet]').forEach(function (el) {
+      var mx = gsap.quickTo(el, 'x', { duration: 0.5, ease: 'power3' });
+      var my = gsap.quickTo(el, 'y', { duration: 0.5, ease: 'power3' });
+      el.addEventListener('pointermove', function (e) {
+        var r = el.getBoundingClientRect();
+        mx((e.clientX - r.left - r.width / 2) * 0.28);
+        my((e.clientY - r.top - r.height / 2) * 0.4);
+      });
+      el.addEventListener('pointerleave', function () { mx(0); my(0); });
+    });
+  }
+
+  /* -----------------------------------------------------------------
+     10e. Индикатор прокрутки
+     ----------------------------------------------------------------- */
+  function initProgress() {
+    var bar = $('.progress__bar');
+    if (!bar) return;
+    var ticking = false;
+    function draw() {
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, window.scrollY / max) : 0) + ')';
+      ticking = false;
+    }
+    window.addEventListener('scroll', function () {
+      if (ticking) return;
+      ticking = true; requestAnimationFrame(draw);
+    }, { passive: true });
+    draw();
   }
 
   /* -----------------------------------------------------------------
@@ -686,10 +821,14 @@
     initAnchors();
     initBeforeAfter();
     initTestimonials();
+    initWorks();
+    initCounters();
+    initProgress();
     initBooking();
     initMotion();
     initCursor();
     initServicePreview();
+    initMagnet();
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);

@@ -24,6 +24,7 @@
 
 <body>
 <a class="skip-link" href="#main">Перейти к содержанию</a>
+<div class="progress" aria-hidden="true"><span class="progress__bar"></span></div>
 <div class="grain" aria-hidden="true"></div>
 <div class="cursor" aria-hidden="true"><span class="cursor__dot"></span></div>
 
@@ -49,10 +50,11 @@
       <li><a href="#signature" data-scroll><em>01</em>ГЛАДЬ</a></li>
       <li><a href="#services" data-scroll><em>02</em>Услуги</a></li>
       <li><a href="#masters" data-scroll><em>03</em>Мастера</a></li>
-      <li><a href="#gallery" data-scroll><em>04</em>Работы</a></li>
-      <li><a href="#story" data-scroll><em>05</em>О салоне</a></li>
-      <li><a href="#prices" data-scroll><em>06</em>Прайс</a></li>
-      <li><a href="#booking" data-scroll><em>07</em>Запись</a></li>
+      <li><a href="#gallery" data-scroll><em>04</em>До / После</a></li>
+      <li><a href="#works" data-scroll><em>05</em>Работы</a></li>
+      <li><a href="#story" data-scroll><em>06</em>О салоне</a></li>
+      <li><a href="#prices" data-scroll><em>07</em>Прайс</a></li>
+      <li><a href="#booking" data-scroll><em>08</em>Запись</a></li>
     </ul>
   </nav>
   <div class="menu__side">
@@ -94,7 +96,7 @@
     </h1>
     <div class="hero__foot">
       <p class="hero__lede" data-reveal>Мы не делаем «как на картинке». Мы находим форму, которая держится сама — без укладки, без объяснений, без ежедневного подвига.</p>
-      <a class="btn btn--solid" href="#booking" data-scroll>
+      <a class="btn btn--solid" href="#booking" data-scroll data-magnet>
         <span>Записаться</span>
         <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M1 8h13M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
       </a>
@@ -149,7 +151,7 @@
         <div><dt>Стоимость</dt><dd>24 000 ₽</dd></div>
         <div><dt>Эффект</dt><dd>6–8 недель</dd></div>
       </dl>
-      <a class="btn btn--light" href="#booking" data-scroll>Записаться на ГЛАДЬ</a>
+      <a class="btn btn--light" href="#booking" data-scroll data-magnet>Записаться на ГЛАДЬ</a>
     </div>
 
     <ol class="sig__steps" data-sig-el>
@@ -294,10 +296,97 @@
     </figcaption>
   </figure>
 
-  <div class="ba-sec__strip">
-    <figure class="frame" data-parallax="-6"><img data-src="https://images.unsplash.com/photo-1562322140-8baeececf3df?w=700&q=78&auto=format&fit=crop" alt="Работа мастера: короткая форма" width="700" height="875" loading="lazy" decoding="async"></figure>
-    <figure class="frame" data-parallax="-2"><img data-src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=700&q=78&auto=format&fit=crop" alt="Работа мастера: вечерняя укладка" width="700" height="875" loading="lazy" decoding="async"></figure>
-    <figure class="frame" data-parallax="-9"><img data-src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=700&q=78&auto=format&fit=crop" alt="Работа мастера: маникюр" width="700" height="875" loading="lazy" decoding="async"></figure>
+</section>
+
+<!-- ============ 07 · РАБОТЫ (горизонтальная лента) ============ -->
+<section class="wk" id="works" aria-labelledby="wk-h">
+  <div class="wk__pin">
+    <header class="wk__head">
+      <h2 class="wk__h" id="wk-h" data-reveal>Работы</h2>
+      <p class="wk__note lbl" data-reveal><span>Семь кадров</span><span class="wk__hint">Листайте вбок</span></p>
+    </header>
+    <div class="wk__view">
+      <ul class="wk__row" data-works>
+      <li class="wk__i">
+        <figure class="frame">
+          <img data-src="https://images.unsplash.com/photo-1562322140-8baeececf3df?w=760&q=80&auto=format&fit=crop"
+               alt="Короткая форма без укладки — работа мастера Аглая Тимрот" width="760" height="950" loading="lazy" decoding="async">
+        </figure>
+        <div class="wk__cap">
+          <span class="wk__no">01</span>
+          <h3 class="wk__t">Короткая форма без укладки</h3>
+          <p class="wk__m">Аглая Тимрот · Стрижка · 90 мин</p>
+        </div>
+      </li>
+      <li class="wk__i">
+        <figure class="frame">
+          <img data-src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=760&q=80&auto=format&fit=crop"
+               alt="Вечерняя укладка под съёмку — работа мастера Лев Гурьев" width="760" height="950" loading="lazy" decoding="async">
+        </figure>
+        <div class="wk__cap">
+          <span class="wk__no">02</span>
+          <h3 class="wk__t">Вечерняя укладка под съёмку</h3>
+          <p class="wk__m">Лев Гурьев · Укладка · 75 мин</p>
+        </div>
+      </li>
+      <li class="wk__i">
+        <figure class="frame">
+          <img data-src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=760&q=80&auto=format&fit=crop"
+               alt="Форма под кисть, без дизайна — работа мастера Таисия Мор" width="760" height="950" loading="lazy" decoding="async">
+        </figure>
+        <div class="wk__cap">
+          <span class="wk__no">03</span>
+          <h3 class="wk__t">Форма под кисть, без дизайна</h3>
+          <p class="wk__m">Таисия Мор · Маникюр · 90 мин</p>
+        </div>
+      </li>
+      <li class="wk__i">
+        <figure class="frame">
+          <img data-src="https://images.unsplash.com/photo-1552693673-1bf958298935?w=760&q=80&auto=format&fit=crop"
+               alt="Холодный блонд на тёмной базе — работа мастера Ника Заборская" width="760" height="950" loading="lazy" decoding="async">
+        </figure>
+        <div class="wk__cap">
+          <span class="wk__no">04</span>
+          <h3 class="wk__t">Холодный блонд на тёмной базе</h3>
+          <p class="wk__m">Ника Заборская · AirTouch · 360 мин</p>
+        </div>
+      </li>
+      <li class="wk__i">
+        <figure class="frame">
+          <img data-src="https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=760&q=80&auto=format&fit=crop"
+               alt="Архитектура по костной структуре — работа мастера Дина Асланова" width="760" height="950" loading="lazy" decoding="async">
+        </figure>
+        <div class="wk__cap">
+          <span class="wk__no">05</span>
+          <h3 class="wk__t">Архитектура по костной структуре</h3>
+          <p class="wk__m">Дина Асланова · Brow · 60 мин</p>
+        </div>
+      </li>
+      <li class="wk__i">
+        <figure class="frame">
+          <img data-src="https://images.unsplash.com/photo-1610992015732-2449b76344bc?w=760&q=80&auto=format&fit=crop"
+               alt="Седина как решение — работа мастера Аглая Тимрот" width="760" height="950" loading="lazy" decoding="async">
+        </figure>
+        <div class="wk__cap">
+          <span class="wk__no">06</span>
+          <h3 class="wk__t">Седина как решение</h3>
+          <p class="wk__m">Аглая Тимрот · Стрижка · 120 мин</p>
+        </div>
+      </li>
+      <li class="wk__i">
+        <figure class="frame">
+          <img data-src="https://images.unsplash.com/photo-1613966802194-d46a163af70d?w=760&q=80&auto=format&fit=crop"
+               alt="Полотно после протокола — работа мастера Вера Ильинская" width="760" height="950" loading="lazy" decoding="async">
+        </figure>
+        <div class="wk__cap">
+          <span class="wk__no">07</span>
+          <h3 class="wk__t">Полотно после протокола</h3>
+          <p class="wk__m">Вера Ильинская · ГЛАДЬ · 120 мин</p>
+        </div>
+      </li>
+      </ul>
+    </div>
+    <div class="wk__bar" aria-hidden="true"><span class="wk__bar-p"></span></div>
   </div>
 </section>
 
@@ -319,10 +408,10 @@
       <cite>Вера Ильинская, арт-директор</cite>
     </blockquote>
     <dl class="story__stats">
-      <div data-reveal><dt>2017</dt><dd>год основания</dd></div>
-      <div data-reveal><dt>4</dt><dd>зала</dd></div>
-      <div data-reveal><dt>1 400+</dt><dd>постоянных гостей</dd></div>
-      <div data-reveal><dt>72%</dt><dd>приходят по рекомендации</dd></div>
+      <div data-reveal><dt data-count="2017" data-from="1990" data-group="0">2017</dt><dd>год основания</dd></div>
+      <div data-reveal><dt data-count="4">4</dt><dd>зала</dd></div>
+      <div data-reveal><dt data-count="1400" data-suffix="+">1 400+</dt><dd>постоянных гостей</dd></div>
+      <div data-reveal><dt data-count="72" data-suffix="%">72%</dt><dd>приходят по рекомендации</dd></div>
     </dl>
   </div>
 </section>
@@ -330,29 +419,114 @@
 <!-- ============ 08 · ОТЗЫВЫ ============ -->
 <section class="tst" id="testimonials" aria-labelledby="tst-h" aria-roledescription="карусель" data-carousel>
   <h2 class="vh" id="tst-h">Отзывы гостей</h2>
-  <p class="lbl tst__lbl" data-reveal>Отзывы</p>
+
+  <div class="tst__head">
+    <p class="lbl tst__lbl">Отзывы</p>
+    <div class="rating">
+      <p class="rating__num" data-count="4.9" data-dec="1">4,9</p>
+      <div class="rating__side">
+        <span class="stars stars--lg" role="img" aria-label="Оценка 4.9 из 5"><span class="stars__row stars__row--bg"><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg></span><span class="stars__row stars__row--on" style="width:98.00000000000001%"><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg></span></span>
+        <p class="rating__meta"><b data-count="312">312</b> отзывов за два года</p>
+        <ul class="rating__src">
+          <li>Яндекс <b>4,9</b></li>
+          <li>2ГИС <b>4,8</b></li>
+          <li>Google <b>5,0</b></li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
   <div class="tst__stage">
-    <blockquote class="tst__item is-active" aria-roledescription="слайд" aria-label="1 из 5">
-      <p>Пришла с историей из трёх неудачных осветлений и готовностью стричься под каре. Вера сказала: длину сохраним, но это четыре визита за три месяца. Так и вышло.</p>
-      <cite><b>Марина К.</b><span>архитектор · февраль 2026</span></cite>
-    </blockquote>
-    <blockquote class="tst__item" aria-roledescription="слайд" aria-label="2 из 5" hidden>
-      <p>Единственное место, где меня не уговаривают на дополнительную услугу. Спросила про ботокс — объяснили, почему в моём случае это выброшенные деньги.</p>
-      <cite><b>Евгения Л.</b><span>юрист · январь 2026</span></cite>
-    </blockquote>
-    <blockquote class="tst__item" aria-roledescription="слайд" aria-label="3 из 5" hidden>
-      <p>ГЛАДЬ держится восемь недель, и это при том, что я сушу голову феном каждый день. За такие деньги ожидала эффекта на две недели.</p>
-      <cite><b>Алина Р.</b><span>продюсер · декабрь 2025</span></cite>
-    </blockquote>
-    <blockquote class="tst__item" aria-roledescription="слайд" aria-label="4 из 5" hidden>
-      <p>Хожу к Аглае четыре года. За это время сменила три города и ни разу не нашла, кем её заменить. Прилетаю в Москву и записываюсь в первую очередь сюда.</p>
-      <cite><b>Ксения Д.</b><span>арт-директор · ноябрь 2025</span></cite>
-    </blockquote>
-    <blockquote class="tst__item" aria-roledescription="слайд" aria-label="5 из 5" hidden>
-      <p>Тишина. Никакого радио, никаких разговоров через весь зал. Для меня это оказалось важнее, чем результат, хотя результат тоже отличный.</p>
-      <cite><b>Ольга В.</b><span>врач · октябрь 2025</span></cite>
-    </blockquote>
+      <blockquote class="tst__item is-active" aria-roledescription="слайд" aria-label="1 из 6">
+        <div class="tst__top">
+          <span class="stars " role="img" aria-label="Оценка 5 из 5"><span class="stars__row stars__row--bg"><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg></span><span class="stars__row stars__row--on" style="width:100.0%"><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg></span></span>
+          <span class="tst__src">Яндекс</span>
+        </div>
+        <p class="tst__text">Пришла с историей из трёх неудачных осветлений и готовностью стричься под каре. Вера сказала: длину сохраним, но это четыре визита за три месяца. Так и вышло.</p>
+        <footer class="tst__by">
+          <span class="tst__ava" aria-hidden="true">МК</span>
+          <cite>
+            <b>Марина К.</b>
+            <span>архитектор · февраль 2026</span>
+            <span class="tst__work">Вера Ильинская · коррекция цвета</span>
+          </cite>
+        </footer>
+      </blockquote>
+      <blockquote class="tst__item" aria-roledescription="слайд" aria-label="2 из 6" hidden>
+        <div class="tst__top">
+          <span class="stars " role="img" aria-label="Оценка 5 из 5"><span class="stars__row stars__row--bg"><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg></span><span class="stars__row stars__row--on" style="width:100.0%"><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg></span></span>
+          <span class="tst__src">2ГИС</span>
+        </div>
+        <p class="tst__text">Единственное место, где меня не уговаривают на дополнительную услугу. Спросила про ботокс — объяснили, почему в моём случае это выброшенные деньги.</p>
+        <footer class="tst__by">
+          <span class="tst__ava" aria-hidden="true">ЕЛ</span>
+          <cite>
+            <b>Евгения Л.</b>
+            <span>юрист · январь 2026</span>
+            <span class="tst__work">Ника Заборская · тонирование</span>
+          </cite>
+        </footer>
+      </blockquote>
+      <blockquote class="tst__item" aria-roledescription="слайд" aria-label="3 из 6" hidden>
+        <div class="tst__top">
+          <span class="stars " role="img" aria-label="Оценка 5 из 5"><span class="stars__row stars__row--bg"><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg></span><span class="stars__row stars__row--on" style="width:100.0%"><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg></span></span>
+          <span class="tst__src">Яндекс</span>
+        </div>
+        <p class="tst__text">ГЛАДЬ держится восемь недель, и это при том, что я сушу голову феном каждый день. За такие деньги ожидала эффекта на две недели.</p>
+        <footer class="tst__by">
+          <span class="tst__ava" aria-hidden="true">АР</span>
+          <cite>
+            <b>Алина Р.</b>
+            <span>продюсер · декабрь 2025</span>
+            <span class="tst__work">ГЛАДЬ · протокол №1</span>
+          </cite>
+        </footer>
+      </blockquote>
+      <blockquote class="tst__item" aria-roledescription="слайд" aria-label="4 из 6" hidden>
+        <div class="tst__top">
+          <span class="stars " role="img" aria-label="Оценка 5 из 5"><span class="stars__row stars__row--bg"><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg></span><span class="stars__row stars__row--on" style="width:100.0%"><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg></span></span>
+          <span class="tst__src">Google</span>
+        </div>
+        <p class="tst__text">Хожу к Аглае четыре года. За это время сменила три города и ни разу не нашла, кем её заменить. Прилетаю в Москву и записываюсь в первую очередь сюда.</p>
+        <footer class="tst__by">
+          <span class="tst__ava" aria-hidden="true">КД</span>
+          <cite>
+            <b>Ксения Д.</b>
+            <span>арт-директор · ноябрь 2025</span>
+            <span class="tst__work">Аглая Тимрот · стрижка</span>
+          </cite>
+        </footer>
+      </blockquote>
+      <blockquote class="tst__item" aria-roledescription="слайд" aria-label="5 из 6" hidden>
+        <div class="tst__top">
+          <span class="stars " role="img" aria-label="Оценка 4 из 5"><span class="stars__row stars__row--bg"><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg></span><span class="stars__row stars__row--on" style="width:80.0%"><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg></span></span>
+          <span class="tst__src">2ГИС</span>
+        </div>
+        <p class="tst__text">Тишина. Никакого радио, никаких разговоров через весь зал. Для меня это оказалось важнее результата. Минус один балл за то, что запись открывают всего за три дня.</p>
+        <footer class="tst__by">
+          <span class="tst__ava" aria-hidden="true">ОВ</span>
+          <cite>
+            <b>Ольга В.</b>
+            <span>врач · октябрь 2025</span>
+            <span class="tst__work">Юлия Бенуа · уход за лицом</span>
+          </cite>
+        </footer>
+      </blockquote>
+      <blockquote class="tst__item" aria-roledescription="слайд" aria-label="6 из 6" hidden>
+        <div class="tst__top">
+          <span class="stars " role="img" aria-label="Оценка 5 из 5"><span class="stars__row stars__row--bg"><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg></span><span class="stars__row stars__row--on" style="width:100.0%"><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg><svg class="star" viewBox="0 0 20 19" aria-hidden="true" focusable="false"><path d="M10 0.8l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L10 14.6 4.4 17.9l1.4-6.3L1 7.3l6.4-.6z"/></svg></span></span>
+          <span class="tst__src">Яндекс</span>
+        </div>
+        <p class="tst__text">Просила «что-нибудь короткое». Лев полчаса разбирался, как я на самом деле живу с волосами по утрам, и только потом взял ножницы. Такого со мной ещё не делали.</p>
+        <footer class="tst__by">
+          <span class="tst__ava" aria-hidden="true">ДН</span>
+          <cite>
+            <b>Дарья Н.</b>
+            <span>фотограф · октябрь 2025</span>
+            <span class="tst__work">Лев Гурьев · стрижка и форма</span>
+          </cite>
+        </footer>
+      </blockquote>
   </div>
 
   <div class="tst__ctrl">
@@ -360,12 +534,17 @@
       <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M15 8H2M7 3L2 8l5 5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
     </button>
     <button type="button" class="tst__btn tst__btn--play" data-tst="toggle" aria-label="Остановить автопролистывание">
+      <svg class="tst__ring" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+        <circle class="tst__ring-t" cx="24" cy="24" r="21"/>
+        <circle class="tst__ring-p" cx="24" cy="24" r="21"/>
+      </svg>
       <span class="tst__ico" aria-hidden="true"></span>
     </button>
     <button type="button" class="tst__btn" data-tst="next" aria-label="Следующий отзыв">
       <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M1 8h13M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
     </button>
-    <p class="tst__count lbl" data-tst="count">01 / 05</p>
+    <div class="tst__dots"><button type="button" class="tst__dot is-on" data-tst="go" data-i="0" aria-label="Отзыв 1"></button><button type="button" class="tst__dot" data-tst="go" data-i="1" aria-label="Отзыв 2"></button><button type="button" class="tst__dot" data-tst="go" data-i="2" aria-label="Отзыв 3"></button><button type="button" class="tst__dot" data-tst="go" data-i="3" aria-label="Отзыв 4"></button><button type="button" class="tst__dot" data-tst="go" data-i="4" aria-label="Отзыв 5"></button><button type="button" class="tst__dot" data-tst="go" data-i="5" aria-label="Отзыв 6"></button></div>
+    <p class="tst__count lbl" data-tst="count">01 / 06</p>
   </div>
 </section>
 
