@@ -234,6 +234,78 @@
   /* -----------------------------------------------------------------
      7. Анимации
      ----------------------------------------------------------------- */
+  /* Моргание. Три кадра опускающегося века лежат стопкой поверх портрета;
+     дробное значение k (0 — глаз открыт, 1 — закрыт) разливается по ним,
+     поэтому веко идёт непрерывно, а не скачет между картинками.
+     Закрывается быстрее, чем открывается, — так моргает живой глаз. */
+  function initBlink(figure) {
+    var frames = $$('[data-blink]', figure);
+    if (frames.length < 2 || !window.gsap) return;
+    var n = frames.length, state = { k: 0 }, timer = 0, tl = null, live = true;
+
+    function render() {
+      var pos = state.k * n;
+      for (var i = 0; i < n; i++) {
+        frames[i].style.opacity = Math.min(Math.max(pos - i, 0), 1);
+      }
+    }
+
+    function blink(twice) {
+      if (tl) tl.kill();
+      tl = gsap.timeline({ onUpdate: render, onComplete: function () { tl = null; } })
+        .to(state, { k: 1, duration: 0.12, ease: 'power2.in' })
+        .to(state, { k: 0, duration: 0.22, ease: 'power1.out' }, '+=0.05');
+      if (twice) {
+        tl.to(state, { k: 1, duration: 0.1, ease: 'power2.in' }, '+=0.08')
+          .to(state, { k: 0, duration: 0.2, ease: 'power1.out' }, '+=0.04');
+      }
+    }
+
+    function schedule() {
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        if (live && !document.hidden) blink(Math.random() < 0.18);
+        schedule();
+      }, 3400 + Math.random() * 5400);
+    }
+
+    /* Вне экрана моргать незачем — это лишние кадры на скролле */
+    if (window.IntersectionObserver) {
+      new IntersectionObserver(function (es) { live = es[0].isIntersecting; },
+        { threshold: 0 }).observe(figure);
+    }
+    document.addEventListener('visibilitychange', function () {
+      if (!document.hidden) return;
+      if (tl) { tl.kill(); tl = null; }
+      state.k = 0; render();
+    });
+
+    render();
+    schedule();
+  }
+
+  /* Пряди. Копия кадра, вырезанная маской по массе волос, качается вокруг
+     точки роста: у лица смещение нулевое, к кончикам — несколько пикселей.
+     Два слоя идут с разным периодом, поэтому движение не зацикливается
+     на глаз. Только широкий экран: там маска совпадает с кадром. */
+  function initHair(figure) {
+    var r = $('[data-hair="r"]', figure), l = $('[data-hair="l"]', figure);
+    if (!r || !l || !window.gsap || !gsap.matchMedia) return;
+    gsap.matchMedia().add('(min-width:1024px)', function () {
+      var a = gsap.fromTo(r, { rotate: -0.5, skewX: 0.2 },
+        { rotate: 0.5, skewX: -0.2, duration: 7.4,
+          ease: 'sine.inOut', repeat: -1, yoyo: true });
+      var b = gsap.fromTo(l, { rotate: 0.8, skewX: -0.3, x: 1.8 },
+        { rotate: -0.8, skewX: 0.3, x: -1.8, duration: 9.3,
+          ease: 'sine.inOut', repeat: -1, yoyo: true });
+      b.progress(0.37);
+      return function () {
+        a.kill(); b.kill();
+        gsap.set([r, l], { clearProps: 'transform' });
+      };
+    });
+  }
+
   function initMotion() {
     if (!hasGSAP) { revealAllStatic(); return; }
 
@@ -249,25 +321,28 @@
     /* Портрет: три независимых слоя трансформаций, чтобы твины не спорили —
        вход берёт opacity/scale/clip, дыхание берёт y, курсор берёт x. */
     var model = $('.hero__model');
-    var modelImg = model && $('img', model);
-    if (modelImg && !reduced.matches) {
-      gsap.fromTo(modelImg,
+    var figure = model && $('[data-figure]', model);
+    if (figure && !reduced.matches) {
+      gsap.fromTo(figure,
         { opacity: 0, scale: 1.08, clipPath: 'inset(26% 0% 0% 0%)' },
         { opacity: 1, scale: 1, clipPath: 'inset(0% 0% 0% 0%)',
           duration: 1.6, ease: 'expo.out', delay: 0.2 });
 
       /* Едва заметное дыхание: кадр живой, но не отвлекает от текста */
-      gsap.to(modelImg, {
+      gsap.to(figure, {
         y: -12, duration: 6, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 1.7
       });
 
       /* Глубина от курсора — только на точном указателе */
       if (fine.matches) {
-        var mx = gsap.quickTo(modelImg, 'x', { duration: 1.1, ease: 'power3' });
+        var mx = gsap.quickTo(figure, 'x', { duration: 1.1, ease: 'power3' });
         window.addEventListener('pointermove', function (e) {
           mx((e.clientX / window.innerWidth - 0.5) * -26);
         }, { passive: true });
       }
+
+      initBlink(figure);
+      initHair(figure);
     }
 
     if (reduced.matches) {

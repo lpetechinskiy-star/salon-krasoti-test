@@ -302,10 +302,29 @@
 <!-- ============ 01 · ГЕРОЙ ============ -->
 <section class="hero" id="hero">
   <div class="hero__model" aria-hidden="true">
-    <img src="assets/hero-model.webp"
-         srcset="assets/hero-model-sm.webp 563w, assets/hero-model.webp 1024w"
-         sizes="(max-width:767px) 92vw, min(52vw, 900px)"
-         alt="" width="1024" height="1046" fetchpriority="high" decoding="async">
+    <div class="hero__figure" data-figure>
+      <img class="hero__ph" src="assets/hero-model.webp"
+           srcset="assets/hero-model-sm.webp 563w, assets/hero-model.webp 1024w"
+           sizes="(max-width:767px) 92vw, min(52vw, 900px)"
+           alt="" width="1024" height="1046" fetchpriority="high" decoding="async">
+      <!-- Пряди: тот же файл из кеша, вырезан маской и качается вокруг своей
+           точки роста. Лишних байтов нет — srcset совпадает с основным кадром. -->
+      <img class="hero__hair hero__hair--r" data-hair="r" src="assets/hero-model.webp"
+           srcset="assets/hero-model-sm.webp 563w, assets/hero-model.webp 1024w"
+           sizes="(max-width:767px) 92vw, min(52vw, 900px)"
+           alt="" width="1024" height="1046" decoding="async">
+      <img class="hero__hair hero__hair--l" data-hair="l" src="assets/hero-model.webp"
+           srcset="assets/hero-model-sm.webp 563w, assets/hero-model.webp 1024w"
+           sizes="(max-width:767px) 92vw, min(52vw, 900px)"
+           alt="" width="1024" height="1046" decoding="async">
+      <!-- Моргание: три кадра опускающегося века, по 4 КБ каждый -->
+      <img class="hero__blink" data-blink src="assets/hero-blink-1.webp"
+           alt="" width="1024" height="1046" decoding="async">
+      <img class="hero__blink" data-blink src="assets/hero-blink-2.webp"
+           alt="" width="1024" height="1046" decoding="async">
+      <img class="hero__blink" data-blink src="assets/hero-blink-3.webp"
+           alt="" width="1024" height="1046" decoding="async">
+    </div>
   </div>
 
   <div class="hero__media">

@@ -537,12 +537,39 @@ body.is-locked .hdr.is-solid{
   content:""; position:absolute; inset:auto -10% -2% -10%; height:22%; z-index:-1;
   background:radial-gradient(60% 100% at 50% 100%, rgba(18,12,10,.5) 0%, transparent 72%);
 }
-.hero__model img{
-  height:100%; width:auto; max-width:none;
-  max-width:100%; object-fit:contain; object-position:bottom right;
+/* Обёртка повторяет коробку снимка один в один: сама она сжимается
+   по .hero__ph, а слои поверх лежат inset:0 с той же object-fit —
+   значит на любом брейкпоинте они кадрируются точно так же.
+   Цветокор и нижняя маска живут здесь, чтобы все слои совпали. */
+.hero__figure{
+  position:relative; height:100%; max-width:100%;
+  display:flex; align-items:flex-end;
   filter:contrast(1.03) saturate(.96); will-change:transform, opacity;
   -webkit-mask-image:linear-gradient(to bottom, #000 78%, transparent 100%);
   mask-image:linear-gradient(to bottom, #000 78%, transparent 100%);
+}
+.hero__ph{
+  display:block; height:100%; width:auto; max-width:100%;
+  object-fit:contain; object-position:bottom right;
+}
+.hero__figure > img:not(.hero__ph){
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:contain; object-position:bottom right;
+}
+/* Веко опускается кадрами: наверху всегда только один, остальные на нуле */
+.hero__blink{ opacity:0; }
+/* Прядь качается вокруг точки роста, маска гасит её у лица и на кончиках,
+   поэтому смещение читается как движение волос, а не как сдвиг слоя. */
+.hero__hair{ will-change:transform; }
+.hero__hair--r{
+  transform-origin:50% 16%;
+  -webkit-mask-image:radial-gradient(ellipse 15.5% 26% at 66% 43%, #000 32%, transparent 74%);
+  mask-image:radial-gradient(ellipse 15.5% 26% at 66% 43%, #000 32%, transparent 74%);
+}
+.hero__hair--l{
+  transform-origin:27% 26%;
+  -webkit-mask-image:radial-gradient(ellipse 7% 22% at 17% 48%, #000 28%, transparent 72%);
+  mask-image:radial-gradient(ellipse 7% 22% at 17% 48%, #000 28%, transparent 72%);
 }
 
 .hero__type{
@@ -1427,12 +1454,20 @@ body.is-locked .hdr.is-solid{
     position:relative; inset:auto; z-index:1;
     height:auto; max-width:none; padding:0; display:block;
   }
-  .hero__model img{
-    width:100%; height:min(30svh, 310px);
-    object-fit:cover; object-position:52% 24%;
+  .hero__figure{
+    display:block; height:auto; width:100%; max-width:none;
     -webkit-mask-image:linear-gradient(to bottom, transparent 0%, #000 22%, #000 62%, transparent 100%);
     mask-image:linear-gradient(to bottom, transparent 0%, #000 22%, #000 62%, transparent 100%);
   }
+  .hero__ph{
+    width:100%; height:min(30svh, 310px);
+    object-fit:cover; object-position:52% 24%;
+  }
+  /* Кадр обрезан по-другому — слой моргания повторяет ту же обрезку */
+  .hero__figure > img:not(.hero__ph){ object-fit:cover; object-position:52% 24%; }
+  /* Маски прядей заданы в координатах кадра; при object-fit:cover они
+     уезжают с лица, поэтому на узком экране прядей нет. */
+  .hero__hair{ display:none; }
   .hero__model::before{ content:none; }
   .hero__media::after{
     background:linear-gradient(180deg,
@@ -1442,7 +1477,8 @@ body.is-locked .hdr.is-solid{
 }
 
 @media (max-width:767px){
-  .hero__model img{ height:min(26svh, 265px); object-position:52% 22%; }
+  .hero__ph{ height:min(26svh, 265px); object-position:52% 22%; }
+  .hero__figure > img:not(.hero__ph){ object-position:52% 22%; }
   .hero__rail{ display:none; }   /* места нет: герой должен уложиться в экран */
 }
 
@@ -1469,6 +1505,9 @@ body.is-locked .hdr.is-solid{
   .frame img{ transform:none!important; }
   .js .cursor{ display:none!important; }
   .js .svc__preview{ display:none!important; }
+  /* Лицо и пряди замирают: остаётся один статичный кадр */
+  .hero__blink{ opacity:0!important; }
+  .hero__hair{ display:none!important; }
 }
 
 /* ---------------------------------------------------------------
