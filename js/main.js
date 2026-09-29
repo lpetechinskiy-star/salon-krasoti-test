@@ -246,9 +246,28 @@
       else gsap.from(chars, { yPercent: 108, opacity: 0, duration: 1.05, ease: 'expo.out', stagger: 0.016, delay: 0.15 });
     }
 
+    /* Портрет: три независимых слоя трансформаций, чтобы твины не спорили —
+       вход берёт opacity/scale/clip, дыхание берёт y, курсор берёт x. */
     var model = $('.hero__model');
-    if (model && !reduced.matches) {
-      gsap.from(model, { opacity: 0, yPercent: 8, scale: 1.04, duration: 1.3, ease: 'expo.out', delay: 0.25 });
+    var modelImg = model && $('img', model);
+    if (modelImg && !reduced.matches) {
+      gsap.fromTo(modelImg,
+        { opacity: 0, scale: 1.08, clipPath: 'inset(26% 0% 0% 0%)' },
+        { opacity: 1, scale: 1, clipPath: 'inset(0% 0% 0% 0%)',
+          duration: 1.6, ease: 'expo.out', delay: 0.2 });
+
+      /* Едва заметное дыхание: кадр живой, но не отвлекает от текста */
+      gsap.to(modelImg, {
+        y: -12, duration: 6, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 1.7
+      });
+
+      /* Глубина от курсора — только на точном указателе */
+      if (fine.matches) {
+        var mx = gsap.quickTo(modelImg, 'x', { duration: 1.1, ease: 'power3' });
+        window.addEventListener('pointermove', function (e) {
+          mx((e.clientX / window.innerWidth - 0.5) * -26);
+        }, { passive: true });
+      }
     }
 
     if (reduced.matches) {
