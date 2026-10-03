@@ -941,22 +941,30 @@ body.is-locked .hdr.is-solid{
 .wk__nav svg{ width:15px; height:15px; }
 .wk__nav:hover,.wk__nav:focus-visible{ border-color:var(--bordeaux); color:var(--bordeaux); }
 .wk__nav[disabled]{ opacity:.25; pointer-events:none; }
-/* Пока лентой управляет прокрутка страницы, стрелки не нужны */
-.wk__view.is-driven ~ * .wk__nav,
-.wk:has(.wk__view.is-driven) .wk__nav{ display:none; }
+/* Лента прокручивается сама по себе, по горизонтали.
+   Вертикального переполнения у неё нет, поэтому колесо и вертикальный свайп
+   уходят странице — лента не умеет перехватывать прокрутку вверх-вниз.
+   overscroll-behavior задан только по X: вертикаль не трогаем. */
 .wk__view{
-  overflow-x:auto; overscroll-behavior-x:contain;
-  scroll-snap-type:x proximity; scrollbar-width:none;
+  overflow-x:auto; overflow-y:hidden; overscroll-behavior-x:contain;
+  scroll-snap-type:x proximity; scroll-padding-left:var(--gut);
+  scrollbar-width:none; cursor:grab;
   touch-action:pan-x pan-y;   /* вертикальный свайп остаётся у страницы */
+  -webkit-mask-image:linear-gradient(90deg, transparent 0, #000 var(--gut), #000 calc(100% - var(--gut)), transparent 100%);
+  mask-image:linear-gradient(90deg, transparent 0, #000 var(--gut), #000 calc(100% - var(--gut)), transparent 100%);
 }
 .wk__view::-webkit-scrollbar{ display:none; }
-.wk__view.is-driven{ overflow:hidden; scroll-snap-type:none; }
+.wk__view:focus-visible{ outline:2px solid var(--bordeaux); outline-offset:4px; }
+/* Пока тянут мышью — притяжение к карточкам выключено, иначе лента дёргается */
+.wk__view.is-dragging{ cursor:grabbing; scroll-snap-type:none; user-select:none; }
+.wk__view.is-dragging .frame img{ transform:none; }
 .wk__row{
   display:flex; gap:var(--s-3); width:max-content;
   padding:0 var(--gut);
 }
-.wk__i{ width:clamp(240px,62vw,380px); scroll-snap-align:center; display:grid; gap:.9rem; }
-.wk__i .frame{ aspect-ratio:4/5; }
+.wk__i{ width:clamp(240px,62vw,380px); scroll-snap-align:start; display:grid; gap:.9rem; }
+/* Кадр чуть отстаёт от ленты — при листании у полосы появляется глубина */
+.wk__i .frame{ aspect-ratio:4/5; transform:translate3d(var(--wk-p,0px),0,0); }
 .wk__i:hover .frame img{ transform:scale(1.04); filter:grayscale(0) contrast(1.04) sepia(.04); }
 .wk__cap{ display:grid; gap:.25rem; }
 .wk__no{

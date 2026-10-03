@@ -660,69 +660,129 @@
   /* -----------------------------------------------------------------
      10b. Работы — горизонтальная лента
      ----------------------------------------------------------------- */
+  /* Лента работ. Горизонталь — своя, вертикаль — всегда страницы:
+     обработчики ниже не вызывают preventDefault ни на колесе, ни на
+     вертикальном движении пальца, а у самой ленты нет вертикального
+     переполнения. Прокрутка вверх-вниз над лентой работает как везде. */
   function initWorks() {
     var row = $('[data-works]');
     var view = $('.wk__view');
     var bar = $('.wk__bar-p');
     if (!row || !view) return;
 
-    function setBar(f) {
-      if (bar) bar.style.transform = 'translateX(' + (f * (100 / 0.14 - 100)) + '%)';
-    }
-    /* Без закрепления лента листается пальцем — прогресс считаем по скроллу */
-    view.addEventListener('scroll', function () {
-      var max = view.scrollWidth - view.clientWidth;
-      setBar(max > 0 ? view.scrollLeft / max : 0);
-    }, { passive: true });
-
-    /* Стрелки — альтернатива перетаскиванию и колесу */
+    var cards = $$('.wk__i', row);
     var nav = $$('[data-wk]');
-    nav.forEach(function (b) {
-      b.addEventListener('click', function () {
-        var card = $('.wk__i');
-        var step = card ? card.offsetWidth + 24 : 320;
-        view.scrollBy({ left: b.dataset.wk === 'next' ? step : -step, behavior: reduced.matches ? 'auto' : 'smooth' });
-      });
-    });
-    function syncNav() {
-      var max = view.scrollWidth - view.clientWidth;
-      nav.forEach(function (b) {
-        b.disabled = b.dataset.wk === 'next' ? view.scrollLeft >= max - 2 : view.scrollLeft <= 2;
-      });
+    var smooth = function () { return reduced.matches ? 'auto' : 'smooth'; };
+    var raf = 0;
+
+    function max() { return view.scrollWidth - view.clientWidth; }
+
+    /* Шаг — столько карточек, сколько помещается целиком, но хотя бы одна */
+    function step() {
+      var c = cards[0];
+      if (!c) return Math.round(view.clientWidth * 0.8);
+      var cs = getComputedStyle(row);
+      var gap = parseFloat(cs.columnGap || cs.gap) || 24;
+      var w = c.offsetWidth + gap;
+      return Math.max(1, Math.floor(view.clientWidth / w)) * w;
     }
-    view.addEventListener('scroll', syncNav, { passive: true });
-    syncNav();
+
+    function paint() {
+      raf = 0;
+      var m = max(), left = view.scrollLeft;
+      if (bar) bar.style.transform = 'translateX(' + ((m > 0 ? left / m : 0) * (100 / 0.14 - 100)) + '%)';
+      nav.forEach(function (b) {
+        b.disabled = b.dataset.wk === 'next' ? left >= m - 2 : left <= 2;
+      });
+      if (reduced.matches) return;
+      var vr = view.getBoundingClientRect(), mid = vr.left + vr.width / 2;
+      for (var i = 0; i < cards.length; i++) {
+        var r = cards[i].getBoundingClientRect();
+        var d = (r.left + r.width / 2 - mid) / (vr.width || 1);
+        var f = cards[i].firstElementChild;
+        if (f) f.style.setProperty('--wk-p', (Math.max(-1, Math.min(1, d)) * -12).toFixed(1) + 'px');
+      }
+    }
+    function schedule() { if (!raf) raf = requestAnimationFrame(paint); }
+
+    view.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
+
+    function to(left) {
+      view.scrollTo({ left: Math.max(0, Math.min(max(), left)), behavior: smooth() });
+    }
+    function go(dir) { to(view.scrollLeft + dir * step()); }
+
+    nav.forEach(function (b) {
+      b.addEventListener('click', function () { go(b.dataset.wk === 'next' ? 1 : -1); });
+    });
+
+    /* Клавиатура: лента — один объект в табуляции.
+       Стрелки вверх-вниз не трогаем, они должны листать страницу. */
+    view.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+      else if (e.key === 'Home') { e.preventDefault(); to(0); }
+      else if (e.key === 'End') { e.preventDefault(); to(max()); }
+    });
+
+    /* Перетаскивание мышью. На тачскрине этим занимается сам браузер —
+       там палец и листает ленту, и прокручивает страницу.
+       Горизонталь забираем себе только когда она уверенно победила
+       вертикаль: иначе лента съедала бы прокрутку страницы. */
+    var drag = null;
+    function swallow(e) {
+      e.stopPropagation(); e.preventDefault();
+      view.removeEventListener('click', swallow, true);
+    }
+    view.addEventListener('pointerdown', function (e) {
+      if (e.pointerType === 'touch' || e.button !== 0) return;
+      drag = { x: e.clientX, y: e.clientY, left: view.scrollLeft, id: e.pointerId, on: false };
+    });
+    view.addEventListener('pointermove', function (e) {
+      if (!drag || e.pointerId !== drag.id) return;
+      var dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+      if (!drag.on) {
+        if (Math.abs(dx) < 6 || Math.abs(dx) <= Math.abs(dy)) return;  /* вертикаль — не наше дело */
+        drag.on = true;
+        view.classList.add('is-dragging');
+        try { view.setPointerCapture(drag.id); } catch (err) {}
+      }
+      e.preventDefault();
+      view.scrollLeft = drag.left - dx;
+    });
+    function end(e) {
+      if (!drag || (e && e.pointerId !== drag.id)) return;
+      var was = drag.on, id = drag.id;
+      drag = null;
+      if (!was) return;
+      try { view.releasePointerCapture(id); } catch (err) {}
+      view.classList.remove('is-dragging');
+      view.scrollTo({ left: view.scrollLeft });   /* вернуть притяжение к карточке */
+      view.addEventListener('click', swallow, true);
+    }
+    view.addEventListener('pointerup', end);
+    view.addEventListener('pointercancel', end);
+    view.addEventListener('lostpointercapture', end);
+
+    paint();
 
     if (!hasST || reduced.matches) return;
-
-    /* Никакого pin: лента едет, пока секция проходит через экран.
-       Закрепление держало страницу на месте полторы тысячи пикселей —
-       это читалось как «прокрутка застряла». */
-    gsap.matchMedia().add('(min-width:1024px) and (prefers-reduced-motion: no-preference)', function () {
-      var dist = row.scrollWidth - view.clientWidth;
-      if (dist <= 0) return;
-      view.classList.add('is-driven');
-      var tw = gsap.fromTo(row, { x: 0 }, {
-        x: -dist, ease: 'none',
-        scrollTrigger: {
-          trigger: '.wk', start: 'top bottom', end: 'bottom top', scrub: 0.9,
-          invalidateOnRefresh: true,
-          onUpdate: function (self) { setBar(self.progress); }
-        }
-      });
-      return function () {
-        view.classList.remove('is-driven');
-        gsap.set(row, { x: 0 });
-        tw.scrollTrigger && tw.scrollTrigger.kill();
-        tw.kill();
-        syncNav();
-      };
+    /* Выход карточек при появлении секции — только прозрачность и маска
+       кадра. Любой сдвиг карточки трансформом на миг расширяет область
+       прокрутки ленты: по горизонтали она от этого дёргалась, по вертикали
+       у ленты появлялась скрытая прокручиваемая ось, а такая ось в части
+       браузеров забирает себе колесо. Маска и opacity этого не делают. */
+    gsap.from(cards, {
+      opacity: 0, duration: 0.7, ease: 'power2.out', stagger: 0.07,
+      scrollTrigger: { trigger: '.wk', start: 'top 80%', toggleActions: 'play none none none' }
+    });
+    gsap.from($$('.frame', row), {
+      clipPath: 'inset(0% 0% 100% 0%)', duration: 0.9, ease: 'expo.out', stagger: 0.07,
+      scrollTrigger: { trigger: '.wk', start: 'top 80%', toggleActions: 'play none none none' }
     });
   }
 
-  /* -----------------------------------------------------------------
-     10c. Счётчики
-     ----------------------------------------------------------------- */
   function initCounters() {
     var els = $$('[data-count]');
     if (!els.length) return;
