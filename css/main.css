@@ -1079,7 +1079,9 @@ body.is-locked .hdr.is-solid{
 }
 .insta__grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:var(--s-2); align-items:start; }
 .insta__i .frame{ aspect-ratio:4/5; }
-.insta__i--2 .frame,.insta__i--5 .frame{ aspect-ratio:1/1; }
+/* Пропорции слота всегда равны пропорциям кадра — только так cover
+   ничего не режет. Квадратные слоты: 2, 5 и 6. */
+.insta__i--2 .frame,.insta__i--5 .frame,.insta__i--6 .frame{ aspect-ratio:1/1; }
 .insta__i .frame img{ transition:transform 1s var(--e-out),filter var(--d-slow) var(--e-out),opacity .7s var(--e-out); }
 .insta__i:hover .frame img{ transform:scale(1.05); filter:grayscale(0) sepia(.04); }
 
