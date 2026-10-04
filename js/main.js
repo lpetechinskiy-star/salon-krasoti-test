@@ -558,12 +558,24 @@
     if (!range || !clip || !handle) return;
     var stage = range.closest('.ba__stage');
 
-    function apply(v) {
-      clip.style.clipPath = 'inset(0 ' + (100 - v) + '% 0 0)';
-      handle.style.left = v + '%';
-      range.setAttribute('aria-valuetext', 'Показано ' + v + '% кадра «до»');
+    /* Рисуем дробным процентом: шаг в целый процент — это 5–6 px на широкой
+       сцене, и граница шла заметными ступенями. Целое число остаётся только
+       в самом range и в подписи для скринридера. */
+    function paint(v) {
+      clip.style.clipPath = 'inset(0 ' + (100 - v).toFixed(2) + '% 0 0)';
+      handle.style.left = v.toFixed(2) + '%';
     }
-    apply(+range.value);
+    var view = { v: +range.value };
+    var ease = null;
+    if (hasGSAP && !reduced.matches) {
+      ease = gsap.quickTo(view, 'v', { duration: 0.24, ease: 'power3', onUpdate: function () { paint(view.v); } });
+    }
+    function apply(v, instant) {
+      range.setAttribute('aria-valuetext', 'Показано ' + Math.round(v) + '% кадра «до»');
+      if (ease && !instant) { ease(v); return; }
+      view.v = v; paint(v);
+    }
+    apply(+range.value, true);
     range.addEventListener('input', function () { apply(+this.value); });
     range.addEventListener('focus', function () { stage && stage.classList.add('is-focus'); });
     range.addEventListener('blur', function () { stage && stage.classList.remove('is-focus'); });
@@ -573,8 +585,8 @@
 
     function fromPointer(e) {
       var r = stage.getBoundingClientRect();
-      var v = Math.round(Math.min(100, Math.max(0, ((e.clientX - r.left) / r.width) * 100)));
-      range.value = v;
+      var v = Math.min(100, Math.max(0, ((e.clientX - r.left) / r.width) * 100));
+      range.value = Math.round(v);
       apply(v);
     }
 
@@ -583,6 +595,7 @@
     stage.addEventListener('pointerdown', function (e) {
       pid = e.pointerId; sx = e.clientX; sy = e.clientY;
       if (e.pointerType === 'mouse') {
+        e.preventDefault();          /* иначе браузер начинает тащить картинку */
         dragging = true; armed = true;
         stage.setPointerCapture(pid);
         fromPointer(e);

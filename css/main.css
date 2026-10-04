@@ -774,7 +774,11 @@ body.is-locked .hdr.is-solid{
   position:relative; isolation:isolate; aspect-ratio:4/5; overflow:hidden; background:var(--choco);
   touch-action:pan-y; cursor:ew-resize;
   width:min(100%, 560px); margin-inline:auto;
+  /* Без этого протяжка ползунка выделяет кадры, а ::selection у нас
+     бордовый — половина сравнения заливалась красным. */
+  user-select:none; -webkit-user-select:none;
 }
+.ba__img{ -webkit-user-drag:none; user-drag:none; }
 .ba__img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
   filter:grayscale(.2) contrast(1.05) sepia(.08); opacity:0; transition:opacity .7s var(--e-out); }
 .ba__img.is-loaded{ opacity:1; }
