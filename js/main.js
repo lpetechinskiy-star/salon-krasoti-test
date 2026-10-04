@@ -434,7 +434,7 @@
   function initServicePreview() {
     var box = $('.svc__preview');
     var list = $('.svc__list');
-    if (!box || !list || !fine.matches || reduced.matches || !hasGSAP) return;
+    if (!box || !list || reduced.matches || !hasGSAP) return;
     var img = $('img', box);
     var x = gsap.quickTo(box, 'x', { duration: 0.6, ease: 'power3' });
     var y = gsap.quickTo(box, 'y', { duration: 0.6, ease: 'power3' });
@@ -451,6 +451,17 @@
       tx = Math.max(16, Math.min(tx, maxX));
       var ty = Math.max(HDR, Math.min(cy - bh / 2, maxY));
       if (instant) gsap.set(box, { x: tx, y: ty }); else { x(tx); y(ty); }
+    }
+
+    /* Касание: карточка встаёт по центру экрана под строкой, а если
+       места снизу нет — над ней. Курсора тут нет, цепляться не за что. */
+    function placeAt(row) {
+      var r = row.getBoundingClientRect();
+      var tx = Math.max(16, (window.innerWidth - bw) / 2);
+      var ty = r.bottom + 12;
+      if (ty + bh > window.innerHeight - 16) ty = r.top - bh - 12;
+      ty = Math.max(HDR, Math.min(ty, window.innerHeight - bh - 16));
+      gsap.set(box, { x: tx, y: ty });
     }
 
     function show(row, cx, cy) {
@@ -470,6 +481,41 @@
       if (!open) return;
       open = false;
       gsap.to(box, { opacity: 0, duration: 0.25, ease: 'power2.in', overwrite: 'auto' });
+    }
+
+    /* Без курсора показываем кадр по нажатию. Первое касание строки
+       открывает кадр и гасит переход, второе — уводит в прайс, как и
+       задумано ссылкой. Обработчик висит на списке и всплывает раньше
+       делегата якорей на document, поэтому stopPropagation его и глушит. */
+    if (!fine.matches) {
+      var tapped = null;
+      function drop() {
+        if (tapped) tapped.classList.remove('is-shown');
+        tapped = null;
+        hide();
+      }
+      list.addEventListener('click', function (e) {
+        var row = e.target.closest ? e.target.closest('.svc__row') : null;
+        if (!row || !row.dataset.img) return;
+        if (row === tapped) { drop(); return; }    /* второе касание — в прайс */
+        e.preventDefault();
+        e.stopPropagation();
+        if (tapped) tapped.classList.remove('is-shown');
+        tapped = row;
+        row.classList.add('is-shown');
+        bw = box.offsetWidth; bh = box.offsetHeight;
+        show(row, 0, 0);
+        placeAt(row);
+      });
+      /* Касание мимо списка и прокрутка убирают кадр */
+      document.addEventListener('click', function (e) {
+        if (!open) return;
+        if (!e.target.closest || !e.target.closest('.svc__row')) drop();
+      });
+      window.addEventListener('scroll', function () {
+        if (open) drop();
+      }, { passive: true });
+      return;
     }
 
     /* Один обработчик на весь список вместо подписки на каждую строку:

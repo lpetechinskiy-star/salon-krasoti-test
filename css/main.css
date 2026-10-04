@@ -668,16 +668,23 @@ body.is-locked .hdr.is-solid{
    --------------------------------------------------------------- */
 .svc{ padding:var(--s-7) 0; position:relative; }
 .svc .sec-head{ display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:var(--s-2); margin-bottom:var(--s-5); }
+/* Карточка превью одна на оба ввода: мышь водит её за курсором,
+   касание прикалывает к нажатой строке. Позицию в обоих случаях
+   задаёт JS через transform, поэтому top/left всегда нули. */
 .svc__preview{ display:none; }
-@media (hover:hover) and (pointer:fine){
-  .js .svc__preview{
-    display:block; position:fixed; top:0; left:0; z-index:var(--z-preview);
-    width:clamp(220px,20vw,300px); aspect-ratio:4/5; pointer-events:none;
-    opacity:0; will-change:transform; overflow:hidden;
-    background:linear-gradient(152deg,#3A2A20,#1C1512);
-  }
-  .svc__preview img{ width:100%; height:100%; object-fit:cover; filter:grayscale(.3) contrast(1.06) sepia(.12); }
+.js .svc__preview{
+  display:block; position:fixed; top:0; left:0; z-index:var(--z-preview);
+  width:clamp(220px,20vw,300px); aspect-ratio:4/5; pointer-events:none;
+  opacity:0; will-change:transform; overflow:hidden;
+  background:linear-gradient(152deg,#3A2A20,#1C1512);
 }
+.svc__preview img{ width:100%; height:100%; object-fit:cover; filter:grayscale(.3) contrast(1.06) sepia(.12); }
+@media (hover:none){
+  .js .svc__preview{ width:min(58vw,240px); box-shadow:0 24px 60px rgba(18,12,10,.45); }
+}
+/* Подсказка про двойное касание нужна только там, где нет курсора */
+.svc__tap{ display:none; }
+@media (hover:none){ .js .svc__tap{ display:block; } }
 .svc__row{ border-top:1px solid var(--line); }
 .svc__row:last-child{ border-bottom:1px solid var(--line); }
 .svc__row a{
@@ -690,13 +697,18 @@ body.is-locked .hdr.is-solid{
   content:""; position:absolute; inset:0; z-index:-1; background:var(--graphite);
   transform:scaleY(0); transform-origin:bottom; transition:transform var(--d-mid) var(--e-io);
 }
-.svc__row a:hover::before,.svc__row a:focus-visible::before{ transform:scaleY(1); transform-origin:top; }
-.svc__row a:hover,.svc__row a:focus-visible{ color:var(--milk); padding-left:calc(var(--gut) + .8rem); }
+.svc__row a:hover::before,.svc__row a:focus-visible::before,
+.svc__row.is-shown a::before{ transform:scaleY(1); transform-origin:top; }
+/* .is-shown — строка, по которой коснулись: на тач-экране это
+   единственный способ понять, к какой услуге относится кадр */
+.svc__row a:hover,.svc__row a:focus-visible,
+.svc__row.is-shown a{ color:var(--milk); padding-left:calc(var(--gut) + .8rem); }
 .svc__row em{
   font-family:var(--f-mono); font-style:normal; font-size:.6875rem;
   letter-spacing:.18em; color:var(--muted); transition:color var(--d-mid) var(--e-out);
 }
-.svc__row a:hover em,.svc__row a:focus-visible em{ color:var(--rose); }
+.svc__row a:hover em,.svc__row a:focus-visible em,
+.svc__row.is-shown em{ color:var(--rose); }
 .svc__name{
   font-family:var(--f-display); font-weight:300; font-size:clamp(1.45rem,3.4vw,2.5rem);
   line-height:1.04; letter-spacing:-.015em; min-width:0; overflow-wrap:break-word;
@@ -706,7 +718,8 @@ body.is-locked .hdr.is-solid{
   color:var(--muted); font-variant-numeric:tabular-nums; white-space:nowrap;
   transition:color var(--d-mid) var(--e-out);
 }
-.svc__row a:hover .svc__meta,.svc__row a:focus-visible .svc__meta{ color:var(--on-dark-mu); }
+.svc__row a:hover .svc__meta,.svc__row a:focus-visible .svc__meta,
+.svc__row.is-shown .svc__meta{ color:var(--on-dark-mu); }
 
 /* ---------------------------------------------------------------
    9. МАСТЕРА — асимметричная сетка
