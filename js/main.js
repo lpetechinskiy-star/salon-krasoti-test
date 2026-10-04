@@ -66,6 +66,7 @@
         if (frame) frame.classList.add('is-fallback');
         img.remove();
       }, { once: true });
+      if (img.dataset.srcset) img.srcset = img.dataset.srcset;
       img.src = img.dataset.src;
       if (img.complete && img.naturalWidth > 0) img.classList.add('is-loaded');
     }
