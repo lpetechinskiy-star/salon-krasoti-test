@@ -9,6 +9,7 @@
   var root = document.documentElement;
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   var fine = window.matchMedia('(hover:hover) and (pointer:fine)');
+  var phone = window.matchMedia('(max-width: 767px)');
   var hasGSAP = typeof window.gsap !== 'undefined';
   var hasST = hasGSAP && typeof window.ScrollTrigger !== 'undefined';
   var uid = 0;
@@ -66,8 +67,17 @@
         if (frame) frame.classList.add('is-fallback');
         img.remove();
       }, { once: true });
-      if (img.dataset.srcset) img.srcset = img.dataset.srcset;
-      img.src = img.dataset.src;
+      /* Телефон. srcset с дескрипторами w выбирает файл по плотности экрана,
+         и на 3× телефоне она всегда указывает на самый большой файл: 92vw на
+         390 px — это 1077 физических пикселей. Третья плотность на фотографии
+         глазом не читается, а весит вдвое, поэтому мобильный кадр выбираем
+         явно — один файл шириной 2× коробки, без торга с браузером. */
+      var m = img.dataset.srcM;
+      if (m && phone.matches) { img.src = m; }
+      else {
+        if (img.dataset.srcset) img.srcset = img.dataset.srcset;
+        img.src = img.dataset.src;
+      }
       if (img.complete && img.naturalWidth > 0) img.classList.add('is-loaded');
     }
 

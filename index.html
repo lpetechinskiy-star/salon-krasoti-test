@@ -328,9 +328,13 @@
   </div>
 
   <div class="hero__media">
-    <figure class="frame frame--hero" data-parallax="-8">
-      <img data-src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=1600&q=80&auto=format&fit=crop"
-           alt="Портрет клиентки ÉLANE в интерьере салона" width="1600" height="2000" fetchpriority="high" decoding="async">
+    <!-- Фон героя — текстура, а не снимок. Раньше здесь стоял кадр с чужого
+         домена; он никогда не доходил, загрузчик ловил ошибку и сам ставил
+         .is-fallback. Запрос в никуда на телефоне стоит дороже всего (DNS,
+         рукопожатие, таймаут на плохой сети), поэтому состояние задано сразу,
+         а картинки нет вовсе. Вид не меняется: его дают фон кадра, зерно
+         .frame.is-fallback::before и градиент .hero__media::after. -->
+    <figure class="frame frame--hero is-fallback" data-parallax="-8">
       <figcaption class="frame__cap">Пл. I · Зал цвета</figcaption>
     </figure>
   </div>
@@ -667,9 +671,9 @@
 
   <figure class="ba" id="ba">
     <div class="ba__stage">
-      <img class="ba__img ba__img--after" data-src="assets/ba-after.webp" alt="После: тёплый многотональный цвет, плотная длина и мягкая волна" width="900" height="1125" loading="lazy" decoding="async">
+      <img class="ba__img ba__img--after" data-src="assets/ba-after.webp" data-src-m="assets/ba-after-m.webp" alt="После: тёплый многотональный цвет, плотная длина и мягкая волна" width="900" height="1125" loading="lazy" decoding="async">
       <div class="ba__clip" id="ba-clip">
-        <img class="ba__img ba__img--before" data-src="assets/ba-before.webp" alt="До: ровный холодный тон, сухие концы и прямая невыложенная длина" width="900" height="1125" loading="lazy" decoding="async">
+        <img class="ba__img ba__img--before" data-src="assets/ba-before.webp" data-src-m="assets/ba-before-m.webp" alt="До: ровный холодный тон, сухие концы и прямая невыложенная длина" width="900" height="1125" loading="lazy" decoding="async">
       </div>
       <div class="ba__handle" id="ba-handle" aria-hidden="true"><i></i><i></i></div>
       <span class="ba__tag ba__tag--l" aria-hidden="true">До</span>
@@ -706,7 +710,7 @@
       <ul class="wk__row" data-works>
       <li class="wk__i">
         <figure class="frame">
-          <img data-src="assets/wk-01.webp"
+          <img data-src="assets/wk-01.webp" data-src-m="assets/wk-01-m.webp"
                alt="Короткая форма без укладки: ровное каре, мастер Аглая Тимрот" width="420" height="1165" loading="lazy" decoding="async">
         </figure>
         <div class="wk__cap">
@@ -717,7 +721,7 @@
       </li>
       <li class="wk__i">
         <figure class="frame">
-          <img data-src="assets/wk-02.webp"
+          <img data-src="assets/wk-02.webp" data-src-m="assets/wk-02-m.webp"
                alt="Вечерняя укладка под съёмку: собранные локоны, мастер Лев Гурьев" width="420" height="1165" loading="lazy" decoding="async">
         </figure>
         <div class="wk__cap">
@@ -728,7 +732,7 @@
       </li>
       <li class="wk__i">
         <figure class="frame">
-          <img data-src="assets/wk-03.webp"
+          <img data-src="assets/wk-03.webp" data-src-m="assets/wk-03-m.webp"
                alt="Каскад с подвижной длиной: мягкие слои, мастер Лев Гурьев" width="420" height="1165" loading="lazy" decoding="async">
         </figure>
         <div class="wk__cap">
@@ -739,7 +743,7 @@
       </li>
       <li class="wk__i">
         <figure class="frame">
-          <img data-src="assets/wk-04.webp"
+          <img data-src="assets/wk-04.webp" data-src-m="assets/wk-04-m.webp"
                alt="Холодный блонд на тёмной базе: серебристые пряди, мастер Ника Заборская" width="420" height="1165" loading="lazy" decoding="async">
         </figure>
         <div class="wk__cap">
@@ -750,7 +754,7 @@
       </li>
       <li class="wk__i">
         <figure class="frame">
-          <img data-src="assets/wk-05.webp"
+          <img data-src="assets/wk-05.webp" data-src-m="assets/wk-05-m.webp"
                alt="Архитектура бровей по костной структуре, мастер Дина Асланова" width="420" height="1165" loading="lazy" decoding="async">
         </figure>
         <div class="wk__cap">
@@ -761,7 +765,7 @@
       </li>
       <li class="wk__i">
         <figure class="frame">
-          <img data-src="assets/wk-06.webp"
+          <img data-src="assets/wk-06.webp" data-src-m="assets/wk-06-m.webp"
                alt="Седина как решение: серебряная длина с формой, мастер Аглая Тимрот" width="420" height="1165" loading="lazy" decoding="async">
         </figure>
         <div class="wk__cap">
@@ -772,7 +776,7 @@
       </li>
       <li class="wk__i">
         <figure class="frame">
-          <img data-src="assets/wk-07.webp"
+          <img data-src="assets/wk-07.webp" data-src-m="assets/wk-07-m.webp"
                alt="Полотно после протокола ГЛАДЬ: зеркальный блеск, мастер Вера Ильинская" width="420" height="1165" loading="lazy" decoding="async">
         </figure>
         <div class="wk__cap">
@@ -791,7 +795,7 @@
 <section class="story" id="story" aria-labelledby="story-h">
   <div class="story__media">
     <figure class="frame frame--tall" data-parallax="-10">
-      <img data-src="assets/story-room.webp" alt="Зал ÉLANE на Малой Бронной: овальное зеркало с подсветкой, полка с уходом и одно кресло" width="1000" height="1400" loading="lazy" decoding="async">
+      <img data-src="assets/story-room.webp" data-src-m="assets/story-room-m.webp" alt="Зал ÉLANE на Малой Бронной: овальное зеркало с подсветкой, полка с уходом и одно кресло" width="1000" height="1400" loading="lazy" decoding="async">
       <figcaption class="frame__cap">Малая Бронная, 24с1 · 2 этаж</figcaption>
     </figure>
   </div>
@@ -955,12 +959,12 @@
     </a>
   </header>
   <ul class="insta__grid">
-    <li class="insta__i insta__i--1"><figure class="frame"><img data-src="assets/ig-1.webp" alt="Публикация: мягкий балаяж и тёплая волна" width="880" height="1100" loading="lazy" decoding="async"></figure></li>
-    <li class="insta__i insta__i--2"><figure class="frame"><img data-src="assets/ig-2.webp" alt="Публикация: брови и нюдовый макияж" width="880" height="880" loading="lazy" decoding="async"></figure></li>
-    <li class="insta__i insta__i--3"><figure class="frame"><img data-src="assets/ig-3.webp" alt="Публикация: мягкие локоны в тёплом шоколадном тоне" width="880" height="1100" loading="lazy" decoding="async"></figure></li>
-    <li class="insta__i insta__i--4"><figure class="frame"><img data-src="assets/ig-4.webp" alt="Публикация: миндальный маникюр с золотой линией" width="880" height="1100" loading="lazy" decoding="async"></figure></li>
-    <li class="insta__i insta__i--5"><figure class="frame"><img data-src="assets/ig-5.webp" alt="Публикация: макияж в тёплой гамме" width="880" height="880" loading="lazy" decoding="async"></figure></li>
-    <li class="insta__i insta__i--6"><figure class="frame"><img data-src="assets/ig-6.webp" alt="Публикация: лёгкий макияж со стрелкой и украшение в волосах" width="880" height="880" loading="lazy" decoding="async"></figure></li>
+    <li class="insta__i insta__i--1"><figure class="frame"><img data-src="assets/ig-1.webp" data-src-m="assets/ig-1-m.webp" alt="Публикация: мягкий балаяж и тёплая волна" width="880" height="1100" loading="lazy" decoding="async"></figure></li>
+    <li class="insta__i insta__i--2"><figure class="frame"><img data-src="assets/ig-2.webp" data-src-m="assets/ig-2-m.webp" alt="Публикация: брови и нюдовый макияж" width="880" height="880" loading="lazy" decoding="async"></figure></li>
+    <li class="insta__i insta__i--3"><figure class="frame"><img data-src="assets/ig-3.webp" data-src-m="assets/ig-3-m.webp" alt="Публикация: мягкие локоны в тёплом шоколадном тоне" width="880" height="1100" loading="lazy" decoding="async"></figure></li>
+    <li class="insta__i insta__i--4"><figure class="frame"><img data-src="assets/ig-4.webp" data-src-m="assets/ig-4-m.webp" alt="Публикация: миндальный маникюр с золотой линией" width="880" height="1100" loading="lazy" decoding="async"></figure></li>
+    <li class="insta__i insta__i--5"><figure class="frame"><img data-src="assets/ig-5.webp" data-src-m="assets/ig-5-m.webp" alt="Публикация: макияж в тёплой гамме" width="880" height="880" loading="lazy" decoding="async"></figure></li>
+    <li class="insta__i insta__i--6"><figure class="frame"><img data-src="assets/ig-6.webp" data-src-m="assets/ig-6-m.webp" alt="Публикация: лёгкий макияж со стрелкой и украшение в волосах" width="880" height="880" loading="lazy" decoding="async"></figure></li>
   </ul>
 </section>
 

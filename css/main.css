@@ -238,6 +238,14 @@ button{ background:none; border:0; cursor:pointer; }
   background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='.42'/%3E%3C/svg%3E");
 }
 .js .grain{ animation:grain 6s steps(6) infinite; }
+/* На телефоне зерно остаётся, но замирает. Слой фиксированный, с multiply и
+   размером inset:-50% — это четыре площади экрана, которые при анимации
+   пересобираются каждый кадр поверх всей страницы. Статичное зерно даёт ту же
+   фактуру и перестаёт тратить заполнение на каждом кадре прокрутки. */
+@media (max-width:767px){
+  .grain{ inset:0; }
+  .js .grain{ animation:none; }
+}
 @keyframes grain{
   0%,100%{ transform:translate(0,0) }      16%{ transform:translate(-2%,-3%) }
   33%{ transform:translate(3%,-1%) }        50%{ transform:translate(-1%,2%) }
@@ -1321,7 +1329,11 @@ body.is-locked .hdr.is-solid{
 /* ---------------------------------------------------------------
    16. ПОДВАЛ
    --------------------------------------------------------------- */
-.ftr{ background:var(--graphite); color:var(--on-dark); padding:var(--s-6) var(--gut) calc(var(--s-3) + env(safe-area-inset-bottom)); overflow:clip; }
+/* Снизу подвал освобождает след плавающей кнопки: 52 px её высоты плюс
+   отступ от края. Без этого запаса последняя строка и ссылка «Наверх»
+   в самом низу страницы навсегда остаются под кнопкой — долистать их
+   уже некуда, а по ссылке не попасть. */
+.ftr{ background:var(--graphite); color:var(--on-dark); padding:var(--s-6) var(--gut) calc(var(--s-3) + var(--s-2) + 52px + env(safe-area-inset-bottom)); overflow:clip; }
 .ftr__top{ display:grid; gap:var(--s-4); }
 .ftr__col .lbl{ color:var(--on-dark-mu); margin-bottom:.8rem; }
 .ftr__col p{ color:var(--on-dark-mu); font-size:.9375rem; }
@@ -1568,7 +1580,9 @@ body.is-locked .hdr.is-solid{
    19. ПЕЧАТЬ
    --------------------------------------------------------------- */
 @media print{
-  .grain,.cursor,.hdr,.menu,.svc__preview,.ba__range,.tst__ctrl,.book__nav,.ftr__mark{ display:none!important; }
+  .grain,.cursor,.hdr,.menu,.fab,.svc__preview,.ba__range,.tst__ctrl,.book__nav,.ftr__mark{ display:none!important; }
+  /* Кнопки на бумаге нет — запас под неё в подвале тоже не нужен. */
+  .ftr{ padding-bottom:var(--s-3); }
   body{ background:#fff; color:#000; }
   .sig,.book,.tst,.ftr{ background:#fff!important; color:#000!important; }
   .frame{ background:#eee; }

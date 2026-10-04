@@ -1,3 +1,7 @@
 node_modules/
 .DS_Store
 Thumbs.db
+
+# Сборки для скачивания — собираются скриптами из tools/
+elane-offline.html
+elane-site.zip
