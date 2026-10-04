@@ -955,12 +955,16 @@
     </a>
   </header>
   <ul class="insta__grid">
-    <li class="insta__i insta__i--1"><figure class="frame"><img data-src="https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?w=800&q=76&auto=format&fit=crop" alt="Публикация: холодный блонд" width="800" height="1000" loading="lazy" decoding="async"></figure></li>
-    <li class="insta__i insta__i--2"><figure class="frame"><img data-src="https://images.unsplash.com/photo-1526045478516-99145907023c?w=600&q=76&auto=format&fit=crop" alt="Публикация: деталь интерьера" width="600" height="600" loading="lazy" decoding="async"></figure></li>
-    <li class="insta__i insta__i--3"><figure class="frame"><img data-src="https://images.unsplash.com/photo-1470259078422-826894b933aa?w=600&q=76&auto=format&fit=crop" alt="Публикация: текстура волос" width="600" height="750" loading="lazy" decoding="async"></figure></li>
-    <li class="insta__i insta__i--4"><figure class="frame"><img data-src="https://images.unsplash.com/photo-1503236823255-94609f598e71?w=800&q=76&auto=format&fit=crop" alt="Публикация: портрет гостьи" width="800" height="1000" loading="lazy" decoding="async"></figure></li>
-    <li class="insta__i insta__i--5"><figure class="frame"><img data-src="https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=600&q=76&auto=format&fit=crop" alt="Публикация: инструменты мастера" width="600" height="600" loading="lazy" decoding="async"></figure></li>
-    <li class="insta__i insta__i--6"><figure class="frame"><img data-src="https://images.unsplash.com/photo-1571875257727-256c39da42af?w=600&q=76&auto=format&fit=crop" alt="Публикация: маникюр" width="600" height="750" loading="lazy" decoding="async"></figure></li>
+    <li class="insta__i insta__i--1"><figure class="frame"><img data-src="assets/ig-1.webp" alt="Публикация: мягкий балаяж и тёплая волна" width="880" height="1100" loading="lazy" decoding="async"></figure></li>
+    <li class="insta__i insta__i--2"><figure class="frame"><img data-src="assets/ig-2.webp" alt="Публикация: брови и нюдовый макияж" width="880" height="880" loading="lazy" decoding="async"></figure></li>
+    <!-- Слоты 3 и 6 ждут снимков: показываем фирменную пластину, а не чужой
+         сток — в сетке публикаций случайный кадр виден сразу. Когда снимки
+         придут: вернуть <img data-src="assets/ig-3.webp" width="880" height="1100">
+         и убрать is-fallback. -->
+    <li class="insta__i insta__i--3"><figure class="frame is-fallback" aria-label="Публикация готовится"></figure></li>
+    <li class="insta__i insta__i--4"><figure class="frame"><img data-src="assets/ig-4.webp" alt="Публикация: миндальный маникюр с золотой линией" width="880" height="1100" loading="lazy" decoding="async"></figure></li>
+    <li class="insta__i insta__i--5"><figure class="frame"><img data-src="assets/ig-5.webp" alt="Публикация: макияж в тёплой гамме" width="880" height="880" loading="lazy" decoding="async"></figure></li>
+    <li class="insta__i insta__i--6"><figure class="frame is-fallback" aria-label="Публикация готовится"></figure></li>
   </ul>
 </section>
 

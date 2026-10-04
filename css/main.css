@@ -1077,7 +1077,7 @@ body.is-locked .hdr.is-solid{
   font-family:var(--f-display); font-weight:300; font-size:clamp(2rem,6.5vw,5rem);
   line-height:1; letter-spacing:-.02em;
 }
-.insta__grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:var(--s-2); }
+.insta__grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:var(--s-2); align-items:start; }
 .insta__i .frame{ aspect-ratio:4/5; }
 .insta__i--2 .frame,.insta__i--5 .frame{ aspect-ratio:1/1; }
 .insta__i .frame img{ transition:transform 1s var(--e-out),filter var(--d-slow) var(--e-out),opacity .7s var(--e-out); }
@@ -1461,10 +1461,15 @@ body.is-locked .hdr.is-solid{
   .ftr__col--map{ grid-column:auto; }
   .sig__pin{ grid-template-columns:1.15fr 1fr; }
   .insta__grid{ grid-template-columns:repeat(6,1fr); }
-  .insta__i--1{ grid-column:span 2; grid-row:span 2; }
-  .insta__i--1 .frame{ aspect-ratio:4/5; }
+  /* Растягивание на две строки держалось на том, что один слот был
+     горизонтальным. Теперь все кадры портретные и квадратные, span на
+     строки оставлял в мозаике дыры — убран. */
+  .insta__i--1{ grid-column:span 2; }
   .insta__i--4{ grid-column:span 2; }
-  .insta__i--4 .frame{ aspect-ratio:3/2; }
+  /* Было 3:2. Все снимки для сетки портретные или квадратные, и в
+     горизонтальный слот такой кадр влезал только обрезкой по лицу —
+     ровно то, чего быть не должно. Пропорции слотов держим по кадрам. */
+  .insta__i--4 .frame{ aspect-ratio:4/5; }
   .insta__i--3,.insta__i--6{ grid-column:span 2; }
   .insta__i--2,.insta__i--5{ grid-column:span 2; }
 }
