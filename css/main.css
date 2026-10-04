@@ -310,6 +310,9 @@ body.is-locked .fab{ opacity:0; transform:translateY(120%); pointer-events:none;
 }
 .frame img{
   width:100%; height:100%; object-fit:cover;
+  /* Картинку браузер по умолчанию таскает мышью: нажатие на неё отменяет
+     pointer-события, и любая протяжка поверх кадра срывается. */
+  -webkit-user-drag:none; user-drag:none;
   filter:grayscale(.32) contrast(1.06) brightness(.98) sepia(.12);
   opacity:0; transition:opacity .7s var(--e-out),filter var(--d-slow) var(--e-out),transform 1.1s var(--e-out);
   will-change:opacity;
@@ -976,6 +979,8 @@ body.is-locked .hdr.is-solid{
    overscroll-behavior задан только по X: вертикаль не трогаем. */
 .wk__view{
   overflow-x:auto; overflow-y:hidden; overscroll-behavior-x:contain;
+  /* Протяжка иначе выделяет кадры, а ::selection бордовый */
+  user-select:none; -webkit-user-select:none;
   scroll-snap-type:x proximity; scroll-padding-left:var(--gut);
   scrollbar-width:none; cursor:grab;
   touch-action:pan-x pan-y;   /* вертикальный свайп остаётся у страницы */
@@ -988,13 +993,19 @@ body.is-locked .hdr.is-solid{
 .wk__view.is-dragging{ cursor:grabbing; scroll-snap-type:none; user-select:none; }
 .wk__view.is-dragging .frame img{ transform:none; }
 .wk__row{
-  display:flex; gap:var(--s-3); width:max-content;
+  display:flex; gap:clamp(10px,1.1vw,18px); width:max-content;
   padding:0 var(--gut);
 }
-.wk__i{ width:clamp(240px,62vw,380px); scroll-snap-align:start; display:grid; gap:.9rem; }
-/* Кадр чуть отстаёт от ленты — при листании у полосы появляется глубина */
-.wk__i .frame{ aspect-ratio:4/5; transform:translate3d(var(--wk-p,0px),0,0); }
-.wk__i:hover .frame img{ transform:scale(1.04); filter:grayscale(0) contrast(1.04) sepia(.04); }
+/* Узкая высокая карточка: лента читается как плёнка, а не как ряд плиток */
+.wk__i{ width:clamp(168px,15.5vw,260px); scroll-snap-align:start; display:grid; gap:.75rem; }
+.wk__i .frame{ aspect-ratio:154/427; }
+/* Параллакс и наведение живут на самом снимке: .frame режет по overflow,
+   поэтому никакой сдвиг не может расширить область прокрутки ленты. */
+.wk__i .frame img{
+  transform:translate3d(var(--wk-p,0px),0,0) scale(var(--wk-s,1.06));
+  transition:filter var(--d-slow) var(--e-out), opacity var(--d-mid) var(--e-out);
+}
+.wk__i:hover .frame img{ --wk-s:1.11; filter:grayscale(0) contrast(1.04) sepia(.04); }
 .wk__cap{ display:grid; gap:.25rem; }
 .wk__no{
   font-family:var(--f-mono); font-size:.625rem; letter-spacing:.2em; color:var(--bordeaux);
@@ -1380,7 +1391,6 @@ body.is-locked .hdr.is-solid{
   .menu__aside{ align-content:space-between; }
   .menu__i a{ grid-template-columns:3.4rem 1fr auto; }
   .menu__sub{ grid-column:3; text-align:right; align-self:center; }
-  .wk__i{ width:clamp(300px,26vw,420px); }
   .rating{ flex-wrap:nowrap; gap:var(--s-4); }
   /* Панель ГЛАДЬ закрепляется, поэтому обязана помещаться в высоту
      экрана целиком — размеры завязаны и на ширину, и на svh. */

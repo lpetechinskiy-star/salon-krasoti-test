@@ -733,7 +733,7 @@
     var cards = $$('.wk__i', row);
     var nav = $$('[data-wk]');
     var smooth = function () { return reduced.matches ? 'auto' : 'smooth'; };
-    var raf = 0;
+    var raf = 0, vel = 0, lastX = view.scrollLeft, lastT = performance.now();
 
     function max() { return view.scrollWidth - view.clientWidth; }
 
@@ -755,13 +755,26 @@
         b.disabled = b.dataset.wk === 'next' ? left >= m - 2 : left <= 2;
       });
       if (reduced.matches) return;
+      /* Два слагаемых: кадр отстаёт по месту в ленте и дополнительно
+         отваливается назад тем сильнее, чем быстрее ленту тянут. Оба
+         сдвига живут на <img> внутри .frame с overflow:hidden, поэтому
+         область прокрутки ленты они не трогают ни при каких значениях. */
+      var now = performance.now();
+      var dt = Math.max(16, now - lastT);
+      var inst = (left - lastX) / dt * 16;           /* px за кадр */
+      vel += (inst - vel) * 0.25;
+      if (Math.abs(vel) < 0.05) vel = 0;
+      lastX = left; lastT = now;
+      var lag = Math.max(-7, Math.min(7, -vel * 0.55));
       var vr = view.getBoundingClientRect(), mid = vr.left + vr.width / 2;
       for (var i = 0; i < cards.length; i++) {
         var r = cards[i].getBoundingClientRect();
-        var d = (r.left + r.width / 2 - mid) / (vr.width || 1);
-        var f = cards[i].firstElementChild;
-        if (f) f.style.setProperty('--wk-p', (Math.max(-1, Math.min(1, d)) * -12).toFixed(1) + 'px');
+        if (r.right < vr.left - 240 || r.left > vr.right + 240) continue;
+        var d = Math.max(-1, Math.min(1, (r.left + r.width / 2 - mid) / (vr.width || 1)));
+        var img = cards[i].querySelector('.frame img');
+        if (img) img.style.setProperty('--wk-p', (d * -6 + lag).toFixed(2) + 'px');
       }
+      if (vel !== 0) schedule();                      /* докатываем до остановки */
     }
     function schedule() { if (!raf) raf = requestAnimationFrame(paint); }
 
@@ -797,6 +810,7 @@
     }
     view.addEventListener('pointerdown', function (e) {
       if (e.pointerType === 'touch' || e.button !== 0) return;
+      e.preventDefault();          /* иначе браузер утаскивает саму картинку */
       drag = { x: e.clientX, y: e.clientY, left: view.scrollLeft, id: e.pointerId, on: false };
     });
     view.addEventListener('pointermove', function (e) {
@@ -833,14 +847,19 @@
        прокрутки ленты: по горизонтали она от этого дёргалась, по вертикали
        у ленты появлялась скрытая прокручиваемая ось, а такая ось в части
        браузеров забирает себе колесо. Маска и opacity этого не делают. */
-    gsap.from(cards, {
-      opacity: 0, duration: 0.7, ease: 'power2.out', stagger: 0.07,
-      scrollTrigger: { trigger: '.wk', start: 'top 80%', toggleActions: 'play none none none' }
+    /* Выход: кадры встают друг за другом снизу вверх, подпись подтягивается
+       следом. Масштаб только внутрь (0.94 → 1) — наружу он расширил бы
+       область прокрутки ленты, и та забрала бы себе колесо. */
+    var tl = gsap.timeline({
+      scrollTrigger: { trigger: '.wk', start: 'top 78%', toggleActions: 'play none none none' }
     });
-    gsap.from($$('.frame', row), {
-      clipPath: 'inset(0% 0% 100% 0%)', duration: 0.9, ease: 'expo.out', stagger: 0.07,
-      scrollTrigger: { trigger: '.wk', start: 'top 80%', toggleActions: 'play none none none' }
+    tl.from($$('.frame', row), {
+      clipPath: 'inset(0% 0% 100% 0%)', scale: 0.94, duration: 1.0,
+      ease: 'expo.out', stagger: 0.065
     });
+    tl.from($$('.wk__cap', row), {
+      opacity: 0, duration: 0.5, ease: 'power2.out', stagger: 0.065
+    }, 0.18);
   }
 
   function initCounters() {
