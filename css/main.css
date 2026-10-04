@@ -729,6 +729,13 @@ body.is-locked .hdr.is-solid{
 .mst__grid{ display:grid; gap:var(--s-5) var(--s-3); padding:0 var(--gut); }
 .mst__card{ display:grid; gap:.8rem; align-content:start; }
 .mst__card .frame{ aspect-ratio:4/5; margin-bottom:.5rem; }
+/* Широкие карточки горизонтальны на всех экранах. Раньше они были 3:2
+   только от 1024 px, а ниже — 4:5: один и тот же портрет пришлось бы
+   кадрировать двумя разными способами, и на узком экране его резало по
+   плечам. Теперь одной карточке — один кадр. */
+.mst__card--a .frame,
+.mst__card--d .frame,
+.mst__card--g .frame{ aspect-ratio:3/2; }
 .mst__card:hover .frame img{ transform:scale(1.04); filter:grayscale(0) contrast(1.05) sepia(.05); }
 .mst__head{
   display:flex; align-items:flex-start; justify-content:space-between; gap:var(--s-2);
