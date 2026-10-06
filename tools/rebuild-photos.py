@@ -17,7 +17,7 @@ import numpy as np
 from PIL import Image, ImageFilter
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from upscale import upscale, consistency, sharpness
+from upscale import upscale, texture, consistency, sharpness
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT  = os.path.join(ROOT, 'assets')
@@ -26,6 +26,9 @@ SRC  = os.environ.get('ELANE_SRC',
 UP   = os.environ.get('ELANE_UPLOAD',
        '/root/.claude/uploads/57abd6e4-c1cc-5880-84f2-05149ddde2a3/03f7a0a1-image.jpg')
 
+# Кадры с зерном сохраняются при q84, не выше: зерно — это шум, он дорог
+# в сжатии, а на глаз q84 и q90 на нём неразличимы (проверено сравнением
+# в реальном масштабе экрана). Разница в весе — около 38%.
 def save(im, name, q=92):
     p = f'{OUT}/{name}.webp'
     im.save(p, 'WEBP', quality=q, method=6)
@@ -46,7 +49,7 @@ def works():
     W = 520; H = round(W*(Y1-Y0)/154)
     for i,(x0,x1) in enumerate(COLS):
         c = im.crop((x0, Y0, x1, Y1))
-        print('  ' + save(upscale(c, W, H), f'wk-{i+1:02d}', 90))
+        print('  ' + save(texture(upscale(c, W, H)), f'wk-{i+1:02d}', 84))
 
 # ── Мастера ──────────────────────────────────────────────────────────
 def masters():
@@ -67,7 +70,7 @@ def masters():
         else:
             h = min(round(W/1.5), H)
             y = round(min(max(dy*H, 0), H-h)); box = (0, y, W, y+h)
-        print('  ' + save(upscale(c.crop(box), *SIZE[ar]), name))
+        print('  ' + save(texture(upscale(c.crop(box), *SIZE[ar])), name, 84))
 
 # ── Дина: отдельный снимок, тон подгоняется под остальные шесть ──────
 def dina():
@@ -86,7 +89,7 @@ def dina():
     v = np.clip(np.minimum(ex, ey), 0, 1); v = v*v*(3-2*v)
     out *= (0.70 + 0.30*v)[..., None]
     g = Image.fromarray(np.clip(out, 0, 255).astype(np.uint8))
-    print('  ' + save(upscale(g, 900, 600), 'mst-dina'))
+    print('  ' + save(texture(upscale(g, 900, 600)), 'mst-dina', 84))
 
 # ── Сетка публикаций ─────────────────────────────────────────────────
 def trim_edges(im, thr=2.5):
@@ -112,7 +115,7 @@ def insta():
         W, H = im.size
         if W/H > ar: w = round(H*ar); box = ((W-w)//2, 0, (W-w)//2+w, H)
         else:        h = round(W/ar); box = (0, (H-h)//2, W, (H-h)//2+h)
-        print('  ' + save(upscale(im.crop(box), TW, round(TW/ar)), name))
+        print('  ' + save(texture(upscale(im.crop(box), TW, round(TW/ar))), name, 84))
 
 # ── «Легенда»: зал ───────────────────────────────────────────────────
 def story():
