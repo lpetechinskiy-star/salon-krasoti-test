@@ -9,7 +9,6 @@
   var root = document.documentElement;
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   var fine = window.matchMedia('(hover:hover) and (pointer:fine)');
-  var phone = window.matchMedia('(max-width: 767px)');
   var hasGSAP = typeof window.gsap !== 'undefined';
   var hasST = hasGSAP && typeof window.ScrollTrigger !== 'undefined';
   var uid = 0;
@@ -67,14 +66,21 @@
         if (frame) frame.classList.add('is-fallback');
         img.remove();
       }, { once: true });
-      /* Телефон. srcset с дескрипторами w выбирает файл по плотности экрана,
-         и на 3× телефоне она всегда указывает на самый большой файл: 92vw на
-         390 px — это 1077 физических пикселей. Третья плотность на фотографии
-         глазом не читается, а весит вдвое, поэтому мобильный кадр выбираем
-         явно — один файл шириной 2× коробки, без торга с браузером. */
-      var m = img.dataset.srcM;
-      if (m && phone.matches) { img.src = m; }
-      else {
+      /* Выбор файла. srcset с дескрипторами w считает по плотности экрана и
+         на 3× телефоне всегда указывает на самый большой файл: коробка 92vw
+         при ширине 390 px — это 1077 физических пикселей. Третья плотность на
+         фотографии глазом не читается, а файл удваивает, поэтому решаем сами.
+
+         Считаем не по ширине экрана, а по самой коробке: сколько физических
+         пикселей она просит при потолке плотности 2×. Мелкий файл берём,
+         только если он это покрывает. Узкое окно на обычном мониторе тогда
+         получит полный кадр, а не мыло: ширина экрана про плотность не знает. */
+      var m = img.dataset.srcM, box = img.offsetWidth;
+      var sp = m ? m.lastIndexOf(' ') : -1;
+      var need = box * Math.min(window.devicePixelRatio || 1, 2);
+      if (sp > 0 && box > 0 && parseInt(m.slice(sp + 1), 10) >= need) {
+        img.src = m.slice(0, sp);
+      } else {
         if (img.dataset.srcset) img.srcset = img.dataset.srcset;
         img.src = img.dataset.src;
       }

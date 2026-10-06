@@ -610,7 +610,6 @@ body.is-locked .hdr.is-solid{
 .hero__scroll i{ position:absolute; inset:0; background:var(--rose); transform-origin:top; }
 .js .hero__scroll i{ animation:sc 2.4s var(--e-io) infinite; }
 @keyframes sc{ 0%{transform:scaleY(0);transform-origin:top} 45%{transform:scaleY(1);transform-origin:top} 55%{transform:scaleY(1);transform-origin:bottom} 100%{transform:scaleY(0);transform-origin:bottom} }
-.hero__coord{ font-size:.6875rem; letter-spacing:.16em; }
 
 /* ---------------------------------------------------------------
    6. МАНИФЕСТ

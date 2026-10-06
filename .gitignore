@@ -5,3 +5,5 @@ Thumbs.db
 # Сборки для скачивания — собираются скриптами из tools/
 elane-offline.html
 elane-site.zip
+__pycache__/
+*.pyc

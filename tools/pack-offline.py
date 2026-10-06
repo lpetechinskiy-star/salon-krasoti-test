@@ -40,12 +40,16 @@ assert html.count(old) == 1
 html = html.replace(old, '<style>\n' + css + '\n</style>')
 
 # 4. srcset в один файл не переносится: data-ссылка содержит запятую,
-#    а srcset по запятой и разбирается. Оставляем только src/data-src —
-#    мобильный кадр всё равно выбирает загрузчик по data-src-m.
+#    а srcset по запятой и разбирается. Оставляем только src/data-src.
 html, nss = re.subn(r'\s*(?:data-)?srcset="[^"]*"', '', html)
 html, nsz = re.subn(r'\s*sizes="[^"]*"', '', html)
 
-# 5. Скрипты внутрь документа, в том же порядке: встроенные выполняются
+# 5. Мобильные варианты тоже убираем. В одном файле они не экономят ничего —
+#    картинки уже внутри документа, сеть не задействована, — зато каждая
+#    добавила бы свою копию base64. Остаётся полное качество на любом экране.
+html, nmob = re.subn(r'\s*data-src-m="[^"]*"', '', html)
+
+# 6. Скрипты внутрь документа, в том же порядке: встроенные выполняются
 #    по месту, а место у них перед </body> — ровно как было с defer.
 def inline_script(m):
     src = m.group(1)
@@ -54,7 +58,7 @@ def inline_script(m):
     return '<script>\n' + code + '\n</script>'
 html, njs = re.subn(r'<script src="([^"]+)"[^>]*></script>', inline_script, html)
 
-# 6. Кадры внутрь документа.
+# 7. Кадры внутрь документа.
 seen = {}
 def img(m):
     rel = m.group(1)
@@ -65,6 +69,6 @@ html, nimg = re.subn(r'"(assets/[A-Za-z0-9._-]+)"', img, html)
 left = re.findall(r'(?:src|href)="(?!data:|#|mailto:|tel:)([^"]+)"', html)
 open(OUT, 'w', encoding='utf-8').write(html)
 print(f'шрифтов {nfont} (дублей убрано {ndup}), предзагрузок убрано {npre}, скриптов {njs}, кадров {nimg} ({len(seen)} файлов)')
-print(f'srcset убрано {nss}, sizes убрано {nsz}')
+print(f'srcset убрано {nss}, sizes убрано {nsz}, мобильных вариантов убрано {nmob}')
 print('внешних ссылок осталось:', sorted(set(left)) or 'ни одной')
 print(f'{OUT}: {os.path.getsize(OUT)//1024} КБ')
